@@ -1,0 +1,76 @@
+---
+const navLinks = [
+  { label: 'About', href: '/about' },
+  { label: 'Work', href: '/work' },
+  { label: 'Projects', href: '/projects' },
+  { label: 'Publications', href: '/publications' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'CV', href: '/cv' },
+];
+
+const socialLinks = [
+  { label: 'LinkedIn', href: 'https://linkedin.com/in/blazejmrozinski' },
+  { label: 'GitHub', href: 'https://github.com/b1azk0' },
+  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=blazejmrozinski' },
+  { label: 'ORCID', href: 'https://orcid.org/0000-0002-5423-2291' },
+];
+
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="bg-dark-900 text-slate-400 mt-16">
+  <div class="max-w-5xl mx-auto px-6 py-12">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+      <!-- Column 1: Identity -->
+      <div>
+        <p class="text-white font-bold text-lg">Blazej Mrozinski</p>
+        <p class="text-slate-400 text-sm mt-2">
+          Psychologist &middot; Psychometrician &middot; Product Builder &middot; Researcher
+        </p>
+        <p class="text-slate-500 text-sm mt-1">Warsaw, Poland</p>
+      </div>
+
+      <!-- Column 2: Navigation -->
+      <div>
+        <p class="text-slate-300 font-semibold text-sm uppercase tracking-wider mb-3">Pages</p>
+        <ul class="space-y-2">
+          {navLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                class="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <!-- Column 3: Social -->
+      <div>
+        <p class="text-slate-300 font-semibold text-sm uppercase tracking-wider mb-3">Connect</p>
+        <ul class="space-y-2">
+          {socialLinks.map((link) => (
+            <li>
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+              >
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="border-t border-dark-800 mt-10 pt-6 text-center">
+      <p class="text-slate-500 text-sm">
+        &copy; {currentYear} Blazej Mrozinski. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
