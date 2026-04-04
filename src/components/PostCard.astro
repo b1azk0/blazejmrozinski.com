@@ -1,0 +1,48 @@
+---
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  tags: string[];
+  slug: string;
+  featured?: boolean;
+}
+
+const { title, description, date, tags, slug, featured = false } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', {
+  month: 'short',
+  day: 'numeric',
+  year: 'numeric',
+});
+---
+<article class:list={['border-b border-warm-200 pb-5 mb-5', featured && 'pb-6 mb-6']} data-tags={tags.join(',')}>
+  <a href={`/blog/${slug}`} class="group">
+    <h3 class:list={[
+      'font-serif font-bold group-hover:text-warm-600 transition-colors',
+      featured ? 'text-2xl' : 'text-lg',
+    ]}>
+      {title}
+    </h3>
+  </a>
+  <p class="font-serif text-sm text-warm-600 mt-1 leading-relaxed">
+    {description}
+  </p>
+  <div class="flex items-center gap-3 mt-3 flex-wrap">
+    <time class="text-xs text-warm-400" datetime={date.toISOString()}>
+      {formattedDate}
+    </time>
+    {tags.length > 0 && (
+      <div class="flex gap-1.5 flex-wrap">
+        {tags.map((tag) => (
+          <a
+            href={`/blog?tag=${encodeURIComponent(tag)}`}
+            class="text-xs bg-warm-100 text-warm-400 px-2 py-0.5 rounded hover:bg-warm-200 transition-colors"
+          >
+            {tag}
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</article>

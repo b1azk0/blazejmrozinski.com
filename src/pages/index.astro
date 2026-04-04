@@ -1,8 +1,109 @@
 ---
-import Page from '../layouts/Page.astro';
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PostCard from '../components/PostCard.astro';
+import CompanyCard from '../components/CompanyCard.astro';
+import ContactForm from '../components/ContactForm.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 5);
+
+const companies = (await getCollection('companies'))
+  .sort((a, b) => a.data.order - b.data.order);
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Blazej Mrozinski',
+  url: 'https://blazejmrozinski.com',
+  jobTitle: 'Psychologist, Psychometrician, Product Builder',
+  worksFor: companies.map((c) => ({
+    '@type': 'Organization',
+    name: c.data.name,
+    ...(c.data.url ? { url: c.data.url } : {}),
+  })),
+};
 ---
 
-<Page title="Home" description="Blazej Mrozinski — Psychologist, Psychometrician, Product Builder, Researcher">
-  <h1 class="font-serif text-3xl font-bold">Blazej Mrozinski</h1>
-  <p class="text-warm-500 mt-2">Site under construction.</p>
-</Page>
+<Base title="Home" description="Blazej Mrozinski — Psychologist, Psychometrician, Product Builder, Researcher">
+  <JsonLd data={personJsonLd} />
+  <Header />
+
+  <!-- Masthead divider -->
+  <div class="border-b-[3px] border-warm-900"></div>
+
+  <!-- Main content: two-column newspaper grid -->
+  <main class="max-w-5xl mx-auto px-6 py-8">
+    <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-12">
+
+      <!-- LEFT COLUMN: Profile -->
+      <aside>
+        <!-- Image placeholder -->
+        <div class="w-full aspect-[3/4] bg-warm-200 rounded mb-4 flex items-center justify-center text-warm-400 text-sm">
+          Photo
+        </div>
+
+        <h1 class="font-serif text-2xl font-bold">Dr. Blazej Mrozinski</h1>
+        <p class="text-warm-500 text-sm mt-1">Psychologist &middot; Psychometrician &middot; Product Builder</p>
+
+        <p class="text-sm text-warm-600 mt-4 leading-relaxed font-serif">
+          PhD in cognitive psychology. I build products at the intersection of psychometrics, AI, and growth engineering. Co-founder, researcher, builder.
+        </p>
+
+        <!-- Companies list -->
+        <div class="mt-6">
+          <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Companies</h2>
+          {companies.map((company) => (
+            <CompanyCard
+              name={company.data.name}
+              domain={company.data.domain}
+              role={company.data.role}
+              slug={company.id}
+            />
+          ))}
+        </div>
+      </aside>
+
+      <!-- RIGHT COLUMN: Recent Writing -->
+      <section>
+        <h2 class="font-serif text-xl font-bold border-b-[2px] border-warm-900 pb-2 mb-5">Recent Writing</h2>
+
+        {posts.length > 0 ? (
+          <>
+            {posts.map((post, i) => (
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.id}
+                featured={i === 0}
+              />
+            ))}
+            <a href="/blog" class="inline-block text-sm text-warm-500 hover:text-warm-700 transition-colors mt-2">
+              &rarr; All posts
+            </a>
+          </>
+        ) : (
+          <p class="text-warm-500 font-serif text-sm italic">No posts yet. Check back soon.</p>
+        )}
+      </section>
+    </div>
+  </main>
+
+  <!-- CTA Section -->
+  <section class="bg-dark-900 text-warm-100 mt-12">
+    <div class="max-w-5xl mx-auto px-6 py-12">
+      <h2 class="font-serif text-xl font-bold mb-2">Get in touch</h2>
+      <p class="text-warm-400 text-sm mb-4">Drop your email and I'll reach out.</p>
+      <ContactForm />
+    </div>
+  </section>
+
+  <Footer />
+</Base>
