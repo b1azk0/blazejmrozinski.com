@@ -1,0 +1,70 @@
+---
+interface Props {
+  tags: string[];
+  activeTag?: string;
+}
+
+const { tags, activeTag } = Astro.props;
+---
+<div class="flex gap-2 flex-wrap mb-6" id="tag-filter">
+  <a
+    href="/blog"
+    class:list={[
+      'text-xs px-3 py-1 rounded-full transition-colors',
+      !activeTag
+        ? 'bg-warm-900 text-warm-100'
+        : 'bg-warm-100 text-warm-500 hover:bg-warm-200',
+    ]}
+    data-tag="all"
+  >
+    All
+  </a>
+  {tags.map((tag) => (
+    <a
+      href={`/blog?tag=${encodeURIComponent(tag)}`}
+      class:list={[
+        'text-xs px-3 py-1 rounded-full transition-colors',
+        activeTag === tag
+          ? 'bg-warm-900 text-warm-100'
+          : 'bg-warm-100 text-warm-500 hover:bg-warm-200',
+      ]}
+      data-tag={tag}
+    >
+      {tag}
+    </a>
+  ))}
+</div>
+
+<script>
+  // Client-side tag filtering for static site
+  function filterByTag() {
+    const params = new URLSearchParams(window.location.search);
+    const activeTag = params.get('tag');
+    const articles = document.querySelectorAll<HTMLElement>('[data-tags]');
+    const filterLinks = document.querySelectorAll<HTMLAnchorElement>('#tag-filter a');
+
+    // Update active states on pills
+    filterLinks.forEach((link) => {
+      const tag = link.dataset.tag;
+      const isActive = (!activeTag && tag === 'all') || activeTag === tag;
+      link.classList.toggle('bg-warm-900', isActive);
+      link.classList.toggle('text-warm-100', isActive);
+      link.classList.toggle('bg-warm-100', !isActive);
+      link.classList.toggle('text-warm-500', !isActive);
+    });
+
+    // Show/hide posts
+    articles.forEach((article) => {
+      if (!activeTag) {
+        article.style.display = '';
+        return;
+      }
+      const tags = (article.dataset.tags || '').split(',');
+      article.style.display = tags.includes(activeTag) ? '' : 'none';
+    });
+  }
+
+  // Run on load and on navigation
+  filterByTag();
+  document.addEventListener('astro:after-swap', filterByTag);
+</script>

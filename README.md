@@ -33,6 +33,27 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `projects` | `src/content/projects/` | Project writeups (7 projects across companies) |
 | `pages` | `src/content/pages/` | Static pages (about, work, CV) |
 
+## Pages
+
+| Route | Source | Description |
+|-------|--------|-------------|
+| `/` | `src/pages/index.astro` | Homepage with newspaper grid layout, profile, companies, recent posts, CTA |
+| `/blog` | `src/pages/blog/index.astro` | Blog listing with client-side tag filtering |
+| `/blog/:slug` | `src/pages/blog/[...slug].astro` | Individual blog post pages |
+
+## Components
+
+| Component | Description |
+|-----------|-------------|
+| `PostCard` | Blog post card with title, description, date, tag pills |
+| `CompanyCard` | Company card with name, domain, role |
+| `ContactForm` | Inline Netlify Forms contact form |
+| `TagFilter` | Tag filter pills with client-side show/hide |
+| `JsonLd` | JSON-LD structured data injection |
+| `SEO` | Open Graph and Twitter Card meta tags |
+| `Header` | Dark nav header with page links and social links |
+| `Footer` | 3-column footer with identity, nav, social |
+
 ## Deploy
 
 Push to main → Netlify auto-deploys.

@@ -1,5 +1,26 @@
 # Changelog
 
+## 2026-04-04 — Blog listing and post pages
+
+- Added `src/pages/blog/index.astro` — blog listing with all published posts
+- Added `src/pages/blog/[...slug].astro` — dynamic route for individual blog posts
+- Added `src/layouts/BlogPost.astro` — post layout with article JSON-LD schema, prose styling
+- Added `src/components/TagFilter.astro` — tag filter pills with client-side JS filtering
+- Uses `getCollection('blog')` + `render(entry)` from Astro Content Layer API
+- Handles empty blog collection gracefully
+
+## 2026-04-04 — Homepage with newspaper grid layout
+
+- Replaced placeholder homepage with full newspaper-style grid layout
+- Two-column layout: profile sidebar (280px) + recent writing (1fr)
+- Added `src/components/PostCard.astro` — blog post card with featured variant
+- Added `src/components/CompanyCard.astro` — company card linking to /work/:slug
+- Added `src/components/ContactForm.astro` — inline Netlify Forms contact form
+- Added `src/components/JsonLd.astro` — structured data injection component
+- Person JSON-LD schema with worksFor array from companies collection
+- Dark CTA section with contact form
+- Responsive: stacked on mobile, side-by-side on md+
+
 ## 2026-04-04 — Content collections and schemas
 
 - Added `src/content.config.ts` with 4 collections (blog, companies, projects, pages) using Astro 6 Content Layer API with `glob` loader

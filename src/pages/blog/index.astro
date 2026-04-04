@@ -1,0 +1,43 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import PostCard from '../../components/PostCard.astro';
+import TagFilter from '../../components/TagFilter.astro';
+import { getCollection } from 'astro:content';
+
+const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// Collect all unique tags
+const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+---
+
+<Base title="Blog" description="Writing on psychometrics, product building, growth engineering, and technology.">
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <h1 class="font-serif text-3xl font-bold mb-6">Blog</h1>
+
+    {allTags.length > 0 && <TagFilter tags={allTags} />}
+
+    {posts.length > 0 ? (
+      <div>
+        {posts.map((post, i) => (
+          <PostCard
+            title={post.data.title}
+            description={post.data.description}
+            date={post.data.date}
+            tags={post.data.tags}
+            slug={post.id}
+            featured={i === 0}
+          />
+        ))}
+      </div>
+    ) : (
+      <p class="text-warm-500 font-serif text-sm italic">No posts yet. Check back soon.</p>
+    )}
+  </main>
+
+  <Footer />
+</Base>
