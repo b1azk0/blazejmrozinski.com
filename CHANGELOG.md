@@ -1,5 +1,21 @@
 # Changelog
 
+## 2026-04-04 — RSS feed and cookie consent with GA4
+
+- Installed `@astrojs/rss` package
+- Added `src/pages/rss.xml.js` — RSS feed endpoint with all published blog posts (title, date, description, link)
+- Added `src/components/CookieConsent.astro` — lightweight cookie consent banner:
+  - Shows on first visit (checks localStorage for 'analytics-consent')
+  - If accepted: loads GA4 script dynamically via gtag
+  - If rejected: hides banner, doesn't load GA4
+  - Respects prior choice silently (no banner if already decided)
+  - Uses `import.meta.env.PUBLIC_GA4_ID` for GA4 measurement ID
+  - Renders nothing if no GA4 ID is configured
+  - Fixed position banner at bottom with Tailwind dark styling, Accept/Decline buttons
+- Updated `src/layouts/Base.astro` — imported CookieConsent and added before `</body>`
+- Build verified: `dist/rss.xml` generated successfully (empty until blog posts added)
+- No GA4 ID set in environment, so banner won't appear until configured via `PUBLIC_GA4_ID`
+
 ## 2026-04-04 — Publications, CV, about, and contact pages
 
 - Added `src/pages/publications.astro` — publications listing grouped by year, parsed from `src/content/publications.yml`

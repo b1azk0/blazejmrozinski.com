@@ -48,6 +48,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/publications` | `src/pages/publications.astro` | Publications grouped by year with ScholarlyArticle JSON-LD |
 | `/cv` | `src/pages/cv.astro` | CV page with PDF download button |
 | `/contact` | `src/pages/contact.astro` | Full contact form (Netlify Forms) with social links |
+| `/rss.xml` | `src/pages/rss.xml.js` | RSS 2.0 feed of published blog posts |
 
 ## Components
 
@@ -59,10 +60,19 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `TagFilter` | Tag filter pills with client-side show/hide |
 | `ProjectCard` | Project card with name, domain, description, hover effect |
 | `PublicationEntry` | APA-formatted publication citation with DOI/PDF links |
+| `CookieConsent` | Cookie consent banner with GA4 conditional loading |
 | `JsonLd` | JSON-LD structured data injection |
 | `SEO` | Open Graph and Twitter Card meta tags |
 | `Header` | Dark nav header with page links and social links |
 | `Footer` | 3-column footer with identity, nav, social |
+
+## Environment Variables
+
+| Variable | Description | Format |
+|----------|-------------|--------|
+| `PUBLIC_GA4_ID` | Google Analytics 4 measurement ID (optional) | `G-XXXXXXXXXX` |
+
+If `PUBLIC_GA4_ID` is not set, the cookie consent banner will not render. Set it via Netlify environment variables to enable GA4 tracking with user consent.
 
 ## Deploy
 
