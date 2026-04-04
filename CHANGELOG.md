@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-04-04 — Publications, CV, about, and contact pages
+
+- Added `src/pages/publications.astro` — publications listing grouped by year, parsed from `src/content/publications.yml`
+- Added `src/content/publications.yml` — 6 peer-reviewed publications in YAML format
+- Added `src/components/PublicationEntry.astro` — APA-style citation with DOI/PDF links
+- Added `src/pages/about.astro` — about page with expanded Person JSON-LD (alumniOf, hasCredential, knowsAbout, sameAs)
+- Added `src/pages/cv.astro` — CV page with PDF download button, rendered from pages collection
+- Added `src/pages/contact.astro` — full contact form (name, email, message) with Netlify Forms and social links
+- Added `public/publications/.gitkeep` and `public/images/.gitkeep` placeholder directories
+- Installed `yaml` package for YAML parsing
+
 ## 2026-04-04 — Work/company and project listing and landing pages
 
 - Added `src/components/ProjectCard.astro` — project card with border, rounded corners, hover effect

@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base title="Contact" description="Get in touch with Blazej Mrozinski.">
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <h1 class="font-serif text-3xl font-bold mb-6">Contact</h1>
+
+    <form name="contact-full" method="POST" data-netlify="true" class="max-w-lg space-y-4 mb-12">
+      <input type="hidden" name="form-name" value="contact-full" />
+
+      <div>
+        <label for="name" class="block text-sm font-semibold text-warm-700 mb-1">Name</label>
+        <input
+          type="text"
+          id="name"
+          name="name"
+          required
+          class="w-full px-3 py-2 text-sm border border-warm-300 rounded focus:outline-none focus:border-warm-500"
+        />
+      </div>
+
+      <div>
+        <label for="email" class="block text-sm font-semibold text-warm-700 mb-1">Email</label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          required
+          class="w-full px-3 py-2 text-sm border border-warm-300 rounded focus:outline-none focus:border-warm-500"
+        />
+      </div>
+
+      <div>
+        <label for="message" class="block text-sm font-semibold text-warm-700 mb-1">Message</label>
+        <textarea
+          id="message"
+          name="message"
+          rows="5"
+          required
+          class="w-full px-3 py-2 text-sm border border-warm-300 rounded focus:outline-none focus:border-warm-500"
+        ></textarea>
+      </div>
+
+      <button
+        type="submit"
+        class="bg-dark-900 text-warm-100 text-sm font-semibold px-6 py-2 rounded hover:bg-dark-800 transition-colors"
+      >
+        Send Message
+      </button>
+    </form>
+
+    <section>
+      <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-4">Find me elsewhere</h2>
+      <ul class="space-y-2 text-sm">
+        <li>
+          <a href="https://linkedin.com/in/blazejmrozinski" target="_blank" rel="noopener noreferrer" class="text-warm-600 hover:text-warm-800 transition-colors">
+            LinkedIn
+          </a>
+        </li>
+        <li>
+          <a href="https://github.com/b1azk0" target="_blank" rel="noopener noreferrer" class="text-warm-600 hover:text-warm-800 transition-colors">
+            GitHub
+          </a>
+        </li>
+        <li>
+          <a href="https://scholar.google.com/citations?user=blazejmrozinski" target="_blank" rel="noopener noreferrer" class="text-warm-600 hover:text-warm-800 transition-colors">
+            Google Scholar
+          </a>
+        </li>
+        <li>
+          <a href="https://orcid.org/0000-0002-1234-5678" target="_blank" rel="noopener noreferrer" class="text-warm-600 hover:text-warm-800 transition-colors">
+            ORCID
+          </a>
+        </li>
+      </ul>
+    </section>
+  </main>
+
+  <Footer />
+</Base>

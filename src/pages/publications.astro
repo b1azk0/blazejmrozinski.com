@@ -1,0 +1,76 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import PublicationEntry from '../components/PublicationEntry.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { readFileSync } from 'node:fs';
+import { parse } from 'yaml';
+
+const raw = readFileSync('src/content/publications.yml', 'utf-8');
+const publications: Array<{
+  authors: string;
+  year: number;
+  title: string;
+  journal: string;
+  volume: string;
+  pages: string;
+  doi: string;
+  pdf: string;
+  type: string;
+}> = parse(raw);
+
+// Group by year descending
+const grouped = publications.reduce<Record<number, typeof publications>>((acc, pub) => {
+  (acc[pub.year] ??= []).push(pub);
+  return acc;
+}, {});
+const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+
+const scholarlyArticles = publications.map((pub) => ({
+  '@context': 'https://schema.org',
+  '@type': 'ScholarlyArticle',
+  headline: pub.title,
+  author: pub.authors,
+  datePublished: String(pub.year),
+  isPartOf: {
+    '@type': 'Periodical',
+    name: pub.journal,
+  },
+  ...(pub.doi ? { url: pub.doi } : {}),
+}));
+---
+
+<Base title="Publications" description="Peer-reviewed publications by Blazej Mrozinski in psychology, psychometrics, and social cognition.">
+  {scholarlyArticles.map((article) => (
+    <JsonLd data={article} />
+  ))}
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <h1 class="font-serif text-3xl font-bold mb-6">Publications</h1>
+
+    {years.map((year) => (
+      <section class="mb-8">
+        <h2 class="text-lg font-bold border-b border-warm-200 pb-1 mb-3">{year}</h2>
+        <ul>
+          {grouped[year].map((pub) => (
+            <PublicationEntry
+              authors={pub.authors}
+              year={pub.year}
+              title={pub.title}
+              journal={pub.journal}
+              volume={pub.volume}
+              pages={pub.pages}
+              doi={pub.doi}
+              pdf={pub.pdf}
+              type={pub.type}
+            />
+          ))}
+        </ul>
+      </section>
+    ))}
+  </main>
+
+  <Footer />
+</Base>

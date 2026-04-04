@@ -44,6 +44,10 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/work/:slug` | `src/pages/work/[...slug].astro` | Company landing pages with related projects |
 | `/projects` | `src/pages/projects/index.astro` | Projects listing with ProjectCard grid |
 | `/projects/:slug` | `src/pages/projects/[...slug].astro` | Project landing pages with company link |
+| `/about` | `src/pages/about.astro` | About page with Person JSON-LD |
+| `/publications` | `src/pages/publications.astro` | Publications grouped by year with ScholarlyArticle JSON-LD |
+| `/cv` | `src/pages/cv.astro` | CV page with PDF download button |
+| `/contact` | `src/pages/contact.astro` | Full contact form (Netlify Forms) with social links |
 
 ## Components
 
@@ -54,6 +58,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `ContactForm` | Inline Netlify Forms contact form |
 | `TagFilter` | Tag filter pills with client-side show/hide |
 | `ProjectCard` | Project card with name, domain, description, hover effect |
+| `PublicationEntry` | APA-formatted publication citation with DOI/PDF links |
 | `JsonLd` | JSON-LD structured data injection |
 | `SEO` | Open Graph and Twitter Card meta tags |
 | `Header` | Dark nav header with page links and social links |

@@ -1,0 +1,37 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { getCollection, render } from 'astro:content';
+
+const cvPage = (await getCollection('pages')).find((p) => p.id === 'cv');
+let CvContent: any = null;
+if (cvPage) {
+  const rendered = await render(cvPage);
+  CvContent = rendered.Content;
+}
+---
+
+<Base title="CV" description="Curriculum Vitae — Dr. Blazej Mrozinski, psychologist, psychometrician, product builder.">
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <div class="flex items-center justify-between mb-6">
+      <h1 class="font-serif text-3xl font-bold">CV</h1>
+      <a
+        href="/publications/CV_BlazejMrozinski.pdf"
+        class="inline-flex items-center gap-2 bg-dark-900 text-warm-100 text-sm font-semibold px-4 py-2 rounded hover:bg-dark-800 transition-colors"
+      >
+        Download PDF
+      </a>
+    </div>
+
+    {CvContent && (
+      <div class="prose prose-stone prose-lg font-serif">
+        <CvContent />
+      </div>
+    )}
+  </main>
+
+  <Footer />
+</Base>

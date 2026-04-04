@@ -1,0 +1,24 @@
+---
+interface Props {
+  authors: string;
+  year: number;
+  title: string;
+  journal: string;
+  volume: string;
+  pages: string;
+  doi: string;
+  pdf: string;
+  type: string;
+}
+
+const { authors, year, title, journal, volume, pages, doi, pdf } = Astro.props;
+---
+<li class="font-serif text-sm leading-relaxed mb-4">
+  {authors} ({year}). {title}. <em>{journal}</em>, <em>{volume}</em>, {pages}.
+  {doi && (
+    <a href={doi} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">DOI</a>
+  )}
+  {pdf && (
+    <a href={pdf} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">PDF</a>
+  )}
+</li>

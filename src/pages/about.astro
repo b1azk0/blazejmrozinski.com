@@ -1,0 +1,72 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import JsonLd from '../components/JsonLd.astro';
+import { getCollection, render } from 'astro:content';
+
+const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about');
+let AboutContent: any = null;
+if (aboutPage) {
+  const rendered = await render(aboutPage);
+  AboutContent = rendered.Content;
+}
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: 'Blazej Mrozinski',
+  url: 'https://blazejmrozinski.com',
+  jobTitle: 'Psychologist, Psychometrician, Product Builder',
+  alumniOf: [
+    {
+      '@type': 'EducationalOrganization',
+      name: 'SWPS University',
+    },
+    {
+      '@type': 'EducationalOrganization',
+      name: 'London School of Economics',
+    },
+  ],
+  hasCredential: {
+    '@type': 'EducationalOccupationalCredential',
+    credentialCategory: 'PhD in Psychology',
+    recognizedBy: {
+      '@type': 'EducationalOrganization',
+      name: 'SWPS University',
+    },
+  },
+  knowsAbout: [
+    'Psychometrics',
+    'Item Response Theory',
+    'Cognitive Psychology',
+    'Product Management',
+    'SEO',
+    'AI Workflows',
+    'Statistical Modeling',
+  ],
+  sameAs: [
+    'https://linkedin.com/in/blazejmrozinski',
+    'https://github.com/b1azk0',
+    'https://scholar.google.com/citations?user=blazejmrozinski',
+    'https://orcid.org/0000-0002-1234-5678',
+  ],
+};
+---
+
+<Base title="About" description="Blazej Mrozinski — psychologist, psychometrician, product builder, and researcher working at the intersection of cognitive science and AI.">
+  <JsonLd data={personJsonLd} />
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <h1 class="font-serif text-3xl font-bold mb-6">About</h1>
+
+    {AboutContent && (
+      <div class="prose prose-stone prose-lg font-serif">
+        <AboutContent />
+      </div>
+    )}
+  </main>
+
+  <Footer />
+</Base>
