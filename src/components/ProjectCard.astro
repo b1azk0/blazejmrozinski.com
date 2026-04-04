@@ -1,0 +1,15 @@
+---
+interface Props {
+  name: string;
+  description: string;
+  domain: string;
+  slug: string;
+}
+
+const { name, description, domain, slug } = Astro.props;
+---
+<a href={`/projects/${slug}`} class="block border border-warm-200 rounded-lg p-4 hover:border-warm-400 hover:shadow-sm transition-all group">
+  <p class="font-bold group-hover:text-warm-600 transition-colors">{name}</p>
+  <p class="text-xs text-warm-400 mt-0.5">{domain}</p>
+  <p class="text-sm text-warm-600 mt-2 leading-relaxed">{description}</p>
+</a>

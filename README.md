@@ -40,6 +40,10 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/` | `src/pages/index.astro` | Homepage with newspaper grid layout, profile, companies, recent posts, CTA |
 | `/blog` | `src/pages/blog/index.astro` | Blog listing with client-side tag filtering |
 | `/blog/:slug` | `src/pages/blog/[...slug].astro` | Individual blog post pages |
+| `/work` | `src/pages/work/index.astro` | Work overview with rendered page content and company listing |
+| `/work/:slug` | `src/pages/work/[...slug].astro` | Company landing pages with related projects |
+| `/projects` | `src/pages/projects/index.astro` | Projects listing with ProjectCard grid |
+| `/projects/:slug` | `src/pages/projects/[...slug].astro` | Project landing pages with company link |
 
 ## Components
 
@@ -49,6 +53,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `CompanyCard` | Company card with name, domain, role |
 | `ContactForm` | Inline Netlify Forms contact form |
 | `TagFilter` | Tag filter pills with client-side show/hide |
+| `ProjectCard` | Project card with name, domain, description, hover effect |
 | `JsonLd` | JSON-LD structured data injection |
 | `SEO` | Open Graph and Twitter Card meta tags |
 | `Header` | Dark nav header with page links and social links |

@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-04-04 — Work/company and project listing and landing pages
+
+- Added `src/components/ProjectCard.astro` — project card with border, rounded corners, hover effect
+- Added `src/pages/work/index.astro` — work overview rendering pages collection "work" entry + sorted company list
+- Added `src/pages/work/[...slug].astro` — company landing pages with markdown body, related projects, Organization JSON-LD
+- Added `src/pages/projects/index.astro` — projects listing with ProjectCard grid
+- Added `src/pages/projects/[...slug].astro` — project landing pages with company link, CreativeWork JSON-LD
+
 ## 2026-04-04 — Blog listing and post pages
 
 - Added `src/pages/blog/index.astro` — blog listing with all published posts

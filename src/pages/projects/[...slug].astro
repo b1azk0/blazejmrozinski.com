@@ -1,0 +1,63 @@
+---
+import Base from '../../layouts/Base.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import JsonLd from '../../components/JsonLd.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const allCompanies = await getCollection('companies');
+const relatedCompany = entry.data.company
+  ? allCompanies.find((c) => c.id === entry.data.company)
+  : null;
+
+const creativeWorkJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  name: entry.data.name,
+  description: entry.data.description,
+  author: {
+    '@type': 'Person',
+    name: 'Blazej Mrozinski',
+    url: 'https://blazejmrozinski.com/about',
+  },
+};
+---
+
+<Base title={entry.data.name} description={entry.data.description}>
+  <JsonLd data={creativeWorkJsonLd} />
+  <Header />
+
+  <main class="max-w-3xl mx-auto px-6 py-8">
+    <a href="/projects" class="text-sm text-warm-400 hover:text-warm-600 transition-colors">&larr; Projects</a>
+
+    <h1 class="font-serif text-3xl font-bold mt-4 mb-1">{entry.data.name}</h1>
+    <div class="flex items-center gap-2 text-sm text-warm-500 mb-8">
+      <span>{entry.data.domain}</span>
+      {relatedCompany && (
+        <>
+          <span>&middot;</span>
+          <a href={`/work/${relatedCompany.id}`} class="hover:text-warm-700 transition-colors">
+            {relatedCompany.data.name}
+          </a>
+        </>
+      )}
+    </div>
+
+    <div class="prose prose-stone prose-lg font-serif">
+      <Content />
+    </div>
+  </main>
+
+  <Footer />
+</Base>
