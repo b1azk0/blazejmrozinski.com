@@ -1,0 +1,81 @@
+---
+const ga4Id = import.meta.env.PUBLIC_GA4_ID;
+
+// If no GA4 ID is configured, don't render anything
+if (!ga4Id) {
+  // Component renders nothing
+}
+---
+
+{ga4Id && (
+  <>
+    <script set:html={`
+      (function() {
+        const CONSENT_KEY = 'analytics-consent';
+        const consentValue = localStorage.getItem(CONSENT_KEY);
+
+        // If already decided, check if accepted and load GA4 if yes
+        if (consentValue === 'accepted') {
+          loadGA4('${ga4Id}');
+        }
+
+        // If no decision made, show banner
+        if (!consentValue) {
+          showCookieBanner();
+        }
+
+        function loadGA4(id) {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + id;
+          document.head.appendChild(script);
+
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', id);
+        }
+
+        function showCookieBanner() {
+          const banner = document.getElementById('cookie-consent-banner');
+          if (banner) {
+            banner.style.display = 'fixed';
+          }
+        }
+
+        window.acceptCookies = function() {
+          localStorage.setItem(CONSENT_KEY, 'accepted');
+          loadGA4('${ga4Id}');
+          const banner = document.getElementById('cookie-consent-banner');
+          if (banner) {
+            banner.remove();
+          }
+        };
+
+        window.declineCookies = function() {
+          localStorage.setItem(CONSENT_KEY, 'declined');
+          const banner = document.getElementById('cookie-consent-banner');
+          if (banner) {
+            banner.remove();
+          }
+        };
+      })();
+    `}></script>
+
+    <div id="cookie-consent-banner" style="display: none;" class="fixed bottom-0 left-0 right-0 bg-gray-900 text-white p-4 md:p-6 flex flex-col md:flex-row md:items-center md:justify-between gap-4 shadow-lg border-t border-gray-700">
+      <div class="flex-1">
+        <p class="text-sm md:text-base mb-2 md:mb-0">
+          We use cookies to enhance your experience. This site uses Google Analytics to understand how you use it.
+        </p>
+      </div>
+      <div class="flex gap-3">
+        <button onclick="window.declineCookies()" class="px-4 py-2 text-sm font-medium text-gray-300 border border-gray-600 rounded hover:bg-gray-800 transition">
+          Decline
+        </button>
+        <button onclick="window.acceptCookies()" class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded hover:bg-blue-700 transition">
+          Accept
+        </button>
+      </div>
+    </div>
+  </>
+)}
