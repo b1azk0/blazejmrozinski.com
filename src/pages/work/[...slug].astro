@@ -1,9 +1,7 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
-import JsonLd from '../../components/JsonLd.astro';
+import Base from '@/layouts/Base.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import JsonLd from '@/components/JsonLd.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -38,21 +36,38 @@ const orgJsonLd = {
 
 <Base title={entry.data.name} description={entry.data.description}>
   <JsonLd data={orgJsonLd} />
-  <Header />
 
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <a href="/work" class="text-sm text-warm-400 hover:text-warm-600 transition-colors">&larr; Work</a>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <a href="/work" class="text-sm text-muted-foreground hover:text-foreground transition-colors">&larr; Work</a>
 
-    <h1 class="font-serif text-3xl font-bold mt-4 mb-1">{entry.data.name}</h1>
-    <p class="text-sm text-warm-500 mb-8">{entry.data.role} &middot; {entry.data.domain}</p>
+    <div class="mt-6 mb-8" data-animate>
+      <h1 class="text-4xl font-bold tracking-tight">{entry.data.name}</h1>
+      <div class="flex items-center gap-3 mt-3 flex-wrap">
+        <span class="text-sm text-muted-foreground">{entry.data.role}</span>
+        <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">{entry.data.domain}</span>
+        {entry.data.url && (
+          <a
+            href={entry.data.url}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
+          >
+            {new URL(entry.data.url).hostname}
+            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        )}
+      </div>
+    </div>
 
-    <div class="prose prose-stone prose-lg font-serif mb-10">
+    <div class="prose prose-neutral dark:prose-invert max-w-none mb-12" data-animate>
       <Content />
     </div>
 
     {relatedProjects.length > 0 && (
-      <section>
-        <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-4">Projects</h2>
+      <section data-animate>
+        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Projects</h2>
         <div class="grid gap-4">
           {relatedProjects.map((project) => (
             <ProjectCard
@@ -65,7 +80,5 @@ const orgJsonLd = {
         </div>
       </section>
     )}
-  </main>
-
-  <Footer />
+  </div>
 </Base>

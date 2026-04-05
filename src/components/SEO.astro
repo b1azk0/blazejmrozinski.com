@@ -7,27 +7,39 @@ interface Props {
   ogType?: string;
 }
 
-const SITE_URL = 'https://blazejmrozinski.com';
+const siteUrl = Astro.site ?? new URL('https://blazejmrozinski.com');
 
 const { title, description, canonical, ogImage, ogType = 'website' } = Astro.props;
 
 const fullTitle = `${title} — Blazej Mrozinski`;
-const canonicalUrl = canonical ?? `${SITE_URL}${Astro.url.pathname}`;
+const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
+const socialImageURL = new URL(ogImage || '/og-default.png', siteUrl).toString();
 ---
 
 <title>{fullTitle}</title>
+<meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
+
 <link rel="canonical" href={canonicalUrl} />
 
 <!-- Open Graph -->
-<meta property="og:title" content={fullTitle} />
-<meta property="og:description" content={description} />
 <meta property="og:type" content={ogType} />
 <meta property="og:url" content={canonicalUrl} />
-{ogImage && <meta property="og:image" content={ogImage} />}
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={socialImageURL} />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:site_name" content="Blazej Mrozinski" />
+<meta property="og:locale" content="en_US" />
 
 <!-- Twitter Card -->
 <meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:url" content={canonicalUrl} />
 <meta name="twitter:title" content={fullTitle} />
 <meta name="twitter:description" content={description} />
-{ogImage && <meta name="twitter:image" content={ogImage} />}
+<meta name="twitter:image" content={socialImageURL} />
+
+<!-- Sitemap & RSS -->
+<link rel="sitemap" href="/sitemap-index.xml" />
+<link rel="alternate" type="application/rss+xml" title="Blazej Mrozinski Blog" href="/rss.xml" />

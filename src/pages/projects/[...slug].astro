@@ -1,8 +1,6 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import JsonLd from '../../components/JsonLd.astro';
+import Base from '@/layouts/Base.astro';
+import JsonLd from '@/components/JsonLd.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -21,6 +19,8 @@ const relatedCompany = entry.data.company
   ? allCompanies.find((c) => c.id === entry.data.company)
   : null;
 
+const isCaseStudy = !!(entry.data.challenge || entry.data.results);
+
 const creativeWorkJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'CreativeWork',
@@ -36,28 +36,71 @@ const creativeWorkJsonLd = {
 
 <Base title={entry.data.name} description={entry.data.description}>
   <JsonLd data={creativeWorkJsonLd} />
-  <Header />
 
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <a href="/projects" class="text-sm text-warm-400 hover:text-warm-600 transition-colors">&larr; Projects</a>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <a href="/projects" class="text-sm text-muted-foreground hover:text-foreground transition-colors">&larr; Case Studies</a>
 
-    <h1 class="font-serif text-3xl font-bold mt-4 mb-1">{entry.data.name}</h1>
-    <div class="flex items-center gap-2 text-sm text-warm-500 mb-8">
-      <span>{entry.data.domain}</span>
-      {relatedCompany && (
-        <>
-          <span>&middot;</span>
-          <a href={`/work/${relatedCompany.id}`} class="hover:text-warm-700 transition-colors">
+    <div class="mt-6 mb-8" data-animate>
+      <h1 class="text-4xl font-bold tracking-tight">{entry.data.name}</h1>
+      <div class="flex items-center gap-3 mt-3 flex-wrap">
+        <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">{entry.data.domain}</span>
+        {isCaseStudy && (
+          <span class="text-xs bg-primary text-primary-foreground px-2.5 py-1 rounded-full">Case Study</span>
+        )}
+        {relatedCompany && (
+          <a href={`/work/${relatedCompany.id}`} class="text-sm text-muted-foreground hover:text-foreground transition-colors">
             {relatedCompany.data.name}
           </a>
-        </>
-      )}
+        )}
+      </div>
     </div>
 
-    <div class="prose prose-stone prose-lg font-serif">
+    {/* Case study structured sections */}
+    {isCaseStudy && (
+      <div class="mb-10 space-y-8" data-animate>
+        {entry.data.challenge && (
+          <div class="rounded-lg border bg-card p-6">
+            <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">The Challenge</h2>
+            <p class="text-foreground leading-relaxed">{entry.data.challenge}</p>
+          </div>
+        )}
+
+        {entry.data.approach && (
+          <div class="rounded-lg border bg-card p-6">
+            <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">The Approach</h2>
+            <p class="text-foreground leading-relaxed">{entry.data.approach}</p>
+          </div>
+        )}
+
+        {entry.data.results && entry.data.results.length > 0 && (
+          <div class="rounded-lg border bg-card p-6">
+            <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-3">Results</h2>
+            <ul class="space-y-2">
+              {entry.data.results.map((result) => (
+                <li class="flex items-start gap-3">
+                  <svg class="h-5 w-5 text-primary shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4" />
+                  </svg>
+                  <span class="text-foreground">{result}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {entry.data.tools && entry.data.tools.length > 0 && (
+          <div class="flex flex-wrap gap-2">
+            {entry.data.tools.map((tool) => (
+              <span class="text-xs bg-muted text-muted-foreground px-2.5 py-1 rounded-full">{tool}</span>
+            ))}
+          </div>
+        )}
+      </div>
+    )}
+
+    {/* Body content (narrative, additional detail) */}
+    <div class="prose prose-neutral dark:prose-invert max-w-none" data-animate>
       <Content />
     </div>
-  </main>
-
-  <Footer />
+  </div>
 </Base>

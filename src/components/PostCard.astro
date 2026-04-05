@@ -16,20 +16,23 @@ const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
 });
 ---
-<article class:list={['border-b border-warm-200 pb-5 mb-5', featured && 'pb-6 mb-6']} data-tags={tags.join(',')}>
-  <a href={`/blog/${slug}`} class="group">
+<article
+  class="group rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all"
+  data-tags={tags.join(',')}
+>
+  <a href={`/blog/${slug}`} class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
     <h3 class:list={[
-      'font-serif font-bold group-hover:text-warm-600 transition-colors',
+      'font-bold tracking-tight group-hover:text-primary/80 transition-colors',
       featured ? 'text-2xl' : 'text-lg',
     ]}>
       {title}
     </h3>
   </a>
-  <p class="font-serif text-sm text-warm-600 mt-1 leading-relaxed">
+  <p class="text-sm text-muted-foreground mt-2 leading-relaxed">
     {description}
   </p>
-  <div class="flex items-center gap-3 mt-3 flex-wrap">
-    <time class="text-xs text-warm-400" datetime={date.toISOString()}>
+  <div class="flex items-center gap-3 mt-4 flex-wrap">
+    <time class="text-xs text-muted-foreground" datetime={date.toISOString()}>
       {formattedDate}
     </time>
     {tags.length > 0 && (
@@ -37,7 +40,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
         {tags.map((tag) => (
           <a
             href={`/blog?tag=${encodeURIComponent(tag)}`}
-            class="text-xs bg-warm-100 text-warm-400 px-2 py-0.5 rounded hover:bg-warm-200 transition-colors"
+            class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
           >
             {tag}
           </a>

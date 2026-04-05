@@ -10,10 +10,10 @@ const { tags, activeTag } = Astro.props;
   <a
     href="/blog"
     class:list={[
-      'text-xs px-3 py-1 rounded-full transition-colors',
+      'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
       !activeTag
-        ? 'bg-warm-900 text-warm-100'
-        : 'bg-warm-100 text-warm-500 hover:bg-warm-200',
+        ? 'bg-primary text-primary-foreground'
+        : 'bg-secondary text-secondary-foreground hover:bg-accent',
     ]}
     data-tag="all"
   >
@@ -23,10 +23,10 @@ const { tags, activeTag } = Astro.props;
     <a
       href={`/blog?tag=${encodeURIComponent(tag)}`}
       class:list={[
-        'text-xs px-3 py-1 rounded-full transition-colors',
+        'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
         activeTag === tag
-          ? 'bg-warm-900 text-warm-100'
-          : 'bg-warm-100 text-warm-500 hover:bg-warm-200',
+          ? 'bg-primary text-primary-foreground'
+          : 'bg-secondary text-secondary-foreground hover:bg-accent',
       ]}
       data-tag={tag}
     >
@@ -36,24 +36,21 @@ const { tags, activeTag } = Astro.props;
 </div>
 
 <script>
-  // Client-side tag filtering for static site
   function filterByTag() {
     const params = new URLSearchParams(window.location.search);
     const activeTag = params.get('tag');
     const articles = document.querySelectorAll<HTMLElement>('[data-tags]');
     const filterLinks = document.querySelectorAll<HTMLAnchorElement>('#tag-filter a');
 
-    // Update active states on pills
     filterLinks.forEach((link) => {
       const tag = link.dataset.tag;
       const isActive = (!activeTag && tag === 'all') || activeTag === tag;
-      link.classList.toggle('bg-warm-900', isActive);
-      link.classList.toggle('text-warm-100', isActive);
-      link.classList.toggle('bg-warm-100', !isActive);
-      link.classList.toggle('text-warm-500', !isActive);
+      link.classList.toggle('bg-primary', isActive);
+      link.classList.toggle('text-primary-foreground', isActive);
+      link.classList.toggle('bg-secondary', !isActive);
+      link.classList.toggle('text-secondary-foreground', !isActive);
     });
 
-    // Show/hide posts
     articles.forEach((article) => {
       if (!activeTag) {
         article.style.display = '';
@@ -64,7 +61,6 @@ const { tags, activeTag } = Astro.props;
     });
   }
 
-  // Run on load and on navigation
   filterByTag();
   document.addEventListener('astro:after-swap', filterByTag);
 </script>

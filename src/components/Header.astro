@@ -1,62 +1,163 @@
 ---
-const pathname = Astro.url.pathname;
+import ThemeToggle from './ThemeToggle.astro';
 
-const navLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Work', href: '/work' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Publications', href: '/publications' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'CV', href: '/cv' },
+const navItems = [
+  { href: '/work', label: 'Work' },
+  { href: '/projects', label: 'Case Studies' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/publications', label: 'Publications' },
+  { href: '/about', label: 'About' },
+  { href: '/cv', label: 'CV' },
+  { href: '/contact', label: 'Contact' },
 ];
 
-const socialLinks = [
-  { label: 'in', href: 'https://linkedin.com/in/blazejmrozinski', title: 'LinkedIn' },
-  { label: 'gh', href: 'https://github.com/b1azk0', title: 'GitHub' },
-  { label: 'gs', href: 'https://scholar.google.com/citations?user=blazejmrozinski', title: 'Google Scholar' },
-];
-
-function isActive(href: string): boolean {
-  return pathname === href || pathname.startsWith(href + '/');
-}
+const currentPath = Astro.url.pathname;
 ---
 
-<header class="bg-dark-900 text-warm-100">
-  <nav class="max-w-5xl mx-auto px-6 py-4 flex items-center justify-between">
-    <div class="flex items-center gap-8">
-      <a href="/" class="font-sans text-sm font-bold tracking-widest text-white hover:text-warm-300 transition-colors">
-        BLAZEJ MROZINSKI
-      </a>
-      <ul class="hidden md:flex items-center gap-6">
-        {navLinks.map((link) => (
-          <li>
-            <a
-              href={link.href}
-              class:list={[
-                'text-sm transition-colors',
-                isActive(link.href)
-                  ? 'text-white font-semibold'
-                  : 'text-warm-400 hover:text-warm-200',
-              ]}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))}
-      </ul>
+<header
+  class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
+>
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between">
+    <!-- Wordmark -->
+    <a href="/" class="font-semibold text-lg tracking-tight hover:opacity-80 transition-opacity">
+      Blazej Mrozinski
+    </a>
+
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Main navigation">
+      {navItems.map((item) => {
+        const isActive = item.href === '/'
+          ? currentPath === '/'
+          : currentPath.startsWith(item.href);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              'transition-colors',
+              isActive
+                ? 'text-foreground font-medium'
+                : 'text-foreground/60 hover:text-foreground/80',
+            ]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+
+    <!-- Desktop Actions -->
+    <div class="hidden md:flex items-center space-x-2">
+      <ThemeToggle />
     </div>
-    <div class="flex items-center gap-4 border-l border-dark-700 pl-4">
-      {socialLinks.map((link) => (
-        <a
-          href={link.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          title={link.title}
-          class="text-sm text-warm-400 hover:text-warm-200 transition-colors"
-        >
-          {link.label}
-        </a>
-      ))}
+
+    <!-- Mobile Actions -->
+    <div class="flex md:hidden items-center space-x-2">
+      <ThemeToggle />
+      <button
+        id="mobile-menu-button"
+        class="inline-flex items-center justify-center rounded-md p-2 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
+        aria-expanded="false"
+        aria-label="Toggle navigation menu"
+      >
+        <div class="w-6 h-6 relative flex flex-col justify-center items-center">
+          <span id="hamburger-top" class="block w-5 h-0.5 bg-current transform transition-all duration-300 absolute -translate-y-1.5"></span>
+          <span id="hamburger-middle" class="block w-5 h-0.5 bg-current transform transition-all duration-300"></span>
+          <span id="hamburger-bottom" class="block w-5 h-0.5 bg-current transform transition-all duration-300 absolute translate-y-1.5"></span>
+        </div>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" class="hidden md:hidden border-t bg-background" aria-label="Mobile navigation">
+    <div class="container max-w-5xl mx-auto px-4 py-4 space-y-1">
+      {navItems.map((item) => {
+        const isActive = item.href === '/'
+          ? currentPath === '/'
+          : currentPath.startsWith(item.href);
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              'block px-3 py-2 rounded-md text-base font-medium transition-colors',
+              isActive
+                ? 'bg-accent text-accent-foreground'
+                : 'hover:bg-accent hover:text-accent-foreground',
+            ]}
+            aria-current={isActive ? 'page' : undefined}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+      <button
+        id="mobile-menu-close"
+        class="block w-full text-center px-3 py-2 mt-2 rounded-md text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors border"
+      >
+        Close menu
+      </button>
     </div>
   </nav>
 </header>
+
+<script>
+  function initMobileMenu() {
+    const menuButton = document.getElementById('mobile-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const hamburgerTop = document.getElementById('hamburger-top');
+    const hamburgerMiddle = document.getElementById('hamburger-middle');
+    const hamburgerBottom = document.getElementById('hamburger-bottom');
+
+    function toggleHamburger(isOpen: boolean) {
+      if (isOpen) {
+        hamburgerTop?.classList.add('rotate-45', 'translate-y-0');
+        hamburgerTop?.classList.remove('-translate-y-1.5');
+        hamburgerMiddle?.classList.add('opacity-0', 'scale-0');
+        hamburgerBottom?.classList.add('-rotate-45', 'translate-y-0');
+        hamburgerBottom?.classList.remove('translate-y-1.5');
+      } else {
+        hamburgerTop?.classList.remove('rotate-45', 'translate-y-0');
+        hamburgerTop?.classList.add('-translate-y-1.5');
+        hamburgerMiddle?.classList.remove('opacity-0', 'scale-0');
+        hamburgerBottom?.classList.remove('-rotate-45', 'translate-y-0');
+        hamburgerBottom?.classList.add('translate-y-1.5');
+      }
+    }
+
+    menuButton?.addEventListener('click', () => {
+      const isExpanded = menuButton.getAttribute('aria-expanded') === 'true';
+      mobileMenu?.classList.toggle('hidden');
+      toggleHamburger(!isExpanded);
+      menuButton.setAttribute('aria-expanded', String(!isExpanded));
+    });
+
+    const mobileMenuLinks = mobileMenu?.querySelectorAll('a');
+    mobileMenuLinks?.forEach((link) => {
+      link.addEventListener('click', () => {
+        mobileMenu?.classList.add('hidden');
+        toggleHamburger(false);
+        menuButton?.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    const closeButton = document.getElementById('mobile-menu-close');
+    closeButton?.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      toggleHamburger(false);
+      menuButton?.setAttribute('aria-expanded', 'false');
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && menuButton?.getAttribute('aria-expanded') === 'true') {
+        mobileMenu?.classList.add('hidden');
+        toggleHamburger(false);
+        menuButton?.setAttribute('aria-expanded', 'false');
+        menuButton?.focus();
+      }
+    });
+  }
+
+  initMobileMenu();
+  document.addEventListener('astro:after-swap', initMobileMenu);
+</script>

@@ -1,31 +1,52 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
+import Base from '@/layouts/Base.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
   .sort((a, b) => a.data.order - b.data.order);
+
+const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);
+const otherProjects = projects.filter((p) => !p.data.challenge && !p.data.results);
 ---
 
-<Base title="Projects" description="Products and tools built by Blazej Mrozinski across psychometrics, SEO, content automation, and AI.">
-  <Header />
+<Base title="Case Studies" description="Case studies and projects by Blazej Mrozinski — psychometrics, SEO growth, content automation, and AI.">
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-2" data-animate>Case Studies</h1>
+    <p class="text-muted-foreground mb-8" data-animate>How I approach problems — the methodology, the results, and what I learned.</p>
 
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <h1 class="font-serif text-3xl font-bold mb-6">Projects</h1>
+    {caseStudies.length > 0 && (
+      <div class="grid gap-4 mb-12">
+        {caseStudies.map((project, i) => (
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+            <ProjectCard
+              name={project.data.name}
+              description={project.data.description}
+              domain={project.data.domain}
+              slug={project.id}
+              isCaseStudy={true}
+            />
+          </div>
+        ))}
+      </div>
+    )}
 
-    <div class="grid gap-4">
-      {projects.map((project) => (
-        <ProjectCard
-          name={project.data.name}
-          description={project.data.description}
-          domain={project.data.domain}
-          slug={project.id}
-        />
-      ))}
-    </div>
-  </main>
-
-  <Footer />
+    {otherProjects.length > 0 && (
+      <>
+        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4" data-animate>Other Projects</h2>
+        <div class="grid gap-4">
+          {otherProjects.map((project, i) => (
+            <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+              <ProjectCard
+                name={project.data.name}
+                description={project.data.description}
+                domain={project.data.domain}
+                slug={project.id}
+              />
+            </div>
+          ))}
+        </div>
+      </>
+    )}
+  </div>
 </Base>

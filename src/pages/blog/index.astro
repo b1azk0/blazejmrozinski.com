@@ -1,43 +1,46 @@
 ---
-import Base from '../../layouts/Base.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import PostCard from '../../components/PostCard.astro';
-import TagFilter from '../../components/TagFilter.astro';
+import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import TagFilter from '@/components/TagFilter.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
 const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-// Collect all unique tags
 const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
 ---
 
 <Base title="Blog" description="Writing on psychometrics, product building, growth engineering, and technology.">
-  <Header />
-
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <h1 class="font-serif text-3xl font-bold mb-6">Blog</h1>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Blog</h1>
 
     {allTags.length > 0 && <TagFilter tags={allTags} />}
 
     {posts.length > 0 ? (
-      <div>
+      <div class="grid gap-4">
         {posts.map((post, i) => (
-          <PostCard
-            title={post.data.title}
-            description={post.data.description}
-            date={post.data.date}
-            tags={post.data.tags}
-            slug={post.id}
-            featured={i === 0}
-          />
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              slug={post.id}
+              featured={i === 0}
+            />
+          </div>
         ))}
       </div>
     ) : (
-      <p class="text-warm-500 font-serif text-sm italic">No posts yet. Check back soon.</p>
+      <div class="text-center py-8" data-animate>
+        <p class="text-muted-foreground mb-4">No posts yet. Check back soon.</p>
+        <a href="/rss.xml" class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-2">
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 5c7.18 0 13 5.82 13 13M6 11a7 7 0 017 7m-6 0a1 1 0 11-2 0 1 1 0 012 0z" />
+          </svg>
+          Subscribe via RSS
+        </a>
+      </div>
     )}
-  </main>
-
-  <Footer />
+  </div>
 </Base>

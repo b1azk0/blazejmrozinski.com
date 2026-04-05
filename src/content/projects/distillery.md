@@ -1,6 +1,6 @@
 ---
 name: "Distillery"
-company: "distillery"
+company: "nerds-family"
 description: "Content management and AI-powered editorial platform with calendar, AI chat, and publishing workflows."
 domain: "Content AI · Rails"
 order: 1

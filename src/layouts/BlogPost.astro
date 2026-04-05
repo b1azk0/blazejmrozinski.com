@@ -1,8 +1,6 @@
 ---
-import Base from './Base.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import JsonLd from '../components/JsonLd.astro';
+import Base from "./Base.astro";
+import JsonLd from "@/components/JsonLd.astro";
 
 interface Props {
   title: string;
@@ -20,16 +18,28 @@ const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
 });
 
+const canonicalUrl = `https://blazejmrozinski.com/blog/${Astro.params.slug}/`;
+
 const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
   description,
   datePublished: date.toISOString(),
+  dateModified: date.toISOString(),
+  mainEntityOfPage: {
+    '@type': 'WebPage',
+    '@id': canonicalUrl,
+  },
   author: {
     '@type': 'Person',
     name: 'Blazej Mrozinski',
     url: 'https://blazejmrozinski.com/about',
+  },
+  publisher: {
+    '@type': 'Person',
+    name: 'Blazej Mrozinski',
+    url: 'https://blazejmrozinski.com',
   },
   keywords: tags.join(', '),
 };
@@ -37,38 +47,31 @@ const articleJsonLd = {
 
 <Base title={title} description={description} ogType="article">
   <JsonLd data={articleJsonLd} />
-  <Header />
 
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <article>
-      <!-- Post header -->
-      <header class="mb-8">
-        <h1 class="font-serif text-3xl font-bold leading-tight">{title}</h1>
-        <div class="flex items-center gap-3 mt-3 text-sm text-warm-500 flex-wrap">
-          <a href="/about" class="hover:text-warm-700 transition-colors">Blazej Mrozinski</a>
-          <span>&middot;</span>
-          <time datetime={date.toISOString()}>{formattedDate}</time>
-        </div>
-        {tags.length > 0 && (
-          <div class="flex gap-1.5 mt-3 flex-wrap">
-            {tags.map((tag) => (
-              <a
-                href={`/blog?tag=${encodeURIComponent(tag)}`}
-                class="text-xs bg-warm-100 text-warm-400 px-2 py-0.5 rounded hover:bg-warm-200 transition-colors"
-              >
-                {tag}
-              </a>
-            ))}
-          </div>
-        )}
-      </header>
-
-      <!-- Post content -->
-      <div class="prose prose-stone prose-lg font-serif">
-        <slot />
+  <article class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
+      <div class="flex items-center gap-4 text-muted-foreground text-sm">
+        <a href="/about" class="hover:text-foreground transition-colors">Blazej Mrozinski</a>
+        <span>&middot;</span>
+        <time datetime={date.toISOString()}>{formattedDate}</time>
       </div>
-    </article>
-  </main>
+      {tags.length > 0 && (
+        <div class="flex gap-2 mt-4 flex-wrap">
+          {tags.map((tag) => (
+            <a
+              href={`/blog?tag=${encodeURIComponent(tag)}`}
+              class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
+            >
+              {tag}
+            </a>
+          ))}
+        </div>
+      )}
+    </header>
 
-  <Footer />
+    <div class="prose prose-neutral dark:prose-invert max-w-none">
+      <slot />
+    </div>
+  </article>
 </Base>

@@ -37,6 +37,11 @@ const projects = defineCollection({
     domain: z.string(),
     order: z.number().default(0),
     related_posts: z.array(z.string()).default([]),
+    // Case study fields (optional — render full case study layout when present)
+    challenge: z.string().optional(),
+    approach: z.string().optional(),
+    results: z.array(z.string()).optional(),
+    tools: z.array(z.string()).optional(),
   }),
 });
 

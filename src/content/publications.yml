@@ -1,3 +1,5 @@
+# Journal Articles
+
 - authors: "Dyduch-Hazar, K., Mrozinski, B., & de Zavala, G."
   year: 2024
   title: "The pleasure of revenge predicts both vengeful and benevolent motivations toward the provocateur"
@@ -38,6 +40,16 @@
   pdf: ""
   type: "article"
 
+- authors: "Kuncewicz, D., Kuncewicz, D., Mrozinski, B., & Stawska, M."
+  year: 2021
+  title: "A combination of insecure attachment patterns in a relationship and its quality: The role of relationship length"
+  journal: "Journal of Social and Personal Relationships"
+  volume: "38(2)"
+  pages: "648-667"
+  doi: ""
+  pdf: ""
+  type: "article"
+
 - authors: "Karylowski, J. J., & Mrozinski, B."
   year: 2021
   title: "Temporal distance and accessibility of overt and covert trait-aspects in judgments of self and others"
@@ -57,3 +69,155 @@
   doi: "https://doi.org/10.1037/pspp0000260"
   pdf: ""
   type: "article"
+
+- authors: "Nezlek, J. B., & Mrozinski, B."
+  year: 2020
+  title: "Applications of multilevel modeling in psychological science: Intensive repeated measures designs"
+  journal: "L'Année Psychologique"
+  volume: "120(1)"
+  pages: "39-72"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+- authors: "Dyduch-Hazar, K., Mrozinski, B., Simao, C., & Golec de Zavala, A."
+  year: 2019
+  title: "Collective narcissism and in-group satisfaction predict different reactions to the past transgressions of the in-group"
+  journal: "Polish Psychological Bulletin"
+  volume: "50(4)"
+  pages: "316-325"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+- authors: "Dyduch-Hazar, K., Mrozinski, B., & Golec de Zavala, A."
+  year: 2019
+  title: "Collective Narcissism and In-Group Satisfaction Predict Opposite Attitudes Toward Refugees via Attribution of Hostility"
+  journal: "Frontiers in Psychology"
+  volume: "10"
+  pages: "1901"
+  doi: "https://doi.org/10.3389/fpsyg.2019.01901"
+  pdf: ""
+  type: "article"
+
+- authors: "Morawiak, A., Mrozinski, B., Gutral, J., Cypryanska, M., & Nezlek, J. B."
+  year: 2018
+  title: "Self-esteem mediates relationships between self-concept clarity and perceptions of the future"
+  journal: "Journal of Education, Culture and Society"
+  volume: "9(1)"
+  pages: "99-108"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+- authors: "Karylowski, J. J., & Mrozinski, B."
+  year: 2018
+  title: "On using what we know about ourselves in thinking about others: Not so fast"
+  journal: "Self and Identity"
+  volume: "17(4)"
+  pages: "382-393"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+- authors: "Karylowski, J. J., & Mrozinski, B."
+  year: 2017
+  title: "Time Frame Affects Vantage Point in Episodic and Semantic Autobiographical Memory: Evidence from Response Latencies"
+  journal: "Frontiers in Psychology"
+  volume: "8"
+  pages: "615"
+  doi: "https://doi.org/10.3389/fpsyg.2017.00615"
+  pdf: ""
+  type: "article"
+
+- authors: "Karylowski, J. J., & Mrozinski, B."
+  year: 2017
+  title: "Accessibility of observable and unobservable characteristics in autobiographical memories of recent and distant past"
+  journal: "Memory"
+  volume: "25(2)"
+  pages: "164-169"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+- authors: "Mrozinski, B., & Karylowski, J. J."
+  year: 2011
+  title: "Accessibility of private and public aspects of traits descriptive of oneself and others"
+  journal: "Psychological Reports"
+  volume: "109(3)"
+  pages: "965-975"
+  doi: ""
+  pdf: ""
+  type: "article"
+
+# Book Chapters
+
+- authors: "Zawadzki, B., Popiel, A., Bielecki, M., Mrozinski, B., & Praglowska, E."
+  year: 2022
+  title: "Negatywne reakcje emocjonalne na stres pandemii wirusa SARS-CoV-2"
+  journal: "Pandemia COVID-19. Perspektywa psychologiczna (T. 3, pp. 89-126). Wydawnictwo Liberi Libri"
+  volume: ""
+  pages: "89-126"
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Popiel, A., Zawadzki, B., Bielecki, M., Mrozinski, B., & Praglowska, E."
+  year: 2021
+  title: "Czy doswiadczenie pandemii moze prowadzic do pourazowego zaburzenia stresowego (PTSD)?"
+  journal: "Psychospoleczny obraz pierwszej fali pandemii COVID-19 w Polsce (T. 19). Adam Mickiewicz University Press"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Karylowski, J. J., & Mrozinski, B."
+  year: 2020
+  title: "On using what we know about ourselves in thinking about others: Not so fast"
+  journal: "Emerging Perspectives on Self and Identity. Routledge"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Niewiarowski, J., Mrozinski, B., & Morawiak, A."
+  year: 2013
+  title: "Analiza wariancji w schemacie mieszanym"
+  journal: "Statystyczny Drogowskaz (T. 2). Wydawnictwo Sedno"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Niewiarowski, J., Mrozinski, B., & Morawiak, A."
+  year: 2013
+  title: "Dwuczynnikowa analiza wariancji z powtarzanym pomiarem"
+  journal: "Statystyczny Drogowskaz (T. 2). Wydawnictwo Sedno"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Niewiarowski, J., Mrozinski, B., & Morawiak, A."
+  year: 2013
+  title: "Jednoczynnikowa analiza wariancji z powtarzanym pomiarem"
+  journal: "Statystyczny Drogowskaz (T. 2). Wydawnictwo Sedno"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"
+
+- authors: "Niewiarowski, J., & Mrozinski, B."
+  year: 2007
+  title: "Dwuczynnikowa analiza wariancji w schemacie mieszanym"
+  journal: "Statystyczny Drogowskaz. Wydawnictwo Sedno"
+  volume: ""
+  pages: ""
+  doi: ""
+  pdf: ""
+  type: "chapter"

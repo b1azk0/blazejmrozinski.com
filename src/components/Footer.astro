@@ -1,76 +1,92 @@
 ---
-const navLinks = [
-  { label: 'About', href: '/about' },
-  { label: 'Work', href: '/work' },
-  { label: 'Projects', href: '/projects' },
-  { label: 'Publications', href: '/publications' },
-  { label: 'Blog', href: '/blog' },
-  { label: 'CV', href: '/cv' },
-];
-
-const socialLinks = [
-  { label: 'LinkedIn', href: 'https://linkedin.com/in/blazejmrozinski' },
-  { label: 'GitHub', href: 'https://github.com/b1azk0' },
-  { label: 'Google Scholar', href: 'https://scholar.google.com/citations?user=blazejmrozinski' },
-  { label: 'ORCID', href: 'https://orcid.org/0000-0002-5423-2291' },
-];
-
-const currentYear = new Date().getFullYear();
+const footerLinks = {
+  pages: [
+    { href: '/work', label: 'Work' },
+    { href: '/projects', label: 'Case Studies' },
+    { href: '/blog', label: 'Blog' },
+    { href: '/publications', label: 'Publications' },
+    { href: '/about', label: 'About' },
+    { href: '/cv', label: 'CV' },
+  ],
+  connect: [
+    { href: 'https://linkedin.com/in/blazejmrozinski', label: 'LinkedIn' },
+    { href: 'https://github.com/b1azk0', label: 'GitHub' },
+    { href: 'https://scholar.google.com/citations?user=blazejmrozinski', label: 'Google Scholar' },
+    { href: 'https://orcid.org/0000-0002-5423-2291', label: 'ORCID' },
+  ],
+};
 ---
 
-<footer class="bg-dark-900 text-slate-400 mt-16">
-  <div class="max-w-5xl mx-auto px-6 py-12">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-      <!-- Column 1: Identity -->
-      <div>
-        <p class="text-white font-bold text-lg">Blazej Mrozinski</p>
-        <p class="text-slate-400 text-sm mt-2">
-          Psychologist &middot; Psychometrician &middot; Product Builder &middot; Researcher
+<footer class="border-t bg-background">
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
+      <!-- Brand -->
+      <div class="col-span-2 md:col-span-1">
+        <a href="/" class="font-semibold text-lg tracking-tight hover:opacity-80 transition-opacity">Blazej Mrozinski</a>
+        <p class="mt-3 text-sm text-muted-foreground leading-relaxed">
+          Psychologist, psychometrician, product builder. Building at the intersection of cognitive science, AI, and growth engineering.
         </p>
-        <p class="text-slate-500 text-sm mt-1">Warsaw, Poland</p>
       </div>
 
-      <!-- Column 2: Navigation -->
-      <div>
-        <p class="text-slate-300 font-semibold text-sm uppercase tracking-wider mb-3">Pages</p>
+      <!-- Pages -->
+      <nav aria-label="Footer navigation">
+        <p class="font-semibold mb-4 text-sm">Pages</p>
         <ul class="space-y-2">
-          {navLinks.map((link) => (
+          {footerLinks.pages.map((link) => (
             <li>
               <a
                 href={link.href}
-                class="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                class="text-sm text-muted-foreground hover:text-foreground transition-colors"
               >
                 {link.label}
               </a>
             </li>
           ))}
         </ul>
-      </div>
+      </nav>
 
-      <!-- Column 3: Social -->
+      <!-- Connect -->
       <div>
-        <p class="text-slate-300 font-semibold text-sm uppercase tracking-wider mb-3">Connect</p>
+        <p class="font-semibold mb-4 text-sm">Connect</p>
         <ul class="space-y-2">
-          {socialLinks.map((link) => (
+          {footerLinks.connect.map((link) => (
             <li>
               <a
                 href={link.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                class="text-sm text-slate-400 hover:text-slate-200 transition-colors"
+                class="text-sm text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1"
               >
                 {link.label}
+                <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                </svg>
               </a>
             </li>
           ))}
         </ul>
       </div>
+
+      <!-- Contact -->
+      <div>
+        <p class="font-semibold mb-4 text-sm">Get in Touch</p>
+        <p class="text-sm text-muted-foreground">
+          Interested in working together?
+        </p>
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 mt-3 text-sm font-medium text-foreground hover:text-primary transition-colors"
+        >
+          Contact me
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
     </div>
 
-    <div class="border-t border-dark-800 mt-10 pt-6 text-center">
-      <p class="text-slate-500 text-sm">
-        &copy; {currentYear} Blazej Mrozinski. All rights reserved.
-      </p>
+    <div class="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
+      <p>&copy; {new Date().getFullYear()} Blazej Mrozinski. All rights reserved.</p>
     </div>
   </div>
 </footer>

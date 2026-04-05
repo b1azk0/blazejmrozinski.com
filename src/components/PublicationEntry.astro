@@ -13,12 +13,29 @@ interface Props {
 
 const { authors, year, title, journal, volume, pages, doi, pdf } = Astro.props;
 ---
-<li class="font-serif text-sm leading-relaxed mb-4">
-  {authors} ({year}). {title}. <em>{journal}</em>, <em>{volume}</em>, {pages}.
+<li class="text-sm leading-relaxed mb-4 text-muted-foreground">
+  <span class="text-foreground">{authors}</span> ({year}). {title}. <em>{journal}</em>, <em>{volume}</em>, {pages}.
   {doi && (
-    <a href={doi} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">DOI</a>
+    <a
+      href={doi}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1 ml-1 text-xs font-medium text-foreground bg-secondary px-2 py-0.5 rounded-full hover:bg-accent transition-colors"
+    >
+      DOI
+      <svg class="h-2.5 w-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+      </svg>
+    </a>
   )}
   {pdf && (
-    <a href={pdf} target="_blank" rel="noopener noreferrer" class="text-blue-600 hover:underline ml-1">PDF</a>
+    <a
+      href={pdf}
+      target="_blank"
+      rel="noopener noreferrer"
+      class="inline-flex items-center gap-1 ml-1 text-xs font-medium text-foreground bg-secondary px-2 py-0.5 rounded-full hover:bg-accent transition-colors"
+    >
+      PDF
+    </a>
   )}
 </li>

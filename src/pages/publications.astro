@@ -1,9 +1,7 @@
 ---
-import Base from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import PublicationEntry from '../components/PublicationEntry.astro';
-import JsonLd from '../components/JsonLd.astro';
+import Base from '@/layouts/Base.astro';
+import PublicationEntry from '@/components/PublicationEntry.astro';
+import JsonLd from '@/components/JsonLd.astro';
 import { readFileSync } from 'node:fs';
 import { parse } from 'yaml';
 
@@ -20,12 +18,20 @@ const publications: Array<{
   type: string;
 }> = parse(raw);
 
-// Group by year descending
-const grouped = publications.reduce<Record<number, typeof publications>>((acc, pub) => {
+const articles = publications.filter((p) => p.type === 'article');
+const chapters = publications.filter((p) => p.type === 'chapter');
+
+const groupedArticles = articles.reduce<Record<number, typeof publications>>((acc, pub) => {
   (acc[pub.year] ??= []).push(pub);
   return acc;
 }, {});
-const years = Object.keys(grouped).map(Number).sort((a, b) => b - a);
+const articleYears = Object.keys(groupedArticles).map(Number).sort((a, b) => b - a);
+
+const groupedChapters = chapters.reduce<Record<number, typeof publications>>((acc, pub) => {
+  (acc[pub.year] ??= []).push(pub);
+  return acc;
+}, {});
+const chapterYears = Object.keys(groupedChapters).map(Number).sort((a, b) => b - a);
 
 const scholarlyArticles = publications.map((pub) => ({
   '@context': 'https://schema.org',
@@ -33,10 +39,7 @@ const scholarlyArticles = publications.map((pub) => ({
   headline: pub.title,
   author: pub.authors,
   datePublished: String(pub.year),
-  isPartOf: {
-    '@type': 'Periodical',
-    name: pub.journal,
-  },
+  isPartOf: { '@type': 'Periodical', name: pub.journal },
   ...(pub.doi ? { url: pub.doi } : {}),
 }));
 ---
@@ -45,16 +48,17 @@ const scholarlyArticles = publications.map((pub) => ({
   {scholarlyArticles.map((article) => (
     <JsonLd data={article} />
   ))}
-  <Header />
 
-  <main class="max-w-3xl mx-auto px-6 py-8">
-    <h1 class="font-serif text-3xl font-bold mb-6">Publications</h1>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Publications</h1>
 
-    {years.map((year) => (
-      <section class="mb-8">
-        <h2 class="text-lg font-bold border-b border-warm-200 pb-1 mb-3">{year}</h2>
+    <h2 class="text-2xl font-bold tracking-tight mb-6" data-animate>Journal Articles</h2>
+
+    {articleYears.map((year) => (
+      <section class="mb-10" data-animate>
+        <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
         <ul>
-          {grouped[year].map((pub) => (
+          {groupedArticles[year].map((pub) => (
             <PublicationEntry
               authors={pub.authors}
               year={pub.year}
@@ -70,7 +74,28 @@ const scholarlyArticles = publications.map((pub) => ({
         </ul>
       </section>
     ))}
-  </main>
 
-  <Footer />
+    <h2 class="text-2xl font-bold tracking-tight mb-6 mt-12" data-animate>Book Chapters</h2>
+
+    {chapterYears.map((year) => (
+      <section class="mb-10" data-animate>
+        <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
+        <ul>
+          {groupedChapters[year].map((pub) => (
+            <PublicationEntry
+              authors={pub.authors}
+              year={pub.year}
+              title={pub.title}
+              journal={pub.journal}
+              volume={pub.volume}
+              pages={pub.pages}
+              doi={pub.doi}
+              pdf={pub.pdf}
+              type={pub.type}
+            />
+          ))}
+        </ul>
+      </section>
+    ))}
+  </div>
 </Base>

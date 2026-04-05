@@ -1,81 +1,239 @@
 ---
-import Base from '../layouts/Base.astro';
-import Header from '../components/Header.astro';
-import Footer from '../components/Footer.astro';
-import PostCard from '../components/PostCard.astro';
-import CompanyCard from '../components/CompanyCard.astro';
-import ContactForm from '../components/ContactForm.astro';
-import JsonLd from '../components/JsonLd.astro';
+import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import CompanyCard from '@/components/CompanyCard.astro';
+import ContactForm from '@/components/ContactForm.astro';
+import JsonLd from '@/components/JsonLd.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
 const posts = allPosts
   .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
-  .slice(0, 5);
+  .slice(0, 3);
 
 const companies = (await getCollection('companies'))
   .sort((a, b) => a.data.order - b.data.order);
+
+const allProjects = await getCollection('projects');
+const caseStudies = allProjects
+  .filter((p) => p.data.challenge || p.data.results)
+  .sort((a, b) => a.data.order - b.data.order);
+
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  name: 'Blazej Mrozinski',
+  url: 'https://blazejmrozinski.com',
+};
 
 const personJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Person',
   name: 'Blazej Mrozinski',
   url: 'https://blazejmrozinski.com',
-  jobTitle: 'Psychologist, Psychometrician, Product Builder',
+  jobTitle: 'Psychologist, Psychometrician, Product Leader, Data Scientist',
   worksFor: companies.map((c) => ({
     '@type': 'Organization',
     name: c.data.name,
     ...(c.data.url ? { url: c.data.url } : {}),
   })),
 };
+
+const services = [
+  {
+    title: 'Psychometric Instruments & Matching Systems',
+    description: 'Custom assessments that global companies use to evaluate competencies, screen candidates, and match people to opportunities. I design the instruments, validate them with IRT and CTT, and build the scoring systems behind them.',
+    link: '/work/gyfted',
+    linkText: 'See Gyfted',
+  },
+  {
+    title: 'Growth Engineering & SEO',
+    description: 'End-to-end growth hacking: WordPress backend development, programmatic SEO that scales to thousands of pages, and AI/LLM optimization for visibility in ChatGPT, Claude, and Google AI Overviews.',
+    link: '/work/digital-savages',
+    linkText: 'See Digital Savages',
+  },
+  {
+    title: 'Product Consulting',
+    description: 'From concept to production — I scope the problem, write the spec, and drive the build. Behavioral science shapes every decision: what to measure, how users think, and whether the product actually works.',
+    link: '/work',
+    linkText: 'See my work',
+  },
+  {
+    title: 'Statistical Modeling & Research',
+    description: 'Structural equation modeling, multilevel modeling, latent class analysis, and other methods for research that\'s too complex for standard tools. I also teach stats and research methods at the university level.',
+    link: '/work/swps-university',
+    linkText: 'See SWPS',
+  },
+];
 ---
 
-<Base title="Home" description="Blazej Mrozinski — Psychologist, Psychometrician, Product Builder, Researcher">
+<Base title="Psychologist, Psychometrician, Product Builder" description="Blazej Mrozinski, PhD — psychologist, psychometrician, product builder, and data scientist. I design psychometric instruments, build growth systems, and consult on products where behavioral science meets engineering." fullWidth>
+  <JsonLd data={websiteJsonLd} />
   <JsonLd data={personJsonLd} />
-  <Header />
 
-  <!-- Masthead divider -->
-  <div class="border-b-[3px] border-warm-900"></div>
+  <!-- Hero -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+        Blazej Mrozinski, PhD
+      </h1>
+      <p class="text-lg md:text-xl italic text-muted-foreground max-w-2xl mx-auto mb-4">
+        Science gives us clarity, but product work gives it purpose.
+      </p>
+      <p class="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-4">
+        Psychologist · Psychometrician · Product Leader · Data Scientist
+      </p>
+      <p class="text-base text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
+        I'm a psychometrician and product designer with a PhD in social cognition who spent twenty years in the lab studying how people think — then started building products that use that science. Think of me as a human translator between science and product — curious by default, never fully satisfied with easy answers.
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a
+          href="#book"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+        >
+          Book a Call
+        </a>
+        <a
+          href="#services"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          What I Do
+        </a>
+      </div>
+    </div>
+  </section>
 
-  <!-- Main content: two-column newspaper grid -->
-  <main class="max-w-5xl mx-auto px-6 py-8">
-    <div class="grid grid-cols-1 md:grid-cols-[280px_1fr] gap-8 md:gap-12">
+  <!-- What I Do For You -->
+  <section id="services" class="section-muted py-16">
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10" data-animate>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">What I Can Help With</h2>
+        <p class="text-muted-foreground mt-2">Problems I solve — as an independent consultant or through my companies</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {services.map((service, i) => (
+          <div class="rounded-lg border bg-card text-card-foreground p-6" data-animate data-delay={String(Math.min(i + 1, 4))}>
+            <h3 class="font-semibold text-lg mb-2">{service.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">{service.description}</p>
+            <a href={service.link} class="text-sm font-medium text-foreground hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+              {service.linkText}
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-      <!-- LEFT COLUMN: Profile -->
-      <aside>
-        <!-- Image placeholder -->
-        <div class="w-full aspect-[3/4] bg-warm-200 rounded mb-4 flex items-center justify-center text-warm-400 text-sm">
-          Photo
+  <!-- Conviction -->
+  <section class="py-12" data-animate="fade">
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <blockquote class="text-xl md:text-2xl italic text-muted-foreground leading-relaxed">
+        "The gap between 'we think this works' and 'we measured that this works' is where most products fail."
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section-muted py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">15</p>
+          <p class="text-sm text-muted-foreground mt-1">Journal Articles</p>
         </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">{companies.length}</p>
+          <p class="text-sm text-muted-foreground mt-1">Companies Founded</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">{allProjects.length}+</p>
+          <p class="text-sm text-muted-foreground mt-1">Products Shipped</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">20+</p>
+          <p class="text-sm text-muted-foreground mt-1">Years in Academia</p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-        <h1 class="font-serif text-2xl font-bold">Dr. Blazej Mrozinski</h1>
-        <p class="text-warm-500 text-sm mt-1">Psychologist &middot; Psychometrician &middot; Product Builder</p>
+  <!-- Case Studies -->
+  {caseStudies.length > 0 && (
+    <section class="py-16">
+      <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-10" data-animate>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Case Studies</h2>
+          <p class="text-muted-foreground mt-2">How I approach problems — the methodology, the results, and what I learned</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {caseStudies.map((project, i) => (
+            <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+              <ProjectCard
+                name={project.data.name}
+                description={project.data.description}
+                domain={project.data.domain}
+                slug={project.id}
+                isCaseStudy={true}
+              />
+            </div>
+          ))}
+        </div>
+        <div class="text-center mt-6">
+          <a href="/projects" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            View all case studies &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
 
-        <p class="text-sm text-warm-600 mt-4 leading-relaxed font-serif">
-          PhD in cognitive psychology. I build products at the intersection of psychometrics, AI, and growth engineering. Co-founder, researcher, builder.
-        </p>
+  <!-- Conviction 2 -->
+  <section class="py-12" data-animate="fade">
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <blockquote class="text-xl md:text-2xl italic text-muted-foreground leading-relaxed">
+        "I'm not a developer. I'm a psychologist who builds products. The science disappears into the product — that's the point."
+      </blockquote>
+    </div>
+  </section>
 
-        <!-- Companies list -->
-        <div class="mt-6">
-          <h2 class="text-xs font-semibold text-warm-400 uppercase tracking-wider mb-3">Companies</h2>
-          {companies.map((company) => (
+  <!-- Companies -->
+  <section class="section-muted py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Companies</h2>
+        <p class="text-muted-foreground mt-2">Things I started, run, or helped build from the ground up</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {companies.map((company, i) => (
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
             <CompanyCard
               name={company.data.name}
               domain={company.data.domain}
               role={company.data.role}
               slug={company.id}
             />
-          ))}
-        </div>
-      </aside>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
 
-      <!-- RIGHT COLUMN: Recent Writing -->
-      <section>
-        <h2 class="font-serif text-xl font-bold border-b-[2px] border-warm-900 pb-2 mb-5">Recent Writing</h2>
+  <!-- Writing -->
+  <section class="py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Writing</h2>
+        <p class="text-muted-foreground mt-2">How I think about measurement, products, and the places they overlap</p>
+      </div>
 
-        {posts.length > 0 ? (
-          <>
-            {posts.map((post, i) => (
+      {posts.length > 0 ? (
+        <div class="grid gap-4 max-w-3xl mx-auto">
+          {posts.map((post, i) => (
+            <div data-animate data-delay={String(Math.min(i + 1, 5))}>
               <PostCard
                 title={post.data.title}
                 description={post.data.description}
@@ -84,26 +242,50 @@ const personJsonLd = {
                 slug={post.id}
                 featured={i === 0}
               />
-            ))}
-            <a href="/blog" class="inline-block text-sm text-warm-500 hover:text-warm-700 transition-colors mt-2">
-              &rarr; All posts
+            </div>
+          ))}
+          <div class="text-center mt-4">
+            <a href="/blog" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              View all posts &rarr;
             </a>
-          </>
-        ) : (
-          <p class="text-warm-500 font-serif text-sm italic">No posts yet. Check back soon.</p>
-        )}
-      </section>
-    </div>
-  </main>
-
-  <!-- CTA Section -->
-  <section class="bg-dark-900 text-warm-100 mt-12">
-    <div class="max-w-5xl mx-auto px-6 py-12">
-      <h2 class="font-serif text-xl font-bold mb-2">Get in touch</h2>
-      <p class="text-warm-400 text-sm mb-4">Drop your email and I'll reach out.</p>
-      <ContactForm />
+          </div>
+        </div>
+      ) : (
+        <p class="text-center text-muted-foreground">No posts yet. Check back soon.</p>
+      )}
     </div>
   </section>
 
-  <Footer />
+  <!-- Book a Call -->
+  <section id="book" class="section-inverted py-16" data-animate>
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">Let's talk</h2>
+      <p class="text-muted-foreground mb-8 max-w-lg mx-auto leading-relaxed">
+        If any of this maps to a problem you're working on — pick a 30-minute slot. No pitch, no deck. Just a conversation about what you're trying to solve.
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap mb-8">
+        <a
+          href="https://app.reclaim.ai/m/blazejmrozinski/30min"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors gap-2"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Book 30 Minutes
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Or Send a Message
+        </a>
+      </div>
+      <p class="text-xs text-muted-foreground">Prefer email? Drop a line below — I read everything.</p>
+      <div class="flex justify-center mt-4">
+        <ContactForm />
+      </div>
+    </div>
+  </section>
 </Base>
