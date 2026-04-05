@@ -17,12 +17,12 @@ const albums = (await getCollection('photography'))
         <div data-animate data-delay={String(Math.min(i + 1, 4))}>
           <AlbumCard
             title={album.data.title}
-            description={album.data.description}
             location={album.data.location}
             date={album.data.date}
             photoCount={album.data.photos.length}
             hero={album.data.hero}
             slug={album.id}
+            loading={i < 2 ? 'eager' : 'lazy'}
           />
         </div>
       ))}
