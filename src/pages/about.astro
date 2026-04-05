@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import JsonLd from '@/components/JsonLd.astro';
+import HobbiesSection from '@/components/HobbiesSection.astro';
 import { getCollection, render } from 'astro:content';
 
 const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about');
@@ -49,5 +50,7 @@ const personJsonLd = {
         <AboutContent />
       </div>
     )}
+
+    <HobbiesSection />
   </div>
 </Base>
