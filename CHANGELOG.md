@@ -1,5 +1,19 @@
 # Changelog
 
+## 2026-04-05 — Travel photography gallery
+
+- Added `photography` content collection with co-located images per album folder
+- Added `src/components/AlbumCard.astro` — album card with hero image, title, metadata
+- Added `src/components/PhotoItem.astro` — thumbnail with inline expand/collapse on click
+- Added `src/components/PhotoGrid.astro` — responsive 3-column photo grid
+- Added `src/components/HobbiesSection.astro` — "Beyond Work" section for About page
+- Added `src/pages/photography/index.astro` — album listing page at /photography
+- Added `src/pages/photography/[...slug].astro` — album pages with hero, story, photo grid, ImageGallery JSON-LD
+- Updated `src/pages/about.astro` — added hobbies section (photography + ultrarunning)
+- Added sample album for development/testing
+- Images optimized at build time via Astro's `astro:assets` (WebP, responsive srcset, lazy loading)
+- No new dependencies — vanilla JS for inline expand
+
 ## 2026-04-04 — RSS feed and cookie consent with GA4
 
 - Installed `@astrojs/rss` package

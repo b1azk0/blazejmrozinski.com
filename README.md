@@ -32,6 +32,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `companies` | `src/content/companies/` | Company profiles (Gyfted, Nerds.family, Digital Savages, Distillery) |
 | `projects` | `src/content/projects/` | Project writeups (7 projects across companies) |
 | `pages` | `src/content/pages/` | Static pages (about, work, CV) |
+| `photography` | `src/content/photography/` | Travel photo albums (folder per trip with co-located images) |
 
 ## Pages
 
@@ -44,7 +45,9 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/work/:slug` | `src/pages/work/[...slug].astro` | Company landing pages with related projects |
 | `/projects` | `src/pages/projects/index.astro` | Projects listing with ProjectCard grid |
 | `/projects/:slug` | `src/pages/projects/[...slug].astro` | Project landing pages with company link |
-| `/about` | `src/pages/about.astro` | About page with Person JSON-LD |
+| `/photography` | `src/pages/photography/index.astro` | Travel photography album listing |
+| `/photography/:slug` | `src/pages/photography/[...slug].astro` | Individual album with hero, story, photo grid |
+| `/about` | `src/pages/about.astro` | About page with Person JSON-LD, "Beyond Work" hobbies section |
 | `/publications` | `src/pages/publications.astro` | Publications grouped by year with ScholarlyArticle JSON-LD |
 | `/cv` | `src/pages/cv.astro` | CV page with PDF download button |
 | `/contact` | `src/pages/contact.astro` | Full contact form (Netlify Forms) with social links |
@@ -60,6 +63,10 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `TagFilter` | Tag filter pills with client-side show/hide |
 | `ProjectCard` | Project card with name, domain, description, hover effect |
 | `PublicationEntry` | APA-formatted publication citation with DOI/PDF links |
+| `AlbumCard` | Photography album card with hero image, title, metadata |
+| `PhotoGrid` | Responsive 3-column photo grid |
+| `PhotoItem` | Photo thumbnail with inline expand/collapse |
+| `HobbiesSection` | "Beyond Work" section for About page (photography + ultrarunning) |
 | `CookieConsent` | Cookie consent banner with GA4 conditional loading |
 | `JsonLd` | JSON-LD structured data injection |
 | `SEO` | Open Graph and Twitter Card meta tags |
