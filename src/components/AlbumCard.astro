@@ -1,0 +1,35 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  description: string;
+  location: string;
+  date: Date;
+  photoCount: number;
+  hero: ImageMetadata;
+  slug: string;
+}
+
+const { title, description, location, date, photoCount, hero, slug } = Astro.props;
+
+const formattedDate = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
+---
+
+<a href={`/photography/${slug}`} class="group block rounded-lg overflow-hidden border bg-card text-card-foreground hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+  <div class="aspect-[3/2] overflow-hidden">
+    <Image
+      src={hero}
+      alt={title}
+      widths={[400, 600]}
+      sizes="(max-width: 768px) 100vw, 50vw"
+      class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  </div>
+  <div class="p-4">
+    <p class="font-semibold group-hover:text-primary/80 transition-colors">{title}</p>
+    <p class="text-sm text-muted-foreground mt-1">
+      {location} · {formattedDate} · {photoCount} photos
+    </p>
+  </div>
+</a>
