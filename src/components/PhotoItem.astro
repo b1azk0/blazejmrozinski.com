@@ -1,0 +1,68 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  photo: ImageMetadata;
+  caption?: string;
+  index: number;
+}
+
+const { photo, caption, index } = Astro.props;
+---
+
+<div class="photo-item" data-photo-index={index}>
+  <button
+    type="button"
+    class="w-full aspect-[4/3] overflow-hidden rounded-md cursor-pointer border border-transparent hover:border-ring transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+    aria-expanded="false"
+    aria-label={caption || `Photo ${index + 1}`}
+  >
+    <Image
+      src={photo}
+      alt={caption || `Photo ${index + 1}`}
+      widths={[300, 500]}
+      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+      class="w-full h-full object-cover"
+      loading="lazy"
+    />
+  </button>
+  <div class="photo-expanded hidden mt-2 mb-4" role="region" aria-label={caption || `Photo ${index + 1} expanded`}>
+    <Image
+      src={photo}
+      alt={caption || `Photo ${index + 1}`}
+      widths={[800, 1200, 1600]}
+      sizes="(max-width: 768px) 100vw, 800px"
+      class="w-full rounded-md"
+      loading="lazy"
+    />
+    {caption && (
+      <p class="text-sm text-muted-foreground mt-2 text-center">{caption}</p>
+    )}
+  </div>
+</div>
+
+<script>
+  document.addEventListener('astro:page-load', () => {
+    document.querySelectorAll('.photo-item button').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.photo-item') as HTMLElement;
+        const expanded = item.querySelector('.photo-expanded') as HTMLElement;
+        const isOpen = !expanded.classList.contains('hidden');
+
+        // Close any other open photo
+        document.querySelectorAll('.photo-item .photo-expanded:not(.hidden)').forEach((el) => {
+          el.classList.add('hidden');
+          el.closest('.photo-item')?.querySelector('button')?.setAttribute('aria-expanded', 'false');
+        });
+
+        if (!isOpen) {
+          expanded.classList.remove('hidden');
+          btn.setAttribute('aria-expanded', 'true');
+          expanded.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        } else {
+          btn.setAttribute('aria-expanded', 'false');
+        }
+      });
+    });
+  });
+</script>
