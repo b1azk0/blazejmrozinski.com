@@ -53,4 +53,21 @@ const pages = defineCollection({
   }),
 });
 
-export const collections = { blog, companies, projects, pages };
+const photography = defineCollection({
+  loader: glob({ pattern: '**/index.md', base: './src/content/photography' }),
+  schema: ({ image }) => z.object({
+    title: z.string(),
+    location: z.string(),
+    date: z.coerce.date(),
+    description: z.string(),
+    tags: z.array(z.string()).default([]),
+    order: z.number().default(0),
+    hero: image(),
+    photos: z.array(z.object({
+      file: image(),
+      caption: z.string().optional(),
+    })),
+  }),
+});
+
+export const collections = { blog, companies, projects, pages, photography };
