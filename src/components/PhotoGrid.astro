@@ -1,0 +1,18 @@
+---
+import PhotoItem from '@/components/PhotoItem.astro';
+
+interface Props {
+  photos: Array<{
+    file: ImageMetadata;
+    caption?: string;
+  }>;
+}
+
+const { photos } = Astro.props;
+---
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+  {photos.map((photo, i) => (
+    <PhotoItem photo={photo.file} caption={photo.caption} index={i} />
+  ))}
+</div>
