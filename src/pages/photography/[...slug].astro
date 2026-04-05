@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import PhotoGrid from '@/components/PhotoGrid.astro';
+import { Image } from 'astro:assets';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const albums = await getCollection('photography');
+  return albums.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+
+const formattedDate = entry.data.date.toLocaleDateString('en-US', {
+  month: 'long',
+  year: 'numeric',
+});
+
+const galleryJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'ImageGallery',
+  name: entry.data.title,
+  description: entry.data.description,
+  author: {
+    '@type': 'Person',
+    name: 'Blazej Mrozinski',
+    url: 'https://blazejmrozinski.com/about',
+  },
+  contentLocation: {
+    '@type': 'Place',
+    name: entry.data.location,
+  },
+  dateCreated: entry.data.date.toISOString().split('T')[0],
+};
+---
+
+<Base title={entry.data.title} description={entry.data.description} fullWidth>
+  <JsonLd data={galleryJsonLd} />
+
+  <!-- Hero -->
+  <div class="relative">
+    <div class="aspect-[21/9] max-h-[420px] overflow-hidden">
+      <Image
+        src={entry.data.hero}
+        alt={entry.data.title}
+        widths={[800, 1200, 1600, 2000]}
+        sizes="100vw"
+        class="w-full h-full object-cover"
+        loading="eager"
+      />
+    </div>
+    <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+    <div class="absolute bottom-0 left-0 right-0 p-6 md:p-10">
+      <div class="container max-w-5xl mx-auto">
+        <h1 class="text-3xl md:text-5xl font-bold tracking-tight text-white">{entry.data.title}</h1>
+        <p class="text-white/70 mt-2">
+          {entry.data.location} · {formattedDate} · {entry.data.photos.length} photos
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Story -->
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-10">
+    <a href="/photography" class="text-sm text-muted-foreground hover:text-foreground transition-colors">&larr; All Albums</a>
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none mt-6" data-animate>
+      <Content />
+    </div>
+  </div>
+
+  <!-- Photo Grid -->
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6 pb-16" data-animate>
+    <PhotoGrid photos={entry.data.photos} />
+  </div>
+</Base>
