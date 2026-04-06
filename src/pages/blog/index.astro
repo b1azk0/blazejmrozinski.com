@@ -1,25 +1,25 @@
 ---
 import Base from '@/layouts/Base.astro';
 import PostCard from '@/components/PostCard.astro';
-import TagFilter from '@/components/TagFilter.astro';
+import LabelFilter from '@/components/LabelFilter.astro';
 import { getCollection } from 'astro:content';
 
 const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
 const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
-const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
+const hasLabels = posts.some((p) => p.data.label);
 ---
 
 <Base title="Blog" description="Writing on psychometrics, product building, growth engineering, and technology.">
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Blog</h1>
 
-    {allTags.length > 0 && <TagFilter tags={allTags} />}
+    {hasLabels && <LabelFilter />}
 
     {posts.length > 0 ? (
       <div class="grid gap-4">
         {posts.map((post, i) => (
-          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+          <div data-animate data-delay={String(Math.min(i + 1, 5))} data-post-label={post.data.label || ''}>
             <PostCard
               title={post.data.title}
               description={post.data.description}
@@ -27,6 +27,7 @@ const allTags = [...new Set(posts.flatMap((post) => post.data.tags))].sort();
               tags={post.data.tags}
               slug={post.id}
               featured={i === 0}
+              label={post.data.label}
             />
           </div>
         ))}
