@@ -1,0 +1,98 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const h2s = headings.filter((h) => h.depth === 2);
+---
+
+{h2s.length >= 3 && (
+  <nav class="hidden md:flex fixed right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-end gap-3" aria-label="Page sections">
+    {h2s.map((heading) => (
+      <a
+        href={`#${heading.slug}`}
+        class="section-dot group flex items-center gap-2"
+        data-heading-id={heading.slug}
+        title={heading.text}
+      >
+        <span class="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-muted-foreground whitespace-nowrap pointer-events-none">
+          {heading.text}
+        </span>
+        <span class="dot-indicator block w-1.5 h-1.5 rounded-full bg-muted-foreground/40 transition-all duration-200" />
+      </a>
+    ))}
+  </nav>
+)}
+
+<script>
+  function initDotsObserver() {
+    const dots = document.querySelectorAll<HTMLAnchorElement>('.section-dot');
+    if (!dots.length) return;
+
+    const headingIds = Array.from(dots).map((d) => d.dataset.headingId!);
+    const headings = headingIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (!headings.length) return;
+
+    function setActive(id: string) {
+      dots.forEach((dot) => {
+        const indicator = dot.querySelector('.dot-indicator')!;
+        const isActive = dot.dataset.headingId === id;
+        if (isActive) {
+          indicator.classList.remove('w-1.5', 'h-1.5', 'bg-muted-foreground/40');
+          indicator.classList.add('w-2', 'h-2', 'bg-primary');
+        } else {
+          indicator.classList.remove('w-2', 'h-2', 'bg-primary');
+          indicator.classList.add('w-1.5', 'h-1.5', 'bg-muted-foreground/40');
+        }
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+            break;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    dots.forEach((dot) => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = dot.dataset.headingId!;
+        document.getElementById(id)?.scrollIntoView({
+          behavior: prefersReduced ? 'auto' : 'smooth',
+        });
+        history.replaceState(null, '', `#${id}`);
+      });
+    });
+
+    return () => observer.disconnect();
+  }
+
+  let cleanup: (() => void) | undefined;
+
+  function init() {
+    cleanup?.();
+    cleanup = initDotsObserver();
+  }
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
