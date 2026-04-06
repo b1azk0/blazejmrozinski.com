@@ -2,6 +2,17 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.5.0] — 2026-04-06
+
+### Added
+- `label` enum field to blog collection schema (7 values: infrastructure, ai-automation, product, research, systems-thinking, operator-notes, academic-work; optional)
+- Test blog post `test-cover-post.md` with `label: infrastructure` for verifying cover generation
+- `Geist-Regular.ttf` and `Geist-Bold.ttf` static fonts for cover generator (satori requires TTF, not WOFF2)
+- `public/covers/` added to `.gitignore` — generated at build time, not committed
+
+### Fixed
+- `scripts/generate-covers.ts`: replaced WOFF2 font path with static TTF files; satori's opentype.js does not support WOFF2 or variable fonts
+
 ## [0.4.0] — 2026-04-05
 
 ### Added
