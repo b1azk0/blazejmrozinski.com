@@ -1,6 +1,7 @@
 ---
 import Base from "./Base.astro";
 import JsonLd from "@/components/JsonLd.astro";
+import Breadcrumb from '@/components/Breadcrumb.astro';
 import { labels, type LabelSlug } from '@/lib/labels';
 
 interface Props {
@@ -10,9 +11,10 @@ interface Props {
   tags: string[];
   audience: string[];
   label?: string;
+  crumbs: { label: string; href?: string }[];
 }
 
-const { title, description, date, tags, audience, label } = Astro.props;
+const { title, description, date, tags, audience, label, crumbs } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -55,6 +57,7 @@ const articleJsonLd = {
   <JsonLd data={articleJsonLd} />
 
   <article class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={crumbs} />
     <header class="mb-8">
       <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
       <div class="flex items-center gap-4 text-muted-foreground text-sm">

@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import JsonLd from '@/components/JsonLd.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -38,7 +39,11 @@ const creativeWorkJsonLd = {
   <JsonLd data={creativeWorkJsonLd} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
-    <a href="/projects" class="text-sm text-muted-foreground hover:text-foreground transition-colors">&larr; Case Studies</a>
+    <Breadcrumb crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Case Studies', href: '/projects' },
+      { label: entry.data.name },
+    ]} />
 
     <div class="mt-6 mb-8" data-animate>
       <h1 class="text-4xl font-bold tracking-tight">{entry.data.name}</h1>
