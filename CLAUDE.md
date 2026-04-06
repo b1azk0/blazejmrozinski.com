@@ -24,6 +24,15 @@ Personal brand site for Blazej Mrozinski. Astro static site deployed on Netlify.
 | [ClaudioBrain](https://github.com/b1azk0/ClaudioBrain) | Knowledge base, design spec, implementation plan |
 | [contentforge](https://github.com/b1azk0/contentforge) | Blog content source — pushes posts here |
 
+## Sitemap
+
+Sitemaps are custom (not `@astrojs/sitemap`) — see `src/pages/sitemap-*.xml.ts`. Blog, work, pages, and photography sitemaps auto-generate from content collections at build time. The sitemap index (`sitemap-index.xml.ts`) is static and must be updated manually.
+
+**Rule:** When adding a new content collection, new static pages, or a new section to the site, always:
+1. Create a corresponding `sitemap-{section}.xml.ts` if one doesn't exist
+2. Add it to `sitemap-index.xml.ts`
+3. Verify `robots.txt` still points to the correct sitemap index
+
 ## Commands
 
 ```bash
