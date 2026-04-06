@@ -21,7 +21,7 @@ const formattedDate = date.toLocaleDateString('en-US', {
 });
 
 const slug = Astro.params.slug;
-const canonicalUrl = `https://blazejmrozinski.com/blog/${slug}/`;
+const canonicalUrl = `https://www.blazejmrozinski.com/blog/${slug}/`;
 const coverUrl = label ? `/covers/${slug}.png` : undefined;
 const labelConfig = label && label in labels ? labels[label as LabelSlug] : null;
 
@@ -39,15 +39,15 @@ const articleJsonLd = {
   author: {
     '@type': 'Person',
     name: 'Blazej Mrozinski',
-    url: 'https://blazejmrozinski.com/about',
+    url: 'https://www.blazejmrozinski.com/about',
   },
   publisher: {
     '@type': 'Person',
     name: 'Blazej Mrozinski',
-    url: 'https://blazejmrozinski.com',
+    url: 'https://www.blazejmrozinski.com',
   },
   keywords: tags.join(', '),
-  ...(coverUrl ? { image: `https://blazejmrozinski.com${coverUrl}` } : {}),
+  ...(coverUrl ? { image: `https://www.blazejmrozinski.com${coverUrl}` } : {}),
 };
 ---
 
