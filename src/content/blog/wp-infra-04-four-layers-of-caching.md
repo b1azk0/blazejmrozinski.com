@@ -12,10 +12,7 @@ label: infrastructure
 safety_review: false
 ---
 
-> **Series: WordPress Infrastructure from Scratch**
-> [Part 1: Why I Left Managed Hosting](/series/wp-infra/01) | [Part 2: The Base Server](/series/wp-infra/02) | [Part 3: SSL, DNS, and Going Live](/series/wp-infra/03) | **Part 4: Four Layers of Caching** | [Part 5: Locking It Down](/series/wp-infra/05) | [Part 6: Automated Maintenance](/series/wp-infra/06) | [Part 7: Monitoring and Alerts](/series/wp-infra/07)
-
----
+> *This is Part 4 of "WordPress Infrastructure from Scratch," a hands-on guide to building production WordPress and WooCommerce hosting on Hetzner. Code and configs at the [companion repository](https://github.com/b1azk0/wordpress-infrastructure).*
 
 **Table of Contents**
 
@@ -413,11 +410,6 @@ Caching is great until the cache is stale. A plugin update, a PHP-FPM restart, o
 Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall rules, and the principle that performance means nothing if the server is compromised.
 
 ---
-
-*Previous: [Part 3, "SSL, DNS, and Going Live"](/series/wp-infra/03)*
-
-*Next: [Part 5, "Locking It Down"](/series/wp-infra/05)*
-
 
 ---
 

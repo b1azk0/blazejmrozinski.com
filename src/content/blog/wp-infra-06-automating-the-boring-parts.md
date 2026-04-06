@@ -230,14 +230,9 @@ The maintenance script also serves as an early warning system for update availab
 
 The automation chain described here handles the routine. Backups protect against data loss. Maintenance keeps databases lean. Plugin sync handles distribution. Cache warming ensures first-visitor performance. Server snapshots enable full disaster recovery.
 
-All of these scripts connect back to the infrastructure covered in earlier posts. The plugins being synced are the ones configured in [Part 3](https://github.com/b1azk0/wordpress-infrastructure). The caches being warmed are the FastCGI and Redis layers from [Part 4](https://github.com/b1azk0/wordpress-infrastructure). The security hardening from [Part 5](https://github.com/b1azk0/wordpress-infrastructure) protects the server that all of this runs on.
+All of these scripts connect back to the infrastructure covered in earlier posts. The plugins being synced are the ones configured in [Part 3](/blog/wp-infra-03-deploying-wordpress). The caches being warmed are the FastCGI and Redis layers from [Part 4](/blog/wp-infra-04-four-layers-of-caching). The security hardening from [Part 5](/blog/wp-infra-05-locking-it-down) protects the server that all of this runs on.
 
 What this chain doesn't handle is detection. If the server goes down at 3 AM, if Nginx stops responding, if a site starts returning 500 errors, if SSL certificates are about to expire, nothing in this automation chain will notice. The nightly chain assumes the server is healthy and keeps it clean. Knowing when the server stops being healthy is a different problem, and it's the subject of the final post.
-
-*Previous: [Part 5, "Locking It Down"](https://github.com/b1azk0/wordpress-infrastructure)*
-
-*Next: [Part 7, "Watching Over It All"](https://github.com/b1azk0/wordpress-infrastructure)*
-
 
 ---
 
