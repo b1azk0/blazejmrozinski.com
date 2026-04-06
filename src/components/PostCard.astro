@@ -1,4 +1,6 @@
 ---
+import { labels, type LabelSlug } from '@/lib/labels';
+
 interface Props {
   title: string;
   description: string;
@@ -6,15 +8,18 @@ interface Props {
   tags: string[];
   slug: string;
   featured?: boolean;
+  label?: string;
 }
 
-const { title, description, date, tags, slug, featured = false } = Astro.props;
+const { title, description, date, tags, slug, featured = false, label } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
   day: 'numeric',
   year: 'numeric',
 });
+
+const labelConfig = label && label in labels ? labels[label as LabelSlug] : null;
 ---
 <article
   class="group rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all"
@@ -35,15 +40,22 @@ const formattedDate = date.toLocaleDateString('en-US', {
     <time class="text-xs text-muted-foreground" datetime={date.toISOString()}>
       {formattedDate}
     </time>
+    {labelConfig && (
+      <span class="text-xs text-muted-foreground inline-flex items-center gap-1.5">
+        <span
+          class="w-1.5 h-1.5 rounded-full shrink-0"
+          style={`background-color: ${labelConfig.accent};`}
+          aria-hidden="true"
+        />
+        {labelConfig.name}
+      </span>
+    )}
     {tags.length > 0 && (
       <div class="flex gap-1.5 flex-wrap">
         {tags.map((tag) => (
-          <a
-            href={`/blog?tag=${encodeURIComponent(tag)}`}
-            class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
-          >
+          <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">
             {tag}
-          </a>
+          </span>
         ))}
       </div>
     )}
