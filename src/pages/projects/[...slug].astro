@@ -2,6 +2,7 @@
 import Base from '@/layouts/Base.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
@@ -13,7 +14,7 @@ export async function getStaticPaths() {
 }
 
 const { entry } = Astro.props;
-const { Content } = await render(entry);
+const { Content, headings } = await render(entry);
 
 const allCompanies = await getCollection('companies');
 const relatedCompany = entry.data.company
@@ -37,6 +38,7 @@ const creativeWorkJsonLd = {
 
 <Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description}>
   <JsonLd data={creativeWorkJsonLd} />
+  <SectionDots headings={headings} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <Breadcrumb crumbs={[
