@@ -1,5 +1,7 @@
 # blazejmrozinski.com
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/8c12de62-7e86-47a7-b671-71f5639d7acf/deploy-status)](https://app.netlify.com/projects/blazejmrozinski/deploys)
+
 Personal brand site for Blazej Mrozinski — psychologist, psychometrician, product builder, researcher.
 
 ## Stack
