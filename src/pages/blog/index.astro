@@ -4,7 +4,8 @@ import PostCard from '@/components/PostCard.astro';
 import LabelFilter from '@/components/LabelFilter.astro';
 import { getCollection } from 'astro:content';
 
-const allPosts = await getCollection('blog', ({ data }) => data.status === 'published');
+const now = new Date();
+const allPosts = await getCollection('blog', ({ data }) => data.status === 'published' && data.date <= now);
 const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const hasLabels = posts.some((p) => p.data.label);
