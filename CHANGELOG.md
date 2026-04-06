@@ -2,6 +2,23 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.5.1] — 2026-04-06
+
+### Added
+- "WordPress Infrastructure from Scratch" blog series (7 posts)
+  - Part 1: Why I Ditched Managed Hosting (2026-04-01)
+  - Part 2: Building the LEMP Stack (2026-04-06)
+  - Part 3: Deploying WordPress (2026-04-13)
+  - Part 4: Four Layers of Caching (2026-04-20)
+  - Part 5: Locking It Down (2026-04-27)
+  - Part 6: Automating the Boring Parts (2026-05-04)
+  - Part 7: Watching Over It All (2026-05-11)
+- Series navigation block at the end of each post
+- All posts use `infrastructure` label
+
+### Removed
+- Test cover post (`test-cover-post.md`)
+
 ## [0.5.0] — 2026-04-06
 
 ### Added
