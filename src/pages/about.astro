@@ -2,13 +2,16 @@
 import Base from '@/layouts/Base.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import HobbiesSection from '@/components/HobbiesSection.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
 const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about');
 let AboutContent: any = null;
+let aboutHeadings: { depth: number; slug: string; text: string }[] = [];
 if (aboutPage) {
   const rendered = await render(aboutPage);
   AboutContent = rendered.Content;
+  aboutHeadings = rendered.headings;
 }
 
 const personJsonLd = {
@@ -41,6 +44,7 @@ const personJsonLd = {
 
 <Base title="About: Psychologist, Product Builder & PhD" description="Blazej Mrozinski, PhD — psychologist, psychometrician, product builder, and data scientist working at the intersection of cognitive science and AI.">
   <JsonLd data={personJsonLd} />
+  <SectionDots headings={aboutHeadings} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>About</h1>

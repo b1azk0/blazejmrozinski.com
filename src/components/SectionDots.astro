@@ -13,7 +13,7 @@ const { headings } = Astro.props;
 const h2s = headings.filter((h) => h.depth === 2);
 ---
 
-{h2s.length >= 3 && (
+{h2s.length >= 2 && (
   <nav class="hidden md:flex fixed right-4 lg:right-6 top-1/2 -translate-y-1/2 z-40 flex-col items-end gap-3" aria-label="Page sections">
     {h2s.map((heading) => (
       <a
@@ -22,7 +22,7 @@ const h2s = headings.filter((h) => h.depth === 2);
         data-heading-id={heading.slug}
         title={heading.text}
       >
-        <span class="opacity-0 group-hover:opacity-100 transition-opacity text-xs text-muted-foreground whitespace-nowrap pointer-events-none">
+        <span class="text-xs text-muted-foreground whitespace-nowrap">
           {heading.text}
         </span>
         <span class="dot-indicator block w-1.5 h-1.5 rounded-full bg-muted-foreground/40 transition-all duration-200" />

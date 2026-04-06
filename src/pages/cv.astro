@@ -1,16 +1,21 @@
 ---
 import Base from '@/layouts/Base.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
 const cvPage = (await getCollection('pages')).find((p) => p.id === 'cv');
 let CvContent: any = null;
+let cvHeadings: { depth: number; slug: string; text: string }[] = [];
 if (cvPage) {
   const rendered = await render(cvPage);
   CvContent = rendered.Content;
+  cvHeadings = rendered.headings;
 }
 ---
 
 <Base title="CV: PhD Psychologist & Product Leader" description="Curriculum Vitae — Blazej Mrozinski, PhD. Psychologist, psychometrician, product builder, data scientist.">
+  <SectionDots headings={cvHeadings} />
+
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <div class="flex items-center justify-between mb-8" data-animate>
       <h1 class="text-4xl font-bold tracking-tight">CV</h1>
