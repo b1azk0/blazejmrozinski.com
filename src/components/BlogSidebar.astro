@@ -1,0 +1,98 @@
+---
+interface Heading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: Heading[];
+}
+
+const { headings } = Astro.props;
+const h2s = headings.filter((h) => h.depth === 2);
+---
+
+{h2s.length >= 3 && (
+  <nav class="hidden md:block w-44 shrink-0" aria-label="Table of contents">
+    <div class="sticky top-24">
+      <p class="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3">On this page</p>
+      <ul class="space-y-2 text-sm">
+        {h2s.map((heading) => (
+          <li>
+            <a
+              href={`#${heading.slug}`}
+              class="sidebar-link block pl-3 border-l-2 border-transparent text-muted-foreground hover:text-foreground transition-colors leading-snug"
+              data-heading-id={heading.slug}
+            >
+              {heading.text}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </nav>
+)}
+
+<script>
+  function initSidebarObserver() {
+    const links = document.querySelectorAll<HTMLAnchorElement>('.sidebar-link');
+    if (!links.length) return;
+
+    const headingIds = Array.from(links).map((l) => l.dataset.headingId!);
+    const headings = headingIds
+      .map((id) => document.getElementById(id))
+      .filter(Boolean) as HTMLElement[];
+
+    if (!headings.length) return;
+
+    function setActive(id: string) {
+      links.forEach((link) => {
+        const isActive = link.dataset.headingId === id;
+        link.classList.toggle('border-primary', isActive);
+        link.classList.toggle('text-foreground', isActive);
+        link.classList.toggle('border-transparent', !isActive);
+        link.classList.toggle('text-muted-foreground', !isActive);
+      });
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          if (entry.isIntersecting) {
+            setActive(entry.target.id);
+            break;
+          }
+        }
+      },
+      { rootMargin: '0px 0px -70% 0px', threshold: 0 }
+    );
+
+    headings.forEach((h) => observer.observe(h));
+
+    // Smooth scroll on click
+    const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    links.forEach((link) => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const id = link.dataset.headingId!;
+        document.getElementById(id)?.scrollIntoView({
+          behavior: prefersReduced ? 'auto' : 'smooth',
+        });
+        history.replaceState(null, '', `#${id}`);
+      });
+    });
+
+    return () => observer.disconnect();
+  }
+
+  let cleanup: (() => void) | undefined;
+
+  function init() {
+    cleanup?.();
+    cleanup = initSidebarObserver();
+  }
+
+  init();
+  document.addEventListener('astro:after-swap', init);
+</script>
