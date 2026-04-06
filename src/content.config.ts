@@ -12,6 +12,15 @@ const blog = defineCollection({
     description: z.string(),
     status: z.enum(['draft', 'published']).default('published'),
     safety_review: z.boolean().default(false),
+    label: z.enum([
+      'infrastructure',
+      'ai-automation',
+      'product',
+      'research',
+      'systems-thinking',
+      'operator-notes',
+      'academic-work',
+    ]).optional(),
   }),
 });
 

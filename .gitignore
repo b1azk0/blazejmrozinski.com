@@ -24,3 +24,6 @@ pnpm-debug.log*
 
 # netlify
 .netlify/
+
+# Generated cover images
+public/covers/

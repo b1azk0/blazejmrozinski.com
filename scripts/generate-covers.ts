@@ -9,7 +9,8 @@ import type { LabelSlug } from '../src/lib/labels.ts';
 const ROOT = new URL('..', import.meta.url).pathname;
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const OUTPUT_DIR = join(ROOT, 'public/covers');
-const FONT_PATH = join(ROOT, 'public/fonts/Geist-Variable.woff2');
+const FONT_PATH_REGULAR = join(ROOT, 'public/fonts/Geist-Regular.ttf');
+const FONT_PATH_BOLD = join(ROOT, 'public/fonts/Geist-Bold.ttf');
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -173,7 +174,8 @@ async function main() {
 
   mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const fontData = readFileSync(FONT_PATH);
+  const fontDataRegular = readFileSync(FONT_PATH_REGULAR);
+  const fontDataBold = readFileSync(FONT_PATH_BOLD);
 
   console.log(`[generate-covers] Generating ${posts.length} cover image(s)...`);
 
@@ -184,8 +186,8 @@ async function main() {
       width: WIDTH,
       height: HEIGHT,
       fonts: [
-        { name: 'Geist', data: fontData, weight: 400, style: 'normal' as const },
-        { name: 'Geist', data: fontData, weight: 700, style: 'normal' as const },
+        { name: 'Geist', data: fontDataRegular, weight: 400, style: 'normal' as const },
+        { name: 'Geist', data: fontDataBold, weight: 700, style: 'normal' as const },
       ],
     });
 
