@@ -2,6 +2,19 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.5.2] — 2026-04-06
+
+### Changed
+- Optimized meta titles on About, Work, CV, Publications, and Blog pages for keyword-rich SEO
+- Shortened homepage meta description from ~218 to ~166 chars with clearer value proposition
+- Replaced generic contact page description with consulting-specific copy
+- Updated HSE Career Quiz project description to include IRT/CTT methodology and specifics
+
+### Added
+- `metaTitle` optional field on companies and projects content collections
+- metaTitle values for Digital Savages, Gyfted, Nerds.family, SWPS University, and HSE Career Quiz
+- Company and project templates now prefer `metaTitle` over `name` for `<title>` tag while keeping `name` as the visible H1
+
 ## [0.5.1] — 2026-04-06
 
 ### Added

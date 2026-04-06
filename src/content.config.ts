@@ -28,6 +28,7 @@ const companies = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/companies' }),
   schema: z.object({
     name: z.string(),
+    metaTitle: z.string().optional(),
     role: z.string(),
     description: z.string(),
     url: z.string().url().optional(),
@@ -41,6 +42,7 @@ const projects = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/projects' }),
   schema: z.object({
     name: z.string(),
+    metaTitle: z.string().optional(),
     company: z.string().optional(),
     description: z.string(),
     domain: z.string(),

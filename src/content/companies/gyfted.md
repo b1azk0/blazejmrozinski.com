@@ -1,5 +1,6 @@
 ---
 name: "Gyfted / Human Exponent"
+metaTitle: "Gyfted: AI Psychometric Hiring Platform"
 role: "Co-founder, Chief of Product & Psychometrics"
 description: "Psychometric platform for recruitment — making hiring and career growth more fair, data-driven, and human."
 url: "https://gyfted.me"
@@ -8,7 +9,7 @@ order: 2
 related_projects: ["hse-career-quiz"]
 ---
 
-I co-founded [Gyfted](https://gyfted.me) with Robert Kowalski (CEO) and Adam Szefer (CTO) to fix a real problem in hiring: most recruitment still runs on resumes and gut feeling. Gyfted (operated by Human Exponent, Inc., a venture-funded C-corp headquartered in Mountain View) replaces that with validated psychometric assessment combined with AI.
+I co-founded [Gyfted](https://gyfted.me) with [Robert Kowalski](https://www.linkedin.com/in/rkowal/) (CEO) and [Adam Szefer](https://www.linkedin.com/in/adam-szefer/) (CTO) to fix a real problem in hiring: most recruitment still runs on resumes and gut feeling. Gyfted (operated by Human Exponent, Inc., a venture-funded C-corp headquartered in Mountain View) replaces that with validated psychometric assessment combined with AI.
 
 ## What I Do
 
@@ -27,7 +28,7 @@ The platform serves growth startups through to large enterprises. We've worked w
 
 ## The Team
 
-We're a distributed team of 19 across Mountain View, London, and Warsaw — psychologists, statisticians, engineers, ML specialists, and talent operations. Our academic advisory board includes Michal Kosinski (Stanford GSB, computational psychology pioneer) and partnerships with Columbia, Stanford, Cambridge, and SWPS.
+We're a distributed team of 19 across Mountain View, London, and Warsaw — psychologists, statisticians, engineers, ML specialists, and talent operations. Our academic advisory board includes Michal Kosinski (Stanford GSB, computational psychology pioneer) and partnerships with Columbia, Stanford, Cambridge, and [SWPS](https://www.swps.pl).
 
 Our core matching technology — an AI system built on a psychometrics-based competencies graph that combines validated psychological frameworks (Big Five, Schwartz Values, Emotional Intelligence) with O*NET occupational data and large language models — is patent pending with the USPTO, the result of 2.5 years of R&D. I'm one of five named co-inventors.
 

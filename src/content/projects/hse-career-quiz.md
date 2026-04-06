@@ -1,7 +1,8 @@
 ---
 name: "HSE Career Quiz"
+metaTitle: "HSE Ireland Career Quiz: Psychometric Design"
 company: "gyfted"
-description: "Career interest assessment for school leavers, built for HSE Ireland."
+description: "Career interest assessment for Irish school leavers built on IRT and CTT. Designed by Blazej Mrozinski — 30 items, 9 career clusters."
 domain: "Psychometrics"
 order: 2
 related_posts: []

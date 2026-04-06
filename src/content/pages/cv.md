@@ -18,16 +18,16 @@ Specialization: Social Cognitive Psychology. Advisor: dr hab. Jerzy Karylowski
 
 ## Current Positions
 
-**Co-founder, Chief of Product & Psychometrics** — Gyfted / Human Exponent (2021–present)
+**Co-founder, Chief of Product & Psychometrics** — [Gyfted / Human Exponent](/work/gyfted) (2021–present)
 AI-powered psychometric platform for recruitment. Designs assessment batteries (CTT, IRT), integrates psychometric models with ML pipelines, owns full product lifecycle. Venture-funded C-corp.
 
-**Co-founder, Chief of Product & Psychometrics** — Nerds.family (active)
+**Co-founder, Chief of Product & Psychometrics** — [Nerds.family](/work/nerds-family) (active)
 Academy 360 model — practice-based tech academies connecting companies, mentors, and learners through hands-on training that grows talent pipelines.
 
-**Co-owner** — Digital Savages LLC / SEO Savages (active)
+**Co-owner** — [Digital Savages LLC / SEO Savages](/work/digital-savages) (active)
 Growth engineering, programmatic SEO, and content automation. Systems that scale organic traffic.
 
-**Adjunct, Dept. of Psychological Research Methodology** — SWPS University (2006–present)
+**Adjunct, Dept. of Psychological Research Methodology** — [SWPS University](/work/swps-university) (2006–present)
 Teaching: methodology, psychometrics, data analysis, R programming. Directed the Experimental Psychology Laboratory (2010–2024).
 
 ## Previous Experience

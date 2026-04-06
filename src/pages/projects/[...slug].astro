@@ -34,7 +34,7 @@ const creativeWorkJsonLd = {
 };
 ---
 
-<Base title={entry.data.name} description={entry.data.description}>
+<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description}>
   <JsonLd data={creativeWorkJsonLd} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">

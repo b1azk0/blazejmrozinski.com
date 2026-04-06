@@ -25,7 +25,7 @@ This is the work I do at [Digital Savages / SEO Savages](/work/digital-savages) 
 
 From concept to production — I scope the problem, write the spec, and drive the build. My background means every product decision starts with: what are we measuring, does it actually work, and how would we know if it didn't?
 
-I've taken products from zero to production across psychometric assessment platforms ([Gyfted](/work/gyfted)), workforce development systems ([Nerds.family](/work/nerds-family)), AI editorial tools ([Distillery](/projects/distillery)), and legal tech platforms ([Prawomat](/projects/prawomat)). I'm not a developer — I lead product direction while working with engineering teams who handle implementation.
+I've taken products from zero to production across psychometric assessment platforms ([Gyfted](/work/gyfted)), workforce development systems ([Nerds.family](/work/nerds-family)), and legal tech platforms ([Prawomat](/projects/prawomat)). I'm not a developer — I lead product direction while working with engineering teams who handle implementation.
 
 ### Statistical Modeling & Research
 

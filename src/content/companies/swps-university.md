@@ -1,5 +1,6 @@
 ---
 name: "SWPS University"
+metaTitle: "SWPS University: Psychology & Psychometrics"
 role: "Adjunct, Dept. of Psychological Research Methodology"
 description: "Teaching, research, and laboratory direction in cognitive and social psychology."
 url: "https://english.swps.pl"

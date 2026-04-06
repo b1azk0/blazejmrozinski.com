@@ -1,14 +1,15 @@
 ---
 name: "Nerds.family"
+metaTitle: "Nerds.family: Practice-Based Tech Academies"
 role: "Co-founder, Chief of Product & Psychometrics"
 description: "The Academy 360 model — connecting companies, mentors, and learners through hands-on academies that grow talent pipelines."
 url: "https://nerds.family"
 domain: "EdTech & Talent"
 order: 3
-related_projects: ["distillery"]
+related_projects: []
 ---
 
-[Nerds.family](https://nerds.family) is a workforce development platform I co-founded with Oskar Lakner (CEO), [Dorota Piekarska](https://dotapiekarska.com/en/) (CMO), and [Marcin Ostrowski](https://rubyonai.com/) (CTO). We build practice-based academies where people entering or transitioning into tech careers learn by doing real work — not by sitting through lectures or collecting certificates.
+[Nerds.family](https://nerds.family) is a workforce development platform I co-founded with [Oskar Lakner](https://oskarlakner.com/) (CEO), [Dorota Piekarska](https://dotapiekarska.com/en/) (CMO), and [Marcin Ostrowski](https://rubyonai.com/) (CTO). We build practice-based academies where people entering or transitioning into tech careers learn by doing real work — not by sitting through lectures or collecting certificates.
 
 ## The Academy 360 Model
 
@@ -24,8 +25,7 @@ Our flagship partnership is with [Relativity](https://relativity.com), the legal
 
 ## My Role
 
-I lead product strategy and bring the behavioral science lens to how we design learning experiences, assess participant progress, and match talent to employers. The psychometric thinking shows up everywhere — in how we structure adaptive task sequences, how we measure skill acquisition, and how we define "fit" in ways that go beyond resumes. I also lead product direction on **[Distillery](/projects/distillery)**, our content management and AI editorial platform built on Rails, currently in active development.
-
+I lead product strategy and bring the behavioral science lens to how we design learning experiences, assess participant progress, and match talent to employers. The psychometric thinking shows up everywhere — in how we structure adaptive task sequences, how we measure skill acquisition, and how we define "fit" in ways that go beyond resumes.
 ## The Team
 
 We're a small team based primarily in Gdansk and Krakow — developers, educators, and one psychometrician who keeps asking whether we're actually measuring what we think we're measuring.

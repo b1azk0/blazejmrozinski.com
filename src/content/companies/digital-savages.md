@@ -1,5 +1,6 @@
 ---
 name: "Digital Savages"
+metaTitle: "Digital Savages: Programmatic SEO & AI Growth"
 role: "Co-founder"
 description: "Programmatic and AI-driven SEO systems that help startups grow fast and communicate what makes them stand out."
 url: "https://seosavages.com"
@@ -8,7 +9,7 @@ order: 1
 related_projects: ["ssm", "prawomat", "new-aggregator"]
 ---
 
-I co-founded Digital Savages (brand: [SEO Savages](https://seosavages.com)) with Robert Kowalski. We're a fractional growth team — two founders who do the work directly. Maximum six clients at a time, vertical exclusivity, no junior account managers.
+I co-founded Digital Savages (brand: [SEO Savages](https://seosavages.com)) with [Robert Kowalski](https://www.linkedin.com/in/rkowal/). We're a fractional growth team — two founders who do the work directly. Maximum six clients at a time, vertical exclusivity, no junior account managers.
 
 ## What We Do
 

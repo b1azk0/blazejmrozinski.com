@@ -1,0 +1,114 @@
+# CRM Link Table
+# Used by Claude to add links when people or companies are mentioned in blog posts or landing pages.
+# One link per entity per post is enough — link on first mention only.
+#
+# Fields:
+#   name        — canonical display name
+#   aliases     — alternate spellings, abbreviations, or informal references to match against
+#   type        — person | company | project | institution
+#   url         — primary link (personal site or internal path)
+#   linkedin    — LinkedIn profile (optional, for people)
+#   external    — external product URL (optional, for projects with both internal and external pages)
+#   context     — short note on who/what this is, for matching ambiguous mentions
+
+# ─── People ───────────────────────────────────────────────────────────────────
+
+- name: Robert Kowalski
+  aliases: [Robert]
+  type: person
+  url: https://www.linkedin.com/in/rkowal/
+  context: Co-founder at Gyfted and Digital Savages
+
+- name: Adam Szefer
+  aliases: [Adam]
+  type: person
+  url: https://www.linkedin.com/in/adam-szefer/
+  context: Co-founder & CTO at Gyfted
+
+- name: Oskar Lakner
+  aliases: [Oskar]
+  type: person
+  url: https://oskarlakner.com/
+  linkedin: https://www.linkedin.com/in/oskarlakner/
+  context: Co-founder & CEO at Nerds.family
+
+- name: Dorota Piekarska
+  aliases: [Dorota]
+  type: person
+  url: https://dotapiekarska.com/en/
+  linkedin: https://www.linkedin.com/in/dorotapiekarska/
+  context: Co-founder & CMO at Nerds.family
+
+- name: Marcin Ostrowski
+  aliases: [Marcin]
+  type: person
+  url: https://rubyonai.com/
+  linkedin: https://www.linkedin.com/in/marostrowski/
+  context: Co-founder & CTO at Nerds.family, runs OpenClaw
+
+
+# ─── Companies ────────────────────────────────────────────────────────────────
+
+- name: Gyfted
+  aliases: [Human Exponent, gyfted.me]
+  type: company
+  url: https://gyfted.me
+  context: Psychometrics platform, talent assessment
+
+- name: Digital Savages
+  aliases: [SEO Savages, seosavages.com]
+  type: company
+  url: https://www.seosavages.com
+  context: Programmatic SEO agency
+
+- name: Nerds.family
+  aliases: [nerds.family, Nerds family]
+  type: company
+  url: https://nerds.family
+  context: EdTech studio, Prawomat
+
+- name: SWPS University
+  aliases: [SWPS, University of Social Sciences and Humanities]
+  type: institution
+  url: https://www.swps.pl
+  context: Academic home, psychology faculty
+
+- name: Relativity
+  aliases: [Relativity (legal tech)]
+  type: company
+  url: https://relativity.com
+  context: Legal tech company, Nerds.family partner for Ascent Academies
+
+# ─── Projects (internal site links) ──────────────────────────────────────────
+
+- name: Prawomat
+  aliases: []
+  type: project
+  url: /work/prawomat
+  external: https://www.prawomat.com
+  context: Free legal document generator
+
+- name: HSE Career Quiz
+  aliases: [HSE Ireland career quiz]
+  type: project
+  url: /work/hse-career-quiz
+  context: Career assessment for Ireland's Health Service Executive
+
+- name: ContentForge
+  aliases: []
+  type: project
+  url: /work/contentforge
+  context: Blog content pipeline
+
+- name: SSM
+  aliases: [SEO Savages Machine]
+  type: project
+  url: /work/ssm
+  context: Programmatic SEO engine at Digital Savages
+
+- name: KryptoTracker
+  aliases: []
+  type: project
+  url: /work/kryptotracker
+  context: Crypto portfolio tracker
+
