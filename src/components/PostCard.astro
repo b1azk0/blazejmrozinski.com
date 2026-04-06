@@ -40,22 +40,22 @@ const labelConfig = label && label in labels ? labels[label as LabelSlug] : null
     <time class="text-xs text-muted-foreground" datetime={date.toISOString()}>
       {formattedDate}
     </time>
-    {labelConfig && (
-      <span class="text-xs text-muted-foreground inline-flex items-center gap-1.5">
+    {labelConfig && label && (
+      <a href={`/blog?label=${label}`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5">
         <span
           class="w-1.5 h-1.5 rounded-full shrink-0"
           style={`background-color: ${labelConfig.accent};`}
           aria-hidden="true"
         />
         {labelConfig.name}
-      </span>
+      </a>
     )}
     {tags.length > 0 && (
       <div class="flex gap-1.5 flex-wrap">
         {tags.map((tag) => (
-          <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">
+          <a href={`/blog?tag=${encodeURIComponent(tag)}`} class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors">
             {tag}
-          </span>
+          </a>
         ))}
       </div>
     )}
