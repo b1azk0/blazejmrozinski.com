@@ -1,10 +1,10 @@
 ---
-title: "Why I Ditched Managed Hosting and Built My Own WordPress Infrastructure"
+title: "WordPress on Hetzner VPS: Why I Left Managed Hosting and Built My Own Server"
 date: 2026-04-01
 tags: [devops-reality, wordpress, hetzner, server-backend]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "How a non-developer built production WordPress hosting on Hetzner with AI as a technical consultant, and why managed hosting wasn't cutting it."
+description: "I moved my WordPress and WooCommerce sites from managed hosting to a Hetzner VPS. Full walkthrough of server provisioning, SSH hardening, and firewall setup on Debian 13."
 status: published
 label: infrastructure
 safety_review: false
@@ -14,12 +14,12 @@ safety_review: false
 
 ## Table of Contents
 
-- [The Real Cost of Managed Hosting](#the-real-cost-of-managed-hosting)
-- [Why Hetzner](#why-hetzner)
-- [The AI Experiment](#the-ai-experiment)
-- [Provisioning Your First Server](#provisioning-your-first-server)
-- [Initial Server Hardening](#initial-server-hardening)
-- [Verification](#verification)
+- [The Real Cost of Managed WordPress Hosting](#the-real-cost-of-managed-wordpress-hosting)
+- [Why Hetzner Cloud for WordPress Hosting](#why-hetzner-cloud-for-wordpress-hosting)
+- [Using AI to Learn Server Administration](#using-ai-to-learn-server-administration)
+- [Provisioning a Hetzner VPS for WordPress](#provisioning-a-hetzner-vps-for-wordpress)
+- [Initial Server Hardening: SSH, Firewall, and Fail2ban](#initial-server-hardening-ssh-firewall-and-fail2ban)
+- [Verifying Your Server Security Configuration](#verifying-your-server-security-configuration)
 - [What's Next](#whats-next)
 
 I run WordPress sites for clients. Heavy Elementor builds, WooCommerce stores, dozens of plugins, the full stack of complexity that WordPress accumulates when real businesses depend on it. For years, I paid for managed hosting because the pitch made sense: someone else handles the server, you focus on the product. The pitch stopped making sense once I started looking at what I was actually getting.
@@ -28,7 +28,7 @@ The breaking point wasn't dramatic. No catastrophic outage, no billing shock. It
 
 I started wondering what it would take to build the infrastructure myself. I'm a psychologist and product person, not a sysadmin. But I'm comfortable in a terminal, I can read documentation, and I had a hypothesis: with AI as a technical consultant, the gap between "knows enough to be dangerous" and "runs production servers" might be crossable. This series documents what happened when I tested that hypothesis.
 
-## The Real Cost of Managed Hosting
+## The Real Cost of Managed WordPress Hosting
 
 Managed WordPress hosting sells you convenience. The actual product is a pre-configured LEMP stack (Linux, Nginx or Apache, MySQL/MariaDB, PHP) with a control panel on top. You get automated backups, one-click SSL, maybe a CDN integration. For a simple blog, this is perfectly adequate.
 
@@ -42,7 +42,7 @@ Then there's the value ratio. A decent managed WordPress plan, the kind that giv
 
 I'm not arguing managed hosting is bad. For a lot of use cases, it's the right call. I'm arguing that once your sites are complex enough to hit the constraints, the only options are to pay dramatically more for a higher tier (which often just means slightly less shared resources) or to own the stack yourself.
 
-## Why Hetzner
+## Why Hetzner Cloud for WordPress Hosting
 
 I evaluated several VPS providers before settling on Hetzner. The decision came down to three things: price-to-performance ratio, European data centers, and image quality.
 
@@ -56,7 +56,7 @@ The tradeoff is real, though. Hetzner gives you a blank machine and nothing else
 
 For me, the economics made the decision obvious. The question was whether I could actually handle the operational side.
 
-## The AI Experiment
+## Using AI to Learn Server Administration
 
 I need to be clear about something: I did not know how to administer a Linux server when I started this project. I understood the concepts. I could SSH into a machine, navigate the filesystem, edit a config file. But "configure a production LEMP stack with proper security hardening" was not in my skill set. The gap between editing a config file and knowing which values to put in it, and why, was significant.
 
@@ -70,7 +70,7 @@ The other critical pattern was iterative refinement. My initial configurations, 
 
 This is the only post in the series where AI takes center stage. From here on, I'll show the commands and configs directly. But I want to be honest about the foundation: everything in this series was built by someone who learned server administration through a conversation with an AI model, verified against real documentation, and refined against real production traffic.
 
-## Provisioning Your First Server
+## Provisioning a Hetzner VPS for WordPress
 
 The architecture we're building across this series looks like this:
 
@@ -133,7 +133,7 @@ timedatectl
 
 Replace `Europe/Warsaw` with your preferred timezone. This affects log timestamps, cron job scheduling, and your sanity when reading logs at odd hours.
 
-## Initial Server Hardening
+## Initial Server Hardening: SSH, Firewall, and Fail2ban
 
 A fresh server connected to the internet starts receiving automated attacks within minutes. SSH brute force attempts, port scans, the usual noise. Hardening is the first thing you do, before installing any services.
 
@@ -229,7 +229,7 @@ sudo systemctl status fail2ban --no-pager
 
 You should see `active (running)` in the output.
 
-## Verification
+## Verifying Your Server Security Configuration
 
 Before calling this server ready, confirm every hardening measure is in place. Run through each check and make sure the output matches what you expect.
 

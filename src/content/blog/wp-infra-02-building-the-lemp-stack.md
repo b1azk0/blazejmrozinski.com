@@ -1,10 +1,10 @@
 ---
-title: "Building the LEMP Stack: Nginx, MariaDB, and PHP for WordPress Performance"
+title: "LEMP Stack for WordPress: Nginx, MariaDB 11.8, and PHP 8.4 on Debian 13"
 date: 2026-04-06
 tags: [devops-reality, wordpress, hetzner, server-backend, nginx, mariadb, php]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Installing and tuning Nginx, MariaDB 11.8, and PHP 8.4 FPM for WordPress workloads on Hetzner, with every non-default value explained."
+description: "Step-by-step LEMP stack setup for WordPress on Hetzner VPS. Nginx tuning, MariaDB 11.8 InnoDB configuration, PHP 8.4 FPM static pools, OPcache JIT, and kernel optimization."
 status: published
 label: infrastructure
 safety_review: false
@@ -14,13 +14,13 @@ safety_review: false
 
 ## Table of Contents
 
-- [Nginx Installation and Configuration](#nginx-installation-and-configuration)
-- [MariaDB 11.8](#mariadb-118)
-- [PHP 8.4 FPM](#php-84-fpm)
-- [OPcache and JIT Compilation](#opcache-and-jit-compilation)
-- [System Tuning](#system-tuning)
-- [Directory Structure](#directory-structure)
-- [Verification](#verification)
+- [Nginx Configuration for WordPress Performance](#nginx-configuration-for-wordpress-performance)
+- [MariaDB 11.8 InnoDB Tuning for WordPress](#mariadb-118-innodb-tuning-for-wordpress)
+- [PHP 8.4 FPM: Static Pool Configuration](#php-84-fpm-static-pool-configuration)
+- [PHP OPcache and JIT Compilation Settings](#php-opcache-and-jit-compilation-settings)
+- [Linux Kernel Tuning for Web Servers](#linux-kernel-tuning-for-web-servers)
+- [WordPress Directory Structure on VPS](#wordpress-directory-structure-on-vps)
+- [Verifying the LEMP Stack Installation](#verifying-the-lemp-stack-installation)
 
 At the end of Part 1, you have a locked-down Debian 13 server sitting on Hetzner. UFW is configured, SSH is hardened, root login is disabled. The server is secure. It also can't serve a single web page.
 
@@ -28,7 +28,7 @@ Every decision in this post has downstream consequences that won't show up until
 
 I run four Hetzner servers across two tiers: small (CX22, 2 vCPU, 4 GB RAM) and large (CX32/CPX32, 4 vCPU, 8 GB RAM). Where config values differ by tier, I'll show both. If I show only one value, it applies to both.
 
-## Nginx Installation and Configuration
+## Nginx Configuration for WordPress Performance
 
 Installation is the easy part:
 
@@ -218,7 +218,7 @@ gzip_vary on;
 
 A note on Brotli: don't install it on the server. Cloudflare handles Brotli compression at the edge. Server-side Brotli adds compile-from-source complexity for zero benefit behind a CDN.
 
-## MariaDB 11.8
+## MariaDB 11.8 InnoDB Tuning for WordPress
 
 Debian 13 ships MariaDB 11.8, which is a meaningful upgrade from 10.x. It's also where two specific configuration gotchas will waste your afternoon if you follow older tutorials.
 
@@ -302,7 +302,7 @@ sudo mysql -e "SELECT @@innodb_buffer_pool_size / 1024 / 1024 AS 'pool_MB';"
 
 The query should return 512 or 1536 depending on your tier.
 
-## PHP 8.4 FPM
+## PHP 8.4 FPM: Static Pool Configuration
 
 Debian 13 includes PHP 8.4 in its default repositories. Install the base package plus every extension WordPress and its plugin ecosystem commonly need:
 
@@ -380,7 +380,7 @@ sudo mv wp-cli.phar /usr/local/bin/wp
 wp --info
 ```
 
-## OPcache and JIT Compilation
+## PHP OPcache and JIT Compilation Settings
 
 OPcache is PHP's built-in opcode cache. Without it, every PHP request means parsing every PHP file from source, compiling it to opcodes, executing the opcodes, then throwing the compiled result away. WordPress loads hundreds of PHP files per request across core, theme, and plugins. OPcache compiles each file once and stores the result in shared memory. Subsequent requests use the cached opcodes directly.
 
@@ -432,7 +432,7 @@ Restart PHP-FPM after all changes:
 sudo systemctl restart php8.4-fpm
 ```
 
-## System Tuning
+## Linux Kernel Tuning for Web Servers
 
 The kernel defaults are conservative. For a web server handling concurrent connections, several settings need to change.
 
@@ -528,7 +528,7 @@ Swap prevents the OOM killer from terminating MariaDB or PHP-FPM during traffic 
 
 If your Hetzner plan supports it, ZRAM is worth considering as a complement. ZRAM creates a compressed swap device in RAM, giving you a middle tier between fast RAM and slow disk swap. On a 4 GB server, a 1 GB ZRAM device at 2:1 compression effectively gives you 2 GB of extra memory capacity before hitting disk. It's not required and I won't cover the setup here, but it's a good optimization for memory-constrained tiers.
 
-## Directory Structure
+## WordPress Directory Structure on VPS
 
 WordPress sites follow a consistent layout:
 
@@ -544,7 +544,7 @@ This layout keeps sites isolated. Each Nginx vhost points `root` to `/var/www/<d
 
 Repeat this for each domain you plan to host. The structure will be referenced in Post 3 when we deploy WordPress and in Post 4 when we configure individual vhost files.
 
-## Verification
+## Verifying the LEMP Stack Installation
 
 Test every service before moving on. A misconfiguration caught now saves hours of debugging later.
 
