@@ -9,13 +9,19 @@ const allPosts = await getCollection('blog', ({ data }) => data.status === 'publ
 const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
 
 const hasLabels = posts.some((p) => p.data.label);
+const labelCounts: Record<string, number> = {};
+for (const post of posts) {
+  if (post.data.label) {
+    labelCounts[post.data.label] = (labelCounts[post.data.label] || 0) + 1;
+  }
+}
 ---
 
 <Base title="Blog" description="Writing on psychometrics, product building, growth engineering, and technology.">
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Blog</h1>
 
-    {hasLabels && <LabelFilter />}
+    {hasLabels && <LabelFilter counts={labelCounts} />}
 
     {posts.length > 0 ? (
       <div class="grid gap-4">

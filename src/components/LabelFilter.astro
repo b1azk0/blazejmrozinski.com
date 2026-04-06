@@ -3,9 +3,11 @@ import { labels, type LabelSlug } from '@/lib/labels';
 
 interface Props {
   activeLabel?: string;
+  counts?: Record<string, number>;
 }
 
-const { activeLabel } = Astro.props;
+const { activeLabel, counts = {} } = Astro.props;
+const totalCount = Object.values(counts).reduce((sum, n) => sum + n, 0);
 const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSlug]][];
 ---
 
@@ -20,7 +22,7 @@ const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSl
     ]}
     data-label="all"
   >
-    All
+    All{totalCount > 0 && <span class="opacity-50 ml-0.5">{totalCount}</span>}
   </a>
   {labelEntries.map(([slug, config]) => (
     <a
@@ -38,7 +40,7 @@ const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSl
         style={`background-color: ${config.accent};`}
         aria-hidden="true"
       />
-      {config.name}
+      {config.name}{(counts[slug] || 0) > 0 && <span class="opacity-50 ml-0.5">{counts[slug]}</span>}
     </a>
   ))}
 </div>
