@@ -1,13 +1,11 @@
 ---
 title: "Locking It Down: Security Hardening for WordPress on a VPS"
 date: 2026-04-27
-series: "WordPress Infrastructure from Scratch"
-series_part: 5
 tags: [devops-reality, wordpress, hetzner, server-backend, security, fail2ban, nginx]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Two-layer WordPress security: Nginx drops bad requests before PHP runs, fail2ban catches everything else. Rate limiting, scanner protection, SSL hardening, and WooCommerce security."
-status: published
+status: draft
 label: infrastructure
 safety_review: false
 ---

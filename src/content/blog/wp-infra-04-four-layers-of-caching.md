@@ -1,13 +1,11 @@
 ---
 title: "Four Layers of Caching: Making WordPress Serve Pages in Under 50ms"
 date: 2026-04-20
-series: "WordPress Infrastructure from Scratch"
-series_part: 4
 tags: [devops-reality, wordpress, hetzner, server-backend, performance, redis, nginx, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Stacking Cloudflare, FastCGI page cache, Redis Object Cache Pro, and OPcache+JIT to serve WordPress pages in under 50 milliseconds, with WooCommerce-specific bypass rules."
-status: published
+status: draft
 label: infrastructure
 safety_review: false
 ---

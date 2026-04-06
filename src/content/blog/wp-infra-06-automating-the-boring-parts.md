@@ -1,13 +1,11 @@
 ---
 title: "Automating the Boring Parts: Backups, Maintenance, and Zero-Touch Operations"
 date: 2026-05-04
-series: "WordPress Infrastructure from Scratch"
-series_part: 6
 tags: [devops-reality, wordpress, hetzner, server-backend, automation, backups, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Building the nightly automation chain: WordPress backups, database maintenance, plugin distribution, 5-phase cache warming, and full server snapshots, all running unattended."
-status: published
+status: draft
 label: infrastructure
 safety_review: false
 ---

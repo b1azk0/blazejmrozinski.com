@@ -1,8 +1,6 @@
 ---
 title: "Building the LEMP Stack: Nginx, MariaDB, and PHP for WordPress Performance"
 date: 2026-04-06
-series: "WordPress Infrastructure from Scratch"
-series_part: 2
 tags: [devops-reality, wordpress, hetzner, server-backend, nginx, mariadb, php]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive

@@ -1,13 +1,11 @@
 ---
 title: "Watching Over It All: Monitoring, Self-Healing, and Knowing When to Sleep"
 date: 2026-05-11
-series: "WordPress Infrastructure from Scratch"
-series_part: 7
 tags: [devops-reality, wordpress, hetzner, server-backend, monitoring, automation, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Three monitoring layers for WordPress infrastructure: a self-healing healthcheck, diagnostic dashboards, and a Telegram bot watching from outside. Plus disaster recovery and scaling decisions."
-status: published
+status: draft
 label: infrastructure
 safety_review: false
 ---

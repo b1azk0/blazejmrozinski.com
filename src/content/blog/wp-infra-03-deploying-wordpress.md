@@ -1,13 +1,11 @@
 ---
 title: "Deploying WordPress the Right Way (Not the 5-Minute Install)"
 date: 2026-04-13
-series: "WordPress Infrastructure from Scratch"
-series_part: 3
 tags: [devops-reality, wordpress, hetzner, server-backend, redis, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis with Object Cache Pro, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
-status: published
+status: draft
 label: infrastructure
 safety_review: false
 ---

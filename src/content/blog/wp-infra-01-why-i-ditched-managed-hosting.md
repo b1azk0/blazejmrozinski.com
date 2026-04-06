@@ -1,8 +1,6 @@
 ---
 title: "Why I Ditched Managed Hosting and Built My Own WordPress Infrastructure"
 date: 2026-04-01
-series: "WordPress Infrastructure from Scratch"
-series_part: 1
 tags: [devops-reality, wordpress, hetzner, server-backend]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
