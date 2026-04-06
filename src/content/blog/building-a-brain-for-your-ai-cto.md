@@ -1,10 +1,10 @@
 ---
-title: "Building a Brain for Your AI CTO"
+title: "How I Built a Knowledge Base That Makes AI Actually Useful Across Projects"
 date: 2026-04-04
 tags: [ai-as-cto, knowledge-systems]
 audience: [ai-practitioners, product-leaders, founders]
 format: how-i-work
-description: "AI memory is getting good within a single project. What's still missing is the connective tissue across projects, entities, and decisions. Here's how I built that layer."
+description: "AI coding assistants work well in a single repo. They fall apart across multiple projects and companies. I built a 30-document knowledge base that gives AI full context in 30 seconds instead of 15 minutes."
 status: published
 safety_review: false
 source_queue: queue/2026-04-04.md
@@ -17,15 +17,15 @@ It worked far better than I expected, but only after I solved a problem that nob
 
 ## Table of Contents
 
-- [The Missing Layer](#the-missing-layer)
-- [The Knowledge Base Approach](#the-knowledge-base-approach)
-- [What Changed](#what-changed)
-- [The Structure That Works](#the-structure-that-works)
-- [Scope and Limitations](#scope-and-limitations)
-- [The Compounding Effect](#the-compounding-effect)
-- [How to Start](#how-to-start)
+- [Why AI Loses Context Across Projects](#why-ai-loses-context-across-projects)
+- [Building a Persistent Knowledge Base for AI](#building-a-persistent-knowledge-base-for-ai)
+- [Results: From 15-Minute Setup to 30 Seconds](#results-from-15-minute-setup-to-30-seconds)
+- [Knowledge Base Structure That Scales](#knowledge-base-structure-that-scales)
+- [What AI Context Management Can't Solve](#what-ai-context-management-cant-solve)
+- [Why AI Knowledge Compounds Across Projects](#why-ai-knowledge-compounds-across-projects)
+- [How to Build Your Own AI Knowledge Base](#how-to-build-your-own-ai-knowledge-base)
 
-## The Missing Layer
+## Why AI Loses Context Across Projects
 
 AI memory has come a long way. Context windows are massive, tools can read files, and session continuity keeps getting better. If you're working on one project in one repo, the experience is already quite good.
 
@@ -35,7 +35,7 @@ Each project works fine in isolation. What's missing is the connective tissue: t
 
 Longer context windows and better prompts help at the margins. But the most important context (why decisions were made, what was tried and failed, who is responsible for what across your entire operation) is exactly the kind of thing that doesn't live in any single repo.
 
-## The Knowledge Base Approach
+## Building a Persistent Knowledge Base for AI
 
 Instead of hoping the AI would figure things out from increasingly elaborate prompts, I built it a persistent knowledge base. A structured set of documents that the AI reads at the start of every session, covering:
 
@@ -49,7 +49,7 @@ Instead of hoping the AI would figure things out from increasingly elaborate pro
 
 **Lessons learned.** Documented post-mortems and workflow discoveries that inform future decisions. The AI reads these and applies them proactively, rather than repeating mistakes I've already made.
 
-## What Changed
+## Results: From 15-Minute Setup to 30 Seconds
 
 The difference was immediate and compound.
 
@@ -61,7 +61,7 @@ The difference was immediate and compound.
 
 **The AI started catching my mistakes.** With enough context about the business landscape, the AI could identify when I was about to make a decision that conflicted with a constraint I wasn't thinking about. "This would require deploying to a server that's currently running the production site for a client. Want to use the dedicated staging server instead?" It had access to information I'd written down but wasn't holding in working memory at that moment.
 
-## The Structure That Works
+## Knowledge Base Structure That Scales
 
 After iterating on the format for several weeks, I settled on a structure:
 
@@ -77,7 +77,7 @@ After iterating on the format for several weeks, I settled on a structure:
 
 The total corpus is modest. Maybe 30 documents, mostly under a page each. The insight is that structured, curated context beats raw volume. The AI doesn't need my entire email history; it needs the distilled decisions and constraints that should inform every technical recommendation.
 
-## Scope and Limitations
+## What AI Context Management Can't Solve
 
 I want to be clear about what this system does and doesn't do.
 
@@ -87,7 +87,7 @@ Every significant decision still goes through me. The knowledge base makes the A
 
 The AI is extraordinarily good at holding complexity, managing context across multiple systems, and generating technically sound implementations. It is weak at understanding market dynamics, user psychology, or the political reality of a business partnership. The knowledge base gives it the context to operate within those constraints, but the constraints themselves come from my judgment.
 
-## The Compounding Effect
+## Why AI Knowledge Compounds Across Projects
 
 The most unexpected benefit has been compounding. Each new project benefits from every previous one. When I set up a content distillation pipeline, the AI already knew my voice, my business entities, my other projects, and the sensitivity rules for what can and can't be published. It didn't need to learn these from scratch.
 
@@ -95,7 +95,7 @@ When I registered a new quantitative research project, the AI immediately unders
 
 This compounding is why I think the knowledge base approach is more important than any individual AI capability improvement. A more capable model that starts from zero every session is still starting from zero. A moderately capable model with full context of your business, your decisions, and your constraints can make recommendations that a genius with no context cannot.
 
-## How to Start
+## How to Build Your Own AI Knowledge Base
 
 If you're going to build something like this, start small:
 
