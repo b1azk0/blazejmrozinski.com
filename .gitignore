@@ -27,3 +27,6 @@ pnpm-debug.log*
 
 # Generated cover images
 public/covers/
+
+# Superpowers brainstorming sessions
+.superpowers/
