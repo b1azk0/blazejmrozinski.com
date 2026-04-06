@@ -4,6 +4,7 @@
 
 [build.environment]
   NODE_VERSION = "22"
+  PUBLIC_GA4_ID = "G-FLKVTLL23M"
 
 [[headers]]
   for = "/*"
