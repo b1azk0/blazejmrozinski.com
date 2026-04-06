@@ -1,20 +1,27 @@
 ---
 import Base from '@/layouts/Base.astro';
 import CompanyCard from '@/components/CompanyCard.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
 const workPage = (await getCollection('pages')).find((p) => p.id === 'work');
 let WorkContent: any = null;
+let workHeadings: { depth: number; slug: string; text: string }[] = [];
 if (workPage) {
   const rendered = await render(workPage);
   WorkContent = rendered.Content;
+  workHeadings = rendered.headings;
 }
+// Add the hardcoded Companies section to the heading list
+workHeadings = [...workHeadings.filter((h) => h.depth <= 3), { depth: 2, slug: 'companies', text: 'Companies' }];
 
 const companies = (await getCollection('companies'))
   .sort((a, b) => a.data.order - b.data.order);
 ---
 
 <Base title="Psychometrics, Growth & Product Consulting" description="What Blazej Mrozinski does — product development, psychometric assessment design, AI workflow consulting, and growth engineering.">
+  <SectionDots headings={workHeadings} />
+
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Work</h1>
 
@@ -24,7 +31,7 @@ const companies = (await getCollection('companies'))
       </div>
     )}
 
-    <section data-animate>
+    <section id="companies" data-animate>
       <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Companies</h2>
       <div class="grid gap-4">
         {companies.map((company, i) => (

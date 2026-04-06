@@ -5,6 +5,7 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import CompanyCard from '@/components/CompanyCard.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import JsonLd from '@/components/JsonLd.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { getCollection } from 'astro:content';
 
 const now = new Date();
@@ -72,6 +73,13 @@ const services = [
 <Base title="Psychologist, Psychometrician, Product Builder" description="Blazej Mrozinski, PhD — psychometrician and product leader. I design validated assessments, build SEO growth systems, and consult where behavioral science meets product." fullWidth>
   <JsonLd data={websiteJsonLd} />
   <JsonLd data={personJsonLd} />
+  <SectionDots headings={[
+    { depth: 2, slug: 'services', text: 'What I Can Help With' },
+    { depth: 2, slug: 'case-studies', text: 'Case Studies' },
+    { depth: 2, slug: 'companies', text: 'Companies' },
+    { depth: 2, slug: 'writing', text: 'Writing' },
+    { depth: 2, slug: 'book', text: "Let's Talk" },
+  ]} />
 
   <!-- Hero -->
   <section class="py-20 md:py-28" data-animate>
@@ -164,7 +172,7 @@ const services = [
 
   <!-- Case Studies -->
   {caseStudies.length > 0 && (
-    <section class="py-16">
+    <section id="case-studies" class="py-16">
       <div class="container max-w-5xl mx-auto px-4 sm:px-6">
         <div class="text-center mb-10" data-animate>
           <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Case Studies</h2>
@@ -202,7 +210,7 @@ const services = [
   </section>
 
   <!-- Companies -->
-  <section class="section-muted py-16" data-animate>
+  <section id="companies" class="section-muted py-16" data-animate>
     <div class="container max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Companies</h2>
@@ -224,7 +232,7 @@ const services = [
   </section>
 
   <!-- Writing -->
-  <section class="py-16" data-animate>
+  <section id="writing" class="py-16" data-animate>
     <div class="container max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Writing</h2>
