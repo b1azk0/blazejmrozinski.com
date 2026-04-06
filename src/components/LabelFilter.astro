@@ -1,0 +1,73 @@
+---
+import { labels, type LabelSlug } from '@/lib/labels';
+
+interface Props {
+  activeLabel?: string;
+}
+
+const { activeLabel } = Astro.props;
+const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSlug]][];
+---
+
+<div class="flex gap-2 flex-wrap mb-6" id="label-filter">
+  <a
+    href="/blog"
+    class:list={[
+      'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
+      !activeLabel
+        ? 'bg-primary text-primary-foreground'
+        : 'bg-secondary text-secondary-foreground hover:bg-accent',
+    ]}
+    data-label="all"
+  >
+    All
+  </a>
+  {labelEntries.map(([slug, config]) => (
+    <a
+      href={`/blog?label=${slug}`}
+      class:list={[
+        'text-xs px-3 py-1.5 rounded-full transition-colors font-medium inline-flex items-center gap-1.5',
+        activeLabel === slug
+          ? 'bg-primary text-primary-foreground'
+          : 'bg-secondary text-secondary-foreground hover:bg-accent',
+      ]}
+      data-label={slug}
+    >
+      <span
+        class="w-2 h-2 rounded-full shrink-0"
+        style={`background-color: ${config.accent};`}
+        aria-hidden="true"
+      />
+      {config.name}
+    </a>
+  ))}
+</div>
+
+<script>
+  function filterByLabel() {
+    const params = new URLSearchParams(window.location.search);
+    const activeLabel = params.get('label');
+    const articles = document.querySelectorAll<HTMLElement>('[data-post-label]');
+    const filterLinks = document.querySelectorAll<HTMLAnchorElement>('#label-filter a');
+
+    filterLinks.forEach((link) => {
+      const label = link.dataset.label;
+      const isActive = (!activeLabel && label === 'all') || activeLabel === label;
+      link.classList.toggle('bg-primary', isActive);
+      link.classList.toggle('text-primary-foreground', isActive);
+      link.classList.toggle('bg-secondary', !isActive);
+      link.classList.toggle('text-secondary-foreground', !isActive);
+    });
+
+    articles.forEach((article) => {
+      if (!activeLabel) {
+        article.style.display = '';
+        return;
+      }
+      article.style.display = article.dataset.postLabel === activeLabel ? '' : 'none';
+    });
+  }
+
+  filterByLabel();
+  document.addEventListener('astro:after-swap', filterByLabel);
+</script>
