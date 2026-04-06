@@ -2,6 +2,7 @@
 import Base from "./Base.astro";
 import JsonLd from "@/components/JsonLd.astro";
 import Breadcrumb from '@/components/Breadcrumb.astro';
+import BlogSidebar from '@/components/BlogSidebar.astro';
 import { labels, type LabelSlug } from '@/lib/labels';
 
 interface Props {
@@ -12,9 +13,10 @@ interface Props {
   audience: string[];
   label?: string;
   crumbs: { label: string; href?: string }[];
+  headings: { depth: number; slug: string; text: string }[];
 }
 
-const { title, description, date, tags, audience, label, crumbs } = Astro.props;
+const { title, description, date, tags, audience, label, crumbs, headings } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -26,6 +28,8 @@ const slug = Astro.params.slug;
 const canonicalUrl = `https://www.blazejmrozinski.com/blog/${slug}/`;
 const coverUrl = label ? `/covers/${slug}.png` : undefined;
 const labelConfig = label && label in labels ? labels[label as LabelSlug] : null;
+
+const showSidebar = headings.filter((h) => h.depth === 2).length >= 3;
 
 const articleJsonLd = {
   '@context': 'https://schema.org',
@@ -56,54 +60,59 @@ const articleJsonLd = {
 <Base title={title} description={description} ogType="article" ogImage={coverUrl}>
   <JsonLd data={articleJsonLd} />
 
-  <article class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+  <div class:list={["container mx-auto px-4 sm:px-6 py-12", showSidebar ? "max-w-5xl" : "max-w-3xl"]}>
     <Breadcrumb crumbs={crumbs} />
-    <header class="mb-8">
-      <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
-      <div class="flex items-center gap-4 text-muted-foreground text-sm">
-        <a href="/about" class="hover:text-foreground transition-colors">Blazej Mrozinski</a>
-        <span>&middot;</span>
-        <time datetime={date.toISOString()}>{formattedDate}</time>
-        {labelConfig && label && (
-          <>
+    <div class:list={[showSidebar && "md:flex md:gap-8"]}>
+      {showSidebar && <BlogSidebar headings={headings} />}
+      <article class="max-w-3xl min-w-0">
+        <header class="mb-8">
+          <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
+          <div class="flex items-center gap-4 text-muted-foreground text-sm">
+            <a href="/about" class="hover:text-foreground transition-colors">Blazej Mrozinski</a>
             <span>&middot;</span>
-            <a href={`/blog?label=${label}`} class="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
-              <span
-                class="w-1.5 h-1.5 rounded-full"
-                style={`background-color: ${labelConfig.accent};`}
-                aria-hidden="true"
-              />
-              {labelConfig.name}
-            </a>
-          </>
+            <time datetime={date.toISOString()}>{formattedDate}</time>
+            {labelConfig && label && (
+              <>
+                <span>&middot;</span>
+                <a href={`/blog?label=${label}`} class="inline-flex items-center gap-1.5 hover:text-foreground transition-colors">
+                  <span
+                    class="w-1.5 h-1.5 rounded-full"
+                    style={`background-color: ${labelConfig.accent};`}
+                    aria-hidden="true"
+                  />
+                  {labelConfig.name}
+                </a>
+              </>
+            )}
+          </div>
+          {tags.length > 0 && (
+            <div class="flex gap-2 mt-4 flex-wrap">
+              {tags.map((tag) => (
+                <a href={`/blog?tag=${encodeURIComponent(tag)}`} class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors">
+                  {tag}
+                </a>
+              ))}
+            </div>
+          )}
+        </header>
+
+        {coverUrl && (
+          <div class="mb-10 -mx-4 sm:mx-0">
+            <img
+              src={coverUrl}
+              alt=""
+              class="w-full rounded-none sm:rounded-lg"
+              loading="eager"
+              width="1200"
+              height="630"
+            />
+          </div>
         )}
-      </div>
-      {tags.length > 0 && (
-        <div class="flex gap-2 mt-4 flex-wrap">
-          {tags.map((tag) => (
-            <a href={`/blog?tag=${encodeURIComponent(tag)}`} class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors">
-              {tag}
-            </a>
-          ))}
+
+        <div class="prose prose-neutral dark:prose-invert max-w-none">
+          <slot />
         </div>
-      )}
-    </header>
-
-    {coverUrl && (
-      <div class="mb-10 -mx-4 sm:mx-0">
-        <img
-          src={coverUrl}
-          alt=""
-          class="w-full rounded-none sm:rounded-lg"
-          loading="eager"
-          width="1200"
-          height="630"
-        />
-      </div>
-    )}
-
-    <div class="prose prose-neutral dark:prose-invert max-w-none">
-      <slot />
+      </article>
     </div>
-  </article>
+  </div>
 </Base>
