@@ -73,6 +73,76 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `Header` | Dark nav header with page links and social links |
 | `Footer` | 3-column footer with identity, nav, social |
 
+## Adding a Photo Album
+
+Each album is a self-contained folder under `src/content/photography/`.
+
+### 1. Export from Lightroom
+
+Select your trip photos and export:
+- **Format:** JPEG
+- **Long edge:** 2400px
+- **Quality:** 85%
+- **Output folder:** `src/content/photography/<trip-name>/` (use kebab-case, e.g. `iceland-ring-road`)
+
+### 2. Pick and rename the hero image
+
+Choose your best shot and rename it to `hero.jpg`. This image appears on the listing page card and as the full-width banner on the album page.
+
+### 3. Create index.md
+
+Create `src/content/photography/<trip-name>/index.md`:
+
+```yaml
+---
+title: "Iceland Ring Road"
+location: "Iceland"
+date: 2024-03-15
+description: "10 days circling Iceland in winter"
+tags: [landscape, winter, nordic]
+order: 1
+hero: ./hero.jpg
+photos:
+  - file: ./01-glacier.jpg
+    caption: "Svínafellsjökull at dawn"
+  - file: ./02-northern-lights.jpg
+    caption: "Aurora over Jökulsárlón"
+  - file: ./03-black-beach.jpg
+    caption: "Reynisfjara"
+---
+
+Your story text goes here. Write it yourself, or drop bullet points
+and ask Claude to generate a narrative.
+```
+
+**Fields:**
+- `title` — album name
+- `location` — country or region
+- `date` — trip date (used for sorting)
+- `description` — one-line summary (used in meta tags)
+- `tags` — for future filtering (not displayed yet)
+- `order` — manual sort order on listing page (lower = first)
+- `hero` — path to hero image (relative to the album folder)
+- `photos` — array of `file` + optional `caption` pairs
+
+### 4. Push
+
+```bash
+git add src/content/photography/<trip-name>/
+git commit -m "feat: add <trip-name> photo album"
+git push
+```
+
+Netlify builds automatically. Astro optimizes all images at build time (WebP conversion, responsive srcset, lazy loading). The album appears at `/photography/<trip-name>` and on the listing at `/photography`.
+
+### Tips
+
+- **Photo order** follows the array order in frontmatter — arrange them how you want them displayed
+- **Captions are optional** — omit the `caption` field for photos that don't need one
+- **File names** don't matter (besides `hero.jpg`) — use whatever Lightroom exports or rename for clarity
+- **Story generation** — write bullet points in the markdown body, then ask Claude to turn them into prose
+- **Scaling** — at 10-15 albums this works great. If the collection grows large, consider Git LFS for images
+
 ## Environment Variables
 
 | Variable | Description | Format |
