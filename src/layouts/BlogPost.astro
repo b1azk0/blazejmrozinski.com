@@ -1,6 +1,7 @@
 ---
 import Base from "./Base.astro";
 import JsonLd from "@/components/JsonLd.astro";
+import { labels, type LabelSlug } from '@/lib/labels';
 
 interface Props {
   title: string;
@@ -8,9 +9,10 @@ interface Props {
   date: Date;
   tags: string[];
   audience: string[];
+  label?: string;
 }
 
-const { title, description, date, tags, audience } = Astro.props;
+const { title, description, date, tags, audience, label } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -18,7 +20,10 @@ const formattedDate = date.toLocaleDateString('en-US', {
   year: 'numeric',
 });
 
-const canonicalUrl = `https://blazejmrozinski.com/blog/${Astro.params.slug}/`;
+const slug = Astro.params.slug;
+const canonicalUrl = `https://blazejmrozinski.com/blog/${slug}/`;
+const coverUrl = label ? `/covers/${slug}.png` : undefined;
+const labelConfig = label && label in labels ? labels[label as LabelSlug] : null;
 
 const articleJsonLd = {
   '@context': 'https://schema.org',
@@ -42,10 +47,11 @@ const articleJsonLd = {
     url: 'https://blazejmrozinski.com',
   },
   keywords: tags.join(', '),
+  ...(coverUrl ? { image: `https://blazejmrozinski.com${coverUrl}` } : {}),
 };
 ---
 
-<Base title={title} description={description} ogType="article">
+<Base title={title} description={description} ogType="article" ogImage={coverUrl}>
   <JsonLd data={articleJsonLd} />
 
   <article class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
@@ -55,20 +61,43 @@ const articleJsonLd = {
         <a href="/about" class="hover:text-foreground transition-colors">Blazej Mrozinski</a>
         <span>&middot;</span>
         <time datetime={date.toISOString()}>{formattedDate}</time>
+        {labelConfig && (
+          <>
+            <span>&middot;</span>
+            <span class="inline-flex items-center gap-1.5">
+              <span
+                class="w-1.5 h-1.5 rounded-full"
+                style={`background-color: ${labelConfig.accent};`}
+                aria-hidden="true"
+              />
+              {labelConfig.name}
+            </span>
+          </>
+        )}
       </div>
       {tags.length > 0 && (
         <div class="flex gap-2 mt-4 flex-wrap">
           {tags.map((tag) => (
-            <a
-              href={`/blog?tag=${encodeURIComponent(tag)}`}
-              class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
-            >
+            <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">
               {tag}
-            </a>
+            </span>
           ))}
         </div>
       )}
     </header>
+
+    {coverUrl && (
+      <div class="mb-10 -mx-4 sm:mx-0">
+        <img
+          src={coverUrl}
+          alt=""
+          class="w-full rounded-none sm:rounded-lg"
+          loading="eager"
+          width="1200"
+          height="630"
+        />
+      </div>
+    )}
 
     <div class="prose prose-neutral dark:prose-invert max-w-none">
       <slot />
