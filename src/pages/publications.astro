@@ -1,6 +1,7 @@
 ---
 import Base from '@/layouts/Base.astro';
 import PublicationEntry from '@/components/PublicationEntry.astro';
+import YearFilter from '@/components/YearFilter.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import { readFileSync } from 'node:fs';
 import { parse } from 'yaml';
@@ -33,6 +34,11 @@ const groupedChapters = chapters.reduce<Record<number, typeof publications>>((ac
 }, {});
 const chapterYears = Object.keys(groupedChapters).map(Number).sort((a, b) => b - a);
 
+const yearCounts: Record<number, number> = {};
+for (const pub of publications) {
+  yearCounts[pub.year] = (yearCounts[pub.year] || 0) + 1;
+}
+
 const scholarlyArticles = publications.map((pub) => ({
   '@context': 'https://schema.org',
   '@type': 'ScholarlyArticle',
@@ -52,50 +58,56 @@ const scholarlyArticles = publications.map((pub) => ({
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Publications</h1>
 
-    <h2 class="text-2xl font-bold tracking-tight mb-6" data-animate>Journal Articles</h2>
+    <YearFilter counts={yearCounts} />
 
-    {articleYears.map((year) => (
-      <section class="mb-10" data-animate>
-        <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
-        <ul>
-          {groupedArticles[year].map((pub) => (
-            <PublicationEntry
-              authors={pub.authors}
-              year={pub.year}
-              title={pub.title}
-              journal={pub.journal}
-              volume={pub.volume}
-              pages={pub.pages}
-              doi={pub.doi}
-              pdf={pub.pdf}
-              type={pub.type}
-            />
-          ))}
-        </ul>
-      </section>
-    ))}
+    <div data-pub-type="article">
+      <h2 class="text-2xl font-bold tracking-tight mb-6" data-animate>Journal Articles</h2>
 
-    <h2 class="text-2xl font-bold tracking-tight mb-6 mt-12" data-animate>Book Chapters</h2>
+      {articleYears.map((year) => (
+        <section class="mb-10" data-animate data-pub-year={String(year)}>
+          <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
+          <ul>
+            {groupedArticles[year].map((pub) => (
+              <PublicationEntry
+                authors={pub.authors}
+                year={pub.year}
+                title={pub.title}
+                journal={pub.journal}
+                volume={pub.volume}
+                pages={pub.pages}
+                doi={pub.doi}
+                pdf={pub.pdf}
+                type={pub.type}
+              />
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
 
-    {chapterYears.map((year) => (
-      <section class="mb-10" data-animate>
-        <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
-        <ul>
-          {groupedChapters[year].map((pub) => (
-            <PublicationEntry
-              authors={pub.authors}
-              year={pub.year}
-              title={pub.title}
-              journal={pub.journal}
-              volume={pub.volume}
-              pages={pub.pages}
-              doi={pub.doi}
-              pdf={pub.pdf}
-              type={pub.type}
-            />
-          ))}
-        </ul>
-      </section>
-    ))}
+    <div data-pub-type="chapter">
+      <h2 class="text-2xl font-bold tracking-tight mb-6 mt-12" data-animate>Book Chapters</h2>
+
+      {chapterYears.map((year) => (
+        <section class="mb-10" data-animate data-pub-year={String(year)}>
+          <h3 class="text-lg font-semibold border-b pb-2 mb-4">{year}</h3>
+          <ul>
+            {groupedChapters[year].map((pub) => (
+              <PublicationEntry
+                authors={pub.authors}
+                year={pub.year}
+                title={pub.title}
+                journal={pub.journal}
+                volume={pub.volume}
+                pages={pub.pages}
+                doi={pub.doi}
+                pdf={pub.pdf}
+                type={pub.type}
+              />
+            ))}
+          </ul>
+        </section>
+      ))}
+    </div>
   </div>
 </Base>
