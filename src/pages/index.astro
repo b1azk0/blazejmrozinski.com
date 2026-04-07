@@ -6,6 +6,8 @@ import CompanyCard from '@/components/CompanyCard.astro';
 import ContactForm from '@/components/ContactForm.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import SectionDots from '@/components/SectionDots.astro';
+import { Image } from 'astro:assets';
+import headshot from '@/assets/headshot.png';
 import { getCollection } from 'astro:content';
 
 const now = new Date();
@@ -84,6 +86,13 @@ const services = [
   <!-- Hero -->
   <section class="py-20 md:py-28" data-animate>
     <div class="container max-w-5xl mx-auto px-4 sm:px-6 text-center">
+      <Image
+        src={headshot}
+        alt="Blazej Mrozinski"
+        width={80}
+        height={80}
+        class="rounded-full mx-auto mb-6 opacity-90"
+      />
       <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-2">
         Blazej Mrozinski, PhD
       </h1>

@@ -3,6 +3,8 @@ import Base from '@/layouts/Base.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import HobbiesSection from '@/components/HobbiesSection.astro';
 import SectionDots from '@/components/SectionDots.astro';
+import { Image } from 'astro:assets';
+import headshot from '@/assets/headshot.png';
 import { getCollection, render } from 'astro:content';
 
 const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about');
@@ -20,6 +22,7 @@ const personJsonLd = {
   name: 'Blazej Mrozinski',
   url: 'https://www.blazejmrozinski.com',
   jobTitle: 'Psychologist, Psychometrician, Product Leader, Data Scientist',
+  image: 'https://www.blazejmrozinski.com/headshot.png',
   alumniOf: [
     { '@type': 'EducationalOrganization', name: 'SWPS University' },
     { '@type': 'EducationalOrganization', name: 'London School of Economics' },
@@ -47,7 +50,18 @@ const personJsonLd = {
   <SectionDots headings={aboutHeadings} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
-    <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>About</h1>
+    <div class="flex items-center gap-6 mb-8" data-animate>
+      <Image
+        src={headshot}
+        alt="Blazej Mrozinski"
+        width={160}
+        height={160}
+        class="rounded-full shrink-0 opacity-90"
+      />
+      <div>
+        <h1 class="text-4xl font-bold tracking-tight">About</h1>
+      </div>
+    </div>
 
     {AboutContent && (
       <div class="prose prose-neutral dark:prose-invert max-w-none" data-animate>
