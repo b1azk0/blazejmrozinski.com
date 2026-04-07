@@ -141,7 +141,7 @@ Each configuration layer was written for a specific problem at a specific time. 
 
 But together, they compound into something qualitatively different from "AI with good prompts."
 
-When I recently built a content distillation pipeline ([ContentForge](/work/contentforge), the system that produces these blog posts), the AI already knew my voice, my business entities, my privacy boundaries, and my editorial standards from weeks of accumulated work on other projects. It didn't need a single calibration session. It produced drafts that read like me on the first attempt, because everything it needed had been documented through the process of working together.
+When I recently built a [content distillation pipeline](/projects/contentforge) (the system that produces these blog posts), the AI already knew my voice, my business entities, my privacy boundaries, and my editorial standards from weeks of accumulated work on other projects. It didn't need a single calibration session. It produced drafts that read like me on the first attempt, because everything it needed had been documented through the process of working together.
 
 When I registered a new quantitative research project, the AI immediately understood where it fit in my portfolio, what infrastructure was available, and what level of operational caution was appropriate. Context that would have taken a full introductory session was available in seconds.
 
