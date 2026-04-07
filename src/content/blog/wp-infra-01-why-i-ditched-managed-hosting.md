@@ -317,8 +317,8 @@ The server tuning is where things get interesting. Managed hosting hides these d
 
 1. **Why I Ditched Managed Hosting** *(you are here)*
 2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. Deploying WordPress the Right Way *(coming Apr 13)*
-4. Four Layers of Caching *(coming Apr 20)*
-5. Locking It Down *(coming Apr 27)*
-6. Automating the Boring Parts *(coming May 4)*
-7. Watching Over It All *(coming May 11)*
+3. Deploying WordPress the Right Way *(stay tuned)*
+4. Four Layers of Caching *(stay tuned)*
+5. Locking It Down *(stay tuned)*
+6. Automating the Boring Parts *(stay tuned)*
+7. Watching Over It All *(stay tuned)*
