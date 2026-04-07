@@ -137,12 +137,12 @@ const services = [
     </div>
   </section>
 
-  <!-- Conviction -->
+  <!-- Why These Worlds Belong Together -->
   <section class="py-12" data-animate="fade">
     <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
-      <blockquote class="text-xl md:text-2xl italic text-muted-foreground leading-relaxed">
-        "The gap between 'we think this works' and 'we measured that this works' is where most products fail."
-      </blockquote>
+      <p class="text-lg md:text-xl text-muted-foreground leading-relaxed">
+        Psychometrics, product consulting, growth engineering, and statistical modeling sit on the same page because they run on the same engine: measurement, systems thinking, and turning fuzzy human problems into testable product logic. The gap between "we think this works" and "we measured that this works" is where most products fail — and where all of this work lives.
+      </p>
     </div>
   </section>
 
@@ -166,6 +166,22 @@ const services = [
           <p class="text-3xl md:text-4xl font-bold">20+</p>
           <p class="text-sm text-muted-foreground mt-1">Years in Academia</p>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Clients & Partners -->
+  <section class="py-10" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <p class="text-center text-sm text-muted-foreground mb-4">Selected clients & partners</p>
+      <div class="flex flex-wrap justify-center gap-x-8 gap-y-2 text-sm font-medium text-muted-foreground/70">
+        <span>LSEG</span>
+        <span>EPAM</span>
+        <span>gr8.tech</span>
+        <span>Relativity</span>
+        <span>HSE Ireland</span>
+        <span>UCL</span>
+        <span>esportsLABgg</span>
       </div>
     </div>
   </section>
@@ -236,7 +252,7 @@ const services = [
     <div class="container max-w-5xl mx-auto px-4 sm:px-6">
       <div class="text-center mb-10">
         <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Writing</h2>
-        <p class="text-muted-foreground mt-2">How I think about measurement, products, and the places they overlap</p>
+        <p class="text-muted-foreground mt-2">AI as CTO · infrastructure from scratch · psychometrics in production · growth systems · rigorous experimentation</p>
       </div>
 
       {posts.length > 0 ? (
@@ -262,6 +278,33 @@ const services = [
       ) : (
         <p class="text-center text-muted-foreground">No posts yet. Check back soon.</p>
       )}
+    </div>
+  </section>
+
+  <!-- Not Ready to Talk Yet? -->
+  <section class="py-10" data-animate>
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-sm text-muted-foreground">Not ready to talk yet? Start here instead.</p>
+      <div class="flex gap-4 justify-center flex-wrap mt-3">
+        <a href="/about#what-i-actually-do" class="text-sm font-medium text-foreground hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+          How I work
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="/work" class="text-sm font-medium text-foreground hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+          See selected projects
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="/blog" class="text-sm font-medium text-foreground hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+          Read the blog
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
     </div>
   </section>
 
