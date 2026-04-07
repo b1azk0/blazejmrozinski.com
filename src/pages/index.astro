@@ -8,6 +8,7 @@ import JsonLd from '@/components/JsonLd.astro';
 import SectionDots from '@/components/SectionDots.astro';
 import { Image } from 'astro:assets';
 import headshot from '@/assets/headshot.png';
+import logo from '@/assets/logo.png';
 import { getCollection } from 'astro:content';
 
 const now = new Date();
@@ -93,8 +94,14 @@ const services = [
         height={80}
         class="rounded-full mx-auto mb-6 opacity-90"
       />
-      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-2">
-        Blazej Mrozinski, PhD
+      <h1 class="mb-2">
+        <Image
+          src={logo}
+          alt="Blazej Mrozinski"
+          width={300}
+          height={150}
+          class="mx-auto dark:invert"
+        />
       </h1>
       <p class="text-lg md:text-xl italic text-muted-foreground max-w-2xl mx-auto mb-4">
         Science gives us clarity, but product work gives it purpose.
