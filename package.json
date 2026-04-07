@@ -10,6 +10,7 @@
     "generate-covers": "node --import tsx scripts/generate-covers.ts",
     "prebuild": "npm run generate-covers",
     "build": "astro build",
+    "postbuild": "node --import tsx scripts/indexnow.ts",
     "preview": "astro preview",
     "astro": "astro"
   },
