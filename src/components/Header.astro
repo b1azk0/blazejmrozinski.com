@@ -1,5 +1,8 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
+import { Image } from 'astro:assets';
+import logoLight from '@/assets/logo-light.png';
+import logoDark from '@/assets/logo-dark.png';
 
 const navItems = [
   { href: '/work', label: 'Work' },
@@ -19,8 +22,21 @@ const currentPath = Astro.url.pathname;
 >
   <div class="container max-w-5xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between">
     <!-- Wordmark -->
-    <a href="/" class="font-semibold text-lg tracking-tight hover:opacity-80 transition-opacity">
-      Blazej Mrozinski
+    <a href="/" class="hover:opacity-80 transition-opacity shrink-0">
+      <Image
+        src={logoLight}
+        alt="Blazej Mrozinski"
+        height={28}
+        width={Math.round(logoLight.width * (28 / logoLight.height))}
+        class="block dark:hidden"
+      />
+      <Image
+        src={logoDark}
+        alt="Blazej Mrozinski"
+        height={28}
+        width={Math.round(logoDark.width * (28 / logoDark.height))}
+        class="hidden dark:block"
+      />
     </a>
 
     <!-- Desktop Navigation -->
