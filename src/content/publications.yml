@@ -7,7 +7,7 @@
   volume: "50(6)"
   pages: "e70009"
   doi: "https://doi.org/10.1002/ab.70009"
-  pdf: ""
+  pdf: "/publications/dyduch-hazar-2024-pleasure-of-revenge.pdf"
   type: "article"
 
 - authors: "Dyduch-Hazar, K., & Mrozinski, B."
@@ -27,7 +27,7 @@
   volume: "189"
   pages: "111498"
   doi: "https://doi.org/10.1016/j.paid.2022.111498"
-  pdf: ""
+  pdf: "/publications/kozlowska-2022-boiling-blood-anger-regulation.pdf"
   type: "article"
 
 - authors: "Dyduch-Hazar, K., & Mrozinski, B."
@@ -37,7 +37,7 @@
   volume: "16(3)"
   pages: "e0247814"
   doi: "https://doi.org/10.1371/journal.pone.0247814"
-  pdf: ""
+  pdf: "/publications/dyduch-hazar-2021-opposite-associations-revenge.pdf"
   type: "article"
 
 - authors: "Kuncewicz, D., Kuncewicz, D., Mrozinski, B., & Stawska, M."
@@ -46,8 +46,8 @@
   journal: "Journal of Social and Personal Relationships"
   volume: "38(2)"
   pages: "648-667"
-  doi: ""
-  pdf: ""
+  doi: "https://doi.org/10.1177/0265407520969896"
+  pdf: "/publications/kuncewicz-2021-insecure-attachment-relationship-quality.pdf"
   type: "article"
 
 - authors: "Karylowski, J. J., & Mrozinski, B."
@@ -56,8 +56,8 @@
   journal: "Self and Identity"
   volume: "20(5)"
   pages: "672-687"
-  doi: "https://doi.org/10.1080/15298868.2020.1779120"
-  pdf: ""
+  doi: "https://doi.org/10.1080/15298868.2020.1773524"
+  pdf: "/publications/karylowski-2021-temporal-distance-trait-aspects.pdf"
   type: "article"
 
 - authors: "Golec de Zavala, A., Federico, C. M., Sedikides, C., Guerra, R., Lantos, D., Mrozinski, B., Cypryanska, M., & Baran, T."
@@ -67,7 +67,7 @@
   volume: "119(3)"
   pages: "741-764"
   doi: "https://doi.org/10.1037/pspp0000260"
-  pdf: ""
+  pdf: "/publications/golec-de-zavala-2020-low-self-esteem-outgroup-derogation.pdf"
   type: "article"
 
 - authors: "Nezlek, J. B., & Mrozinski, B."
@@ -77,7 +77,7 @@
   volume: "120(1)"
   pages: "39-72"
   doi: ""
-  pdf: ""
+  pdf: "/publications/nezlek-2020-multilevel-modeling.pdf"
   type: "article"
 
 - authors: "Dyduch-Hazar, K., Mrozinski, B., Simao, C., & Golec de Zavala, A."
@@ -86,8 +86,8 @@
   journal: "Polish Psychological Bulletin"
   volume: "50(4)"
   pages: "316-325"
-  doi: ""
-  pdf: ""
+  doi: "https://doi.org/10.24425/ppb.2019.131004"
+  pdf: "/publications/dyduch-hazar-2019-collective-narcissism-past-transgressions.pdf"
   type: "article"
 
 - authors: "Dyduch-Hazar, K., Mrozinski, B., & Golec de Zavala, A."
@@ -97,7 +97,7 @@
   volume: "10"
   pages: "1901"
   doi: "https://doi.org/10.3389/fpsyg.2019.01901"
-  pdf: ""
+  pdf: "/publications/dyduch-hazar-2019-collective-narcissism-refugees.pdf"
   type: "article"
 
 - authors: "Morawiak, A., Mrozinski, B., Gutral, J., Cypryanska, M., & Nezlek, J. B."
@@ -107,7 +107,7 @@
   volume: "9(1)"
   pages: "99-108"
   doi: ""
-  pdf: ""
+  pdf: "/publications/morawiak-2018-self-esteem-self-concept-clarity.pdf"
   type: "article"
 
 - authors: "Karylowski, J. J., & Mrozinski, B."
@@ -116,8 +116,8 @@
   journal: "Self and Identity"
   volume: "17(4)"
   pages: "382-393"
-  doi: ""
-  pdf: ""
+  doi: "https://doi.org/10.1080/15298868.2017.1414716"
+  pdf: "/publications/karylowski-2018-using-self-knowledge-about-others.pdf"
   type: "article"
 
 - authors: "Karylowski, J. J., & Mrozinski, B."
@@ -127,7 +127,7 @@
   volume: "8"
   pages: "615"
   doi: "https://doi.org/10.3389/fpsyg.2017.00615"
-  pdf: ""
+  pdf: "/publications/karylowski-2017-time-frame-vantage-point.pdf"
   type: "article"
 
 - authors: "Karylowski, J. J., & Mrozinski, B."
@@ -136,8 +136,8 @@
   journal: "Memory"
   volume: "25(2)"
   pages: "164-169"
-  doi: ""
-  pdf: ""
+  doi: "https://doi.org/10.1080/09658211.2015.1137323"
+  pdf: "/publications/karylowski-2017-accessibility-autobiographical-memories.pdf"
   type: "article"
 
 - authors: "Mrozinski, B., & Karylowski, J. J."
@@ -146,8 +146,8 @@
   journal: "Psychological Reports"
   volume: "109(3)"
   pages: "965-975"
-  doi: ""
-  pdf: ""
+  doi: "https://doi.org/10.2466/07.PR0.109.6.965-975"
+  pdf: "/publications/mrozinski-2011-accessibility-private-public-traits.pdf"
   type: "article"
 
 # Book Chapters
@@ -159,7 +159,7 @@
   volume: ""
   pages: "89-126"
   doi: ""
-  pdf: ""
+  pdf: "/publications/zawadzki-2022-negatywne-reakcje-pandemia-covid.pdf"
   type: "chapter"
 
 - authors: "Popiel, A., Zawadzki, B., Bielecki, M., Mrozinski, B., & Praglowska, E."
@@ -169,7 +169,7 @@
   volume: ""
   pages: ""
   doi: ""
-  pdf: ""
+  pdf: "/publications/popiel-2021-ptsd-covid-pandemic.pdf"
   type: "chapter"
 
 - authors: "Karylowski, J. J., & Mrozinski, B."
