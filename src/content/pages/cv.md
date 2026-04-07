@@ -3,9 +3,63 @@ title: "CV"
 description: "Curriculum Vitae — Blazej Mrozinski, PhD. Psychologist, psychometrician, product builder, data scientist."
 ---
 
+## Professional Summary
+
+Psychologist, psychometrician, product leader, and data scientist specializing in assessment systems, matching logic, quantitative methodology, and translating behavioral science into deployable products. Twenty years across academic research and co-founding companies that put psychometric science into production. Work spans U.S., UK, Polish, and broader international contexts, in both theory-heavy and execution-heavy environments.
+
+## Impact Highlights
+
+- Screened 250+ candidates for LSEG, reducing manual review time by 60%
+- Assessed 1000+ individuals across four pilot talent development programs at EPAM
+- Grew Gyfted to 1.2M annual organic users through programmatic SEO
+- Directed the Experimental Psychology Laboratory at SWPS University for 14 years
+- Named co-inventor on a USPTO patent-pending AI psychometric matching system
+- 15 peer-reviewed journal articles and 7 book chapters in leading psychology journals
+
+## Current Positions
+
+**Co-founder, Chief of Product & Psychometrics** — [Gyfted / Human Exponent](/work/gyfted) (2021–present)
+AI-powered psychometric platform for recruitment and talent development. Designs assessment instruments (CTT, IRT), scoring and feedback logic, competency models for enterprise clients, and the matching architecture connecting validated measurement with ML-driven ranking and recommendation. Builds custom assessment systems for organizations including EPAM and gr8.tech. Owns full product lifecycle. Venture-funded C-corp.
+
+**Co-founder, Chief of Product & Psychometrics** — [Nerds.family](/work/nerds-family) (2025–present)
+Academy 360 — a full-cycle workforce development model that simultaneously develops participants through structured practice, generates observable evidence of capability, and gives employers access to a credible talent pipeline. Designs assessment logic, progression systems, and the measurement layer that bridges learner development with employer decision-making.
+
+**Co-owner** — [Digital Savages LLC / SEO Savages](/work/digital-savages) (2023–present)
+Programmatic SEO, AI/LLM visibility optimization, product-led growth systems, and content automation for complex domains including legal tech, psychometrics, AI health, and AdTech. Builds scalable organic acquisition architecture.
+
+**Adjunct, Dept. of Psychological Research Methodology** — [SWPS University](/work/swps-university) (2006–present)
+Teaching: advanced research methods, psychometrics, data analysis, R programming, experimental design. Research project supervision.
+
+**Director, Experimental Psychology Laboratory** — SWPS University (2010–2024)
+Supported experimental research across the department, maintained methodological standards, guided students and researchers from study design through analysis.
+
+## Selected Applied Projects
+
+**EPAM — Custom Assessment & Talent Development** (via Gyfted)
+Designed custom assessment instruments aligned to EPAM's internal competency framework and L&D use cases. Supported four pilot talent development programs involving 1000+ participants. Bespoke psychometric design connected to practical organizational decisions.
+
+**gr8.tech — Values Assessment Architecture** (via Gyfted)
+Translated client-defined organizational values into a psychometric system using forced-choice, ranking, and situational judgment formats with structured feedback logic. Custom instrument design from construct definition through deployment.
+
+**LSEG (London Stock Exchange Group) — Candidate Screening** (via Gyfted)
+Psychometric screening of 250+ candidates with automated matching, reducing manual review time by 60%.
+
+**HSE Ireland — Career Interest Instrument** (via Gyfted)
+Designed a [public-sector career interest assessment](/projects/hse-career-quiz) for Irish school leavers: 9-cluster career model, IRT/CTT validation, scoring architecture, and classification logic mapping results to healthcare career families.
+
+**Relativity — Relevate Workforce Development** (via Nerds.family)
+Powered the Ascent Academies phase of Relativity's Relevate program — structured, globally accessible academies across Engineering, Product Management, and Customer Success tracks with mentor-supported sprint-based progression.
+
+**[Prawomat](/projects/prawomat) — Legal Tech Growth System** (via Digital Savages)
+1,200+ programmatic landing pages, product-integrated SEO, and structured content architecture for a legal document platform. Product-led growth in a procedurally complex domain.
+
+## Patents & IP
+
+**USPTO Patent Pending** — AI matching system built on a psychometrics-based competencies graph combining validated psychological frameworks (Big Five, Schwartz Values, Emotional Intelligence) with O*NET occupational data and large language models. One of five named co-inventors. Result of 2.5 years of R&D at Gyfted / Human Exponent.
+
 ## Education
 
-**PhD in Psychology (Cognitive Science)** — SWPS University, Warsaw, 2024
+**PhD in Psychology (Cognitive Science)** — SWPS University, Warsaw
 Dissertation: "Cognitive accessibility of observable and unobservable properties in thinking about self and others"
 
 **Postgraduate — Advanced Statistical Methods** — London School of Economics, 2018
@@ -16,20 +70,6 @@ Multilevel modeling, latent class analysis, structural equation modeling
 **MSc Psychology** — SWPS University, 2001–2006
 Specialization: Social Cognitive Psychology. Advisor: dr hab. Jerzy Karylowski
 
-## Current Positions
-
-**Co-founder, Chief of Product & Psychometrics** — [Gyfted / Human Exponent](/work/gyfted) (2021–present)
-AI-powered psychometric platform for recruitment. Designs assessment batteries (CTT, IRT), integrates psychometric models with ML pipelines, owns full product lifecycle. Venture-funded C-corp.
-
-**Co-founder, Chief of Product & Psychometrics** — [Nerds.family](/work/nerds-family) (active)
-Academy 360 model — practice-based tech academies connecting companies, mentors, and learners through hands-on training that grows talent pipelines.
-
-**Co-owner** — [Digital Savages LLC / SEO Savages](/work/digital-savages) (active)
-Growth engineering, programmatic SEO, and content automation. Systems that scale organic traffic.
-
-**Adjunct, Dept. of Psychological Research Methodology** — [SWPS University](/work/swps-university) (2006–present)
-Teaching: methodology, psychometrics, data analysis, R programming. Directed the Experimental Psychology Laboratory (2010–2024).
-
 ## Previous Experience
 
 **Psychometrics Consultant** — esportsLABgg (2023)
@@ -39,7 +79,7 @@ Designed computerized adaptive tests (CAT) and IRT models for assessing personal
 Designed and conducted validation studies for an insomnia treatment protocol.
 
 **Workshop Trainer** — move.mi (2017–2023)
-Led workshops on data presentation, visualization, and Data Storytelling.
+Led workshops on data presentation, visualization, data storytelling, team-building based on personality profiles, and competency assessment in organizations.
 
 **Quantitative Methods Lecturer** — University of Warsaw, Faculty of Management (2017)
 Advanced statistical methods and quantitative analysis.
@@ -63,25 +103,23 @@ Quantitative data analysis, structural equation models, reporting for corporate 
 
 ## Key Competencies
 
-### Psychometric & Statistical Methods
+### Methods & Tools
 
 - Psychometric test design and validation (CTT, IRT, CAT)
-- Structural equation modeling (SEM)
-- Multilevel modeling (HLM/MLM)
-- Latent class analysis (LCA)
+- Structural equation modeling (SEM), multilevel modeling (HLM/MLM), latent class analysis (LCA)
+- Experimental design, survey design, assessment validation
+- R, Python, SPSS, Qualtrics
 
-### Research
+### Product & Assessment Systems
 
-- Cognitive and social psychology
-- Self-concept formation and intergroup behavior
-- Experimental design and methodology
-
-### Product & Technical
-
+- Assessment batteries, competency models, scoring and feedback logic
+- Matching systems, adaptive progression, AI-assisted decision layers
+- Product specification, validation criteria, construct validity
 - Product management and strategy
-- AI workflow integration and architecture
-- Growth engineering and programmatic SEO
-- Statistical programming: R, Python, SPSS
+
+### Domains
+
+Hiring and talent assessment · workforce development · public-sector career guidance · legal tech · AI health · programmatic growth systems · matching platforms
 
 ### Languages
 
@@ -89,8 +127,16 @@ Quantitative data analysis, structural equation models, reporting for corporate 
 - English (C2)
 - Italian (B1)
 
+## Selected Clients & Partners
+
+LSEG · EPAM · gr8.tech · Relativity · HSE Ireland · University College London · esportsLABgg
+
 ## Publications
 
-15 peer-reviewed journal articles and 7 book chapters in *Journal of Personality and Social Psychology*, *Self and Identity*, *PLoS ONE*, *Aggressive Behavior*, *Frontiers in Psychology*, *Memory*, *L'Année Psychologique*, *Personality and Individual Differences*, *Journal of Social Psychology*, *Journal of Social and Personal Relationships*, and *Psychological Reports*, among others.
+**Journal articles** (15) — Research themes: cognitive accessibility, self-concept, social judgment, intergroup behavior, moral emotions, methodological rigor in behavioral research.
+
+Selected journals: *Journal of Personality and Social Psychology*, *Self and Identity*, *PLoS ONE*, *Aggressive Behavior*, *Frontiers in Psychology*, *Personality and Individual Differences*, *Memory*, among others.
+
+**Book chapters** (7) — Topics include pandemic stress responses, self-representation in social judgment, and repeated-measures methodology.
 
 See the [Publications](/publications) page for the full list.
