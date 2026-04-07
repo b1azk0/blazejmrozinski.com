@@ -1,4 +1,8 @@
 ---
+import { Image } from 'astro:assets';
+import logoLight from '@/assets/logo-light.png';
+import logoDark from '@/assets/logo-dark.png';
+
 const footerLinks = {
   pages: [
     { href: '/work', label: 'Work' },
@@ -22,7 +26,22 @@ const footerLinks = {
     <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
       <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
-        <a href="/" class="font-semibold text-lg tracking-tight hover:opacity-80 transition-opacity">Blazej Mrozinski</a>
+        <a href="/" class="inline-block hover:opacity-80 transition-opacity">
+          <Image
+            src={logoLight}
+            alt="Blazej Mrozinski"
+            height={80}
+            width={Math.round(logoLight.width * (80 / logoLight.height))}
+            class="block dark:hidden"
+          />
+          <Image
+            src={logoDark}
+            alt="Blazej Mrozinski"
+            height={80}
+            width={Math.round(logoDark.width * (80 / logoDark.height))}
+            class="hidden dark:block"
+          />
+        </a>
         <p class="mt-3 text-sm text-muted-foreground leading-relaxed">
           Psychologist, psychometrician, product builder. Building at the intersection of cognitive science, AI, and growth engineering.
         </p>
