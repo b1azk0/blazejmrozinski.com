@@ -11,12 +11,13 @@ interface Props {
   date: Date;
   tags: string[];
   audience: string[];
+  author?: string;
   label?: string;
   crumbs: { label: string; href?: string }[];
   headings: { depth: number; slug: string; text: string }[];
 }
 
-const { title, description, date, tags, audience, label, crumbs, headings } = Astro.props;
+const { title, description, date, tags, audience, author, label, crumbs, headings } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -57,7 +58,7 @@ const articleJsonLd = {
 };
 ---
 
-<Base title={title} description={description} ogType="article" ogImage={coverUrl}>
+<Base title={title} description={description} ogType="article" ogImage={coverUrl} author={author} keywords={tags.length > 0 ? tags.join(', ') : undefined}>
   <JsonLd data={articleJsonLd} />
 
   <div class:list={["container mx-auto px-4 sm:px-6 py-12", showSidebar ? "max-w-5xl" : "max-w-3xl"]}>
@@ -100,7 +101,7 @@ const articleJsonLd = {
           <div class="mb-10 -mx-4 sm:mx-0">
             <img
               src={coverUrl}
-              alt=""
+              alt={title}
               class="w-full rounded-none sm:rounded-lg"
               loading="eager"
               width="1200"

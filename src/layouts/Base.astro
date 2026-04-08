@@ -15,10 +15,13 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   ogType?: string;
+  robots?: string;
+  author?: string;
+  keywords?: string;
   fullWidth?: boolean;
 }
 
-const { title, description, canonical, ogImage, ogType = 'website', fullWidth = false } = Astro.props;
+const { title, description, canonical, ogImage, ogType = 'website', robots, author, keywords, fullWidth = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -28,7 +31,7 @@ const { title, description, canonical, ogImage, ogType = 'website', fullWidth = 
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <FontPreload />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <SEO title={title} description={description} canonical={canonical} ogImage={ogImage} ogType={ogType} />
+    <SEO title={title} description={description} canonical={canonical} ogImage={ogImage} ogType={ogType} robots={robots} author={author} keywords={keywords} />
     <ClientRouter />
     <ThemeScript />
     <slot name="head" />

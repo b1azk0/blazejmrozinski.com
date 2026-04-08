@@ -5,11 +5,23 @@ interface Props {
   canonical?: string;
   ogImage?: string;
   ogType?: string;
+  robots?: string;
+  author?: string;
+  keywords?: string;
 }
 
 const siteUrl = Astro.site ?? new URL('https://www.blazejmrozinski.com');
 
-const { title, description, canonical, ogImage, ogType = 'website' } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  robots = 'index, follow',
+  author = 'Blazej Mrozinski',
+  keywords,
+} = Astro.props;
 
 const fullTitle = `${title} — Blazej Mrozinski`;
 const canonicalUrl = canonical ?? new URL(Astro.url.pathname, siteUrl).toString();
@@ -19,6 +31,10 @@ const socialImageURL = new URL(ogImage || '/og-default.png', siteUrl).toString()
 <title>{fullTitle}</title>
 <meta name="title" content={fullTitle} />
 <meta name="description" content={description} />
+<meta name="robots" content={robots} />
+<meta name="author" content={author} />
+<meta name="publisher" content="Blazej Mrozinski" />
+{keywords && <meta name="keywords" content={keywords} />}
 
 <link rel="canonical" href={canonicalUrl} />
 

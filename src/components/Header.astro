@@ -22,7 +22,7 @@ const currentPath = Astro.url.pathname;
 >
   <div class="container max-w-5xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between">
     <!-- Wordmark -->
-    <a href="/" class="hover:opacity-80 transition-opacity shrink-0">
+    <a href="/" title="Blazej Mrozinski — Home" class="hover:opacity-80 transition-opacity shrink-0">
       <Image
         src={logoLight}
         alt="Blazej Mrozinski"
@@ -48,6 +48,7 @@ const currentPath = Astro.url.pathname;
         return (
           <a
             href={item.href}
+            title={item.label}
             class:list={[
               'transition-colors',
               isActive
@@ -95,6 +96,7 @@ const currentPath = Astro.url.pathname;
         return (
           <a
             href={item.href}
+            title={item.label}
             class:list={[
               'block px-3 py-2 rounded-md text-base font-medium transition-colors',
               isActive
