@@ -6,6 +6,11 @@
   NODE_VERSION = "22"
   PUBLIC_GA4_ID = "G-FLKVTLL23M"
 
+[[redirects]]
+  from = "/sitemap.xml"
+  to = "/sitemap-index.xml"
+  status = 301
+
 [[headers]]
   for = "/*"
   [headers.values]
