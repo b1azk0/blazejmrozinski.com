@@ -65,6 +65,21 @@ const pages = defineCollection({
   }),
 });
 
+const glossary = defineCollection({
+  loader: glob({ pattern: '**/*.md', base: './src/content/glossary' }),
+  schema: z.object({
+    term: z.string(),
+    seoTitle: z.string(),
+    description: z.string(),
+    definition: z.string(),
+    domain: z.string(),
+    relatedContent: z.array(z.string()).default([]),
+    relatedTerms: z.array(z.string()).default([]),
+    status: z.enum(['draft', 'published']).default('draft'),
+    date: z.coerce.date(),
+  }),
+});
+
 const photography = defineCollection({
   loader: glob({ pattern: '**/index.md', base: './src/content/photography' }),
   schema: ({ image }) => z.object({
@@ -82,4 +97,4 @@ const photography = defineCollection({
   }),
 });
 
-export const collections = { blog, companies, projects, pages, photography };
+export const collections = { blog, companies, projects, pages, glossary, photography };
