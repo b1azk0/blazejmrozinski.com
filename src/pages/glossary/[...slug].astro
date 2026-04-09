@@ -1,0 +1,151 @@
+---
+import Base from '@/layouts/Base.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import { getCollection, render } from 'astro:content';
+import { getDomainConfig } from '@/lib/domains';
+
+export async function getStaticPaths() {
+  const terms = await getCollection('glossary', ({ data }) => data.status === 'published');
+  return terms.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const domainConfig = getDomainConfig(entry.data.domain);
+
+const slug = Astro.params.slug;
+const canonicalUrl = `https://www.blazejmrozinski.com/glossary/${slug}/`;
+const coverUrl = `/covers/glossary-${slug}.png`;
+
+// Resolve related content titles
+const blog = await getCollection('blog', ({ data }) => data.status === 'published');
+const companies = await getCollection('companies');
+const projects = await getCollection('projects');
+const allGlossary = await getCollection('glossary', ({ data }) => data.status === 'published');
+
+type ResolvedLink = { title: string; href: string };
+
+const relatedLinks: ResolvedLink[] = entry.data.relatedContent.map((ref: string) => {
+  const [type, ...rest] = ref.split('/');
+  const id = rest.join('/');
+  if (type === 'blog') {
+    const post = blog.find((p) => p.id === id);
+    return post ? { title: post.data.title, href: `/blog/${post.id}/` } : null;
+  }
+  if (type === 'work') {
+    const company = companies.find((c) => c.id === id);
+    return company ? { title: company.data.name, href: `/work/${company.id}/` } : null;
+  }
+  if (type === 'projects') {
+    const project = projects.find((p) => p.id === id);
+    return project ? { title: project.data.name, href: `/projects/${project.id}/` } : null;
+  }
+  return null;
+}).filter((link: ResolvedLink | null): link is ResolvedLink => link !== null);
+
+const seeAlso = entry.data.relatedTerms.map((termSlug: string) => {
+  const related = allGlossary.find((t) => t.id === termSlug);
+  return related ? { title: related.data.term, href: `/glossary/${related.id}/` } : null;
+}).filter((link: ResolvedLink | null): link is ResolvedLink => link !== null);
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: entry.data.term,
+  description: entry.data.definition,
+  url: canonicalUrl,
+  inDefinedTermSet: {
+    '@type': 'DefinedTermSet',
+    name: 'Glossary',
+    url: 'https://www.blazejmrozinski.com/glossary/',
+  },
+};
+---
+
+<Base
+  title={entry.data.seoTitle}
+  description={entry.data.description}
+  ogImage={coverUrl}
+  keywords={entry.data.domain}
+>
+  <JsonLd data={jsonLd} />
+
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Glossary', href: '/glossary' },
+      { label: entry.data.term },
+    ]} />
+
+    <article>
+      <header class="mb-8">
+        <h1 class="text-4xl font-bold tracking-tight mb-4">{entry.data.term}</h1>
+        <span
+          class="inline-flex items-center gap-1.5 text-sm text-muted-foreground"
+        >
+          <span
+            class="w-1.5 h-1.5 rounded-full"
+            style={`background-color: ${domainConfig.accent};`}
+            aria-hidden="true"
+          />
+          {domainConfig.name}
+        </span>
+      </header>
+
+      {coverUrl && (
+        <div class="mb-10 -mx-4 sm:mx-0">
+          <img
+            src={coverUrl}
+            alt={entry.data.term}
+            class="w-full rounded-none sm:rounded-lg"
+            loading="eager"
+            width="1200"
+            height="630"
+          />
+        </div>
+      )}
+
+      <div class="prose prose-neutral dark:prose-invert max-w-none">
+        <Content />
+      </div>
+
+      {relatedLinks.length > 0 && (
+        <section class="mt-12 pt-8 border-t">
+          <h2 class="text-lg font-semibold mb-4">Related on this site</h2>
+          <ul class="space-y-2">
+            {relatedLinks.map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {link.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {seeAlso.length > 0 && (
+        <section class="mt-8 pt-8 border-t">
+          <h2 class="text-lg font-semibold mb-4">See also</h2>
+          <div class="flex flex-wrap gap-2">
+            {seeAlso.map((link) => (
+              <a
+                href={link.href}
+                class="text-sm bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
+              >
+                {link.title}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+    </article>
+  </div>
+</Base>
