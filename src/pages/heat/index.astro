@@ -446,6 +446,14 @@ const companyData = allCompanies.map((c) => ({
       const url = new URL(window.location.href);
       url.searchParams.set('k', keyword);
       window.history.replaceState({}, '', url.toString());
+
+      // GA4 analytics event
+      if (typeof gtag === 'function') {
+        gtag('event', 'heatmap_click', {
+          keyword: keyword,
+          keyword_type: type,
+        });
+      }
     }
 
     // Click handlers
