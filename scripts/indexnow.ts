@@ -10,7 +10,7 @@ import { readFileSync, existsSync } from 'node:fs';
 import { resolve } from 'node:path';
 
 const HOST = 'www.blazejmrozinski.com';
-const KEY = '915b19b4d81662ea54d502a261dd5433';
+const KEY = '3a838b06f8a64c129f2d2c72f535b6b2';
 const DIST = resolve(process.cwd(), 'dist');
 
 const SITEMAPS = [

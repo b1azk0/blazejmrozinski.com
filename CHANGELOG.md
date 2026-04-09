@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.5.3] — 2026-04-09
+
+### Fixed
+- Replaced stale IndexNow API key with new key (`3a838b06f8a64c129f2d2c72f535b6b2`)
+- Updated key file in `public/` and key reference in `scripts/indexnow.ts`
+
 ## [0.5.2] — 2026-04-06
 
 ### Changed
