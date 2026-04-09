@@ -1,0 +1,78 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { getDomainConfig } from '@/lib/domains';
+
+const terms = (await getCollection('glossary', ({ data }) => data.status === 'published'))
+  .sort((a, b) => a.data.term.localeCompare(b.data.term));
+
+// Group by first letter
+const grouped: Record<string, typeof terms> = {};
+for (const term of terms) {
+  const letter = term.data.term[0].toUpperCase();
+  if (!grouped[letter]) grouped[letter] = [];
+  grouped[letter].push(term);
+}
+const letters = Object.keys(grouped).sort();
+---
+
+<Base
+  title="Glossary: Key Terms in Psychometrics, Infrastructure & Product"
+  description="Definitions of key terms used across blazejmrozinski.com — psychometrics, server infrastructure, AI, product management, and more."
+>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-4" data-animate>Glossary</h1>
+    <p class="text-muted-foreground mb-8" data-animate data-delay="1">
+      Key terms from psychometrics, server infrastructure, AI, product management, and related fields.
+    </p>
+
+    {letters.length > 0 && (
+      <nav class="flex flex-wrap gap-2 mb-10" aria-label="Alphabetical navigation" data-animate data-delay="2">
+        {letters.map((letter) => (
+          <a
+            href={`#letter-${letter}`}
+            class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors w-8 h-8 flex items-center justify-center rounded bg-secondary hover:bg-accent"
+          >
+            {letter}
+          </a>
+        ))}
+      </nav>
+    )}
+
+    {letters.length > 0 ? (
+      <div class="space-y-10">
+        {letters.map((letter) => (
+          <section id={`letter-${letter}`}>
+            <h2 class="text-2xl font-bold tracking-tight mb-4 text-muted-foreground/50">{letter}</h2>
+            <div class="space-y-4">
+              {grouped[letter].map((term) => {
+                const domainConfig = getDomainConfig(term.data.domain);
+                return (
+                  <a
+                    href={`/glossary/${term.id}/`}
+                    class="block p-4 rounded-lg border hover:border-foreground/20 transition-colors group"
+                  >
+                    <div class="flex items-center gap-2 mb-1">
+                      <h3 class="font-semibold group-hover:text-primary transition-colors">{term.data.term}</h3>
+                      <span class="inline-flex items-center gap-1 text-xs text-muted-foreground">
+                        <span
+                          class="w-1.5 h-1.5 rounded-full"
+                          style={`background-color: ${domainConfig.accent};`}
+                          aria-hidden="true"
+                        />
+                        {domainConfig.name}
+                      </span>
+                    </div>
+                    <p class="text-sm text-muted-foreground">{term.data.definition}</p>
+                  </a>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+    ) : (
+      <p class="text-muted-foreground py-8" data-animate>Glossary terms coming soon.</p>
+    )}
+  </div>
+</Base>
