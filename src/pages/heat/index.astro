@@ -314,3 +314,172 @@ const companyData = allCompanies.map((c) => ({
     }
   }
 </style>
+
+<script>
+  function initHeatmap() {
+    const cloud = document.getElementById('word-cloud');
+    const divider = document.getElementById('results-divider');
+    const resultCount = document.getElementById('result-count');
+    const postResults = document.getElementById('post-results');
+    const pageResults = document.getElementById('page-results');
+    const relatedHeading = document.getElementById('related-heading');
+
+    if (!cloud) return;
+
+    const buttons = cloud.querySelectorAll<HTMLButtonElement>('.keyword');
+    const postCards = document.querySelectorAll<HTMLElement>('.result-post');
+    const pageCards = document.querySelectorAll<HTMLElement>('.result-page');
+
+    function clearSelection() {
+      buttons.forEach((btn) => btn.classList.remove('active'));
+      divider?.classList.add('hidden');
+      resultCount?.classList.add('hidden');
+      postResults?.classList.add('hidden');
+      pageResults?.classList.add('hidden');
+      relatedHeading?.classList.add('hidden');
+      postCards.forEach((card) => (card.style.display = 'none'));
+      pageCards.forEach((card) => (card.style.display = 'none'));
+    }
+
+    function selectKeyword(keyword: string, type: string) {
+      clearSelection();
+
+      // Highlight active keyword
+      const activeBtn = cloud!.querySelector<HTMLButtonElement>(
+        `.keyword[data-keyword="${CSS.escape(keyword)}"]`
+      );
+      if (!activeBtn) return;
+      activeBtn.classList.add('active');
+
+      // Filter blog posts
+      let postCount = 0;
+      const matchedPostSlugs: string[] = [];
+
+      postCards.forEach((card) => {
+        let matches = false;
+        if (type === 'tag') {
+          const tags = (card.dataset.tags || '').split(',');
+          matches = tags.includes(keyword);
+        } else {
+          matches = card.dataset.label === keyword;
+        }
+        card.style.display = matches ? '' : 'none';
+        if (matches) {
+          postCount++;
+          // Extract slug from the card's link href
+          const link = card.querySelector('a');
+          if (link) {
+            const href = link.getAttribute('href') || '';
+            const slug = href.replace('/blog/', '');
+            matchedPostSlugs.push(slug);
+          }
+        }
+      });
+
+      // Filter projects/companies
+      let pageCount = 0;
+
+      pageCards.forEach((card) => {
+        let matches = false;
+        const domain = (card.dataset.domain || '').toLowerCase();
+
+        if (type === 'label') {
+          // Domain match: check if the project/company domain contains the label keyword
+          matches = domain.includes(keyword.replace('-', ' ')) ||
+                    domain.includes(keyword);
+        }
+
+        // Related posts match: check if any of the card's related posts are in matched posts
+        if (!matches) {
+          const relatedPosts = (card.dataset.relatedPosts || '').split(',').filter(Boolean);
+          matches = relatedPosts.some((rp) => matchedPostSlugs.includes(rp));
+        }
+
+        // For companies: check if any of their related projects matched
+        if (!matches && card.dataset.pageType === 'company') {
+          const relatedProjects = (card.dataset.relatedProjects || '').split(',').filter(Boolean);
+          const matchedProjectSlugs: string[] = [];
+          pageCards.forEach((pc) => {
+            if (pc.dataset.pageType === 'project' && pc.style.display !== 'none') {
+              const link = pc.querySelector('a');
+              if (link) {
+                const slug = (link.getAttribute('href') || '').replace('/work/', '');
+                matchedProjectSlugs.push(slug);
+              }
+            }
+          });
+          matches = relatedProjects.some((rp) => matchedProjectSlugs.includes(rp));
+        }
+
+        card.style.display = matches ? '' : 'none';
+        if (matches) pageCount++;
+      });
+
+      // Show results sections
+      divider?.classList.remove('hidden');
+      resultCount?.classList.remove('hidden');
+
+      if (postCount > 0) {
+        postResults?.classList.remove('hidden');
+      }
+
+      if (pageCount > 0) {
+        pageResults?.classList.remove('hidden');
+        relatedHeading?.classList.remove('hidden');
+      }
+
+      // Update count text
+      const parts: string[] = [];
+      if (postCount > 0) parts.push(`${postCount} post${postCount === 1 ? '' : 's'}`);
+      if (pageCount > 0) parts.push(`${pageCount} page${pageCount === 1 ? '' : 's'}`);
+      const displayName = activeBtn.textContent?.trim() || keyword;
+      if (resultCount) {
+        resultCount.innerHTML = parts.length > 0
+          ? `${parts.join(' + ')} for <strong>${displayName}</strong>`
+          : `No results for <strong>${displayName}</strong>`;
+      }
+
+      // Smooth scroll to results
+      divider?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      // Update URL
+      const url = new URL(window.location.href);
+      url.searchParams.set('k', keyword);
+      window.history.replaceState({}, '', url.toString());
+    }
+
+    // Click handlers
+    buttons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const keyword = btn.dataset.keyword || '';
+        const type = btn.dataset.type || 'tag';
+
+        // Toggle off if already active
+        if (btn.classList.contains('active')) {
+          clearSelection();
+          const url = new URL(window.location.href);
+          url.searchParams.delete('k');
+          window.history.replaceState({}, '', url.toString());
+          return;
+        }
+
+        selectKeyword(keyword, type);
+      });
+    });
+
+    // Restore from URL param
+    const params = new URLSearchParams(window.location.search);
+    const initialKeyword = params.get('k');
+    if (initialKeyword) {
+      const matchingBtn = cloud.querySelector<HTMLButtonElement>(
+        `.keyword[data-keyword="${CSS.escape(initialKeyword)}"]`
+      );
+      if (matchingBtn) {
+        selectKeyword(initialKeyword, matchingBtn.dataset.type || 'tag');
+      }
+    }
+  }
+
+  initHeatmap();
+  document.addEventListener('astro:after-swap', initHeatmap);
+</script>
