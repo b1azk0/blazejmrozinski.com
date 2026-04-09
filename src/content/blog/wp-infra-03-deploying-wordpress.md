@@ -1,11 +1,11 @@
 ---
 title: "Deploying WordPress the Right Way (Not the 5-Minute Install)"
-date: 2026-04-13
+date: 2026-04-09
 tags: [devops-reality, wordpress, hetzner, server-backend, redis, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis with Object Cache Pro, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
-status: draft
+status: published
 label: infrastructure
 safety_review: false
 ---
@@ -32,7 +32,7 @@ safety_review: false
 
 Every WordPress tutorial starts the same way. Download, unzip, point your browser at the installer, click through three screens, done. Congratulations, you have a working WordPress site. You also have a site with no object caching, default memory limits that will choke under any real load, a wp-config.php full of placeholder values, and zero infrastructure for what happens when something goes wrong at 2 AM.
 
-I learned this the specific way. After building the LEMP stack in Part 2, I installed WordPress and immediately activated Object Cache Pro, my Redis caching layer. Everything looked fine. The plugin showed as active, the settings page loaded, Redis was running. Two hours later I noticed the cache hit rate was exactly zero. Every single request was a miss. Object Cache Pro was silently failing because I had placed the `WP_REDIS_CONFIG` constant in the wrong location in wp-config.php. Not a wrong value. The wrong *line number*.
+I learned this the specific way. After building the LEMP stack in [Part 2](/blog/wp-infra-02-building-the-lemp-stack), I installed WordPress and immediately activated Object Cache Pro, my Redis caching layer. Everything looked fine. The plugin showed as active, the settings page loaded, Redis was running. Two hours later I noticed the cache hit rate was exactly zero. Every single request was a miss. Object Cache Pro was silently failing because I had placed the `WP_REDIS_CONFIG` constant in the wrong location in wp-config.php. Not a wrong value. The wrong *line number*.
 
 That experience shaped how I now deploy every WordPress site. The order of operations matters. The specific constants matter. The plugin installation sequence matters. This post walks through all of it.
 
@@ -137,7 +137,7 @@ define('WP_AUTO_UPDATE_CORE', false);
 define('WP_DEBUG', false);
 ```
 
-`DISALLOW_FILE_EDIT` removes the Theme Editor and Plugin Editor from the WordPress admin entirely. On a production server, nobody should be editing PHP through a web browser. `WP_POST_REVISIONS` set to 5 prevents the database from accumulating hundreds of revision rows per post. The memory limits match the server tier from Part 2. A small Hetzner CX22 with 4 GB RAM gets 256M per request, while a CX32 with 8 GB gets 512M.
+`DISALLOW_FILE_EDIT` removes the Theme Editor and Plugin Editor from the WordPress admin entirely. On a production server, nobody should be editing PHP through a web browser. `WP_POST_REVISIONS` set to 5 prevents the database from accumulating hundreds of revision rows per post. The memory limits match the server tier from [Part 2](/blog/wp-infra-02-building-the-lemp-stack). A small Hetzner CX22 with 4 GB RAM gets 256M per request, while a CX32 with 8 GB gets 512M.
 
 I also set `AUTOMATIC_UPDATER_DISABLED` to true because updates are handled through WP-CLI and a plugin sync system that runs after nightly backups. Letting WordPress auto-update itself on a server you've carefully tuned is asking for surprises.
 
@@ -306,7 +306,7 @@ server {
 }
 ```
 
-Several things to note. The `fastcgi_cache WP` directive references the cache zone named `WP` that was defined in `nginx.conf` during the LEMP stack setup (Part 2). That zone was configured as:
+Several things to note. The `fastcgi_cache WP` directive references the cache zone named `WP` that was defined in `nginx.conf` during the [LEMP stack setup (Part 2)](/blog/wp-infra-02-building-the-lemp-stack). That zone was configured as:
 
 ```nginx
 fastcgi_cache_path /var/cache/nginx/fastcgi_cache levels=1:2 keys_zone=WP:200m inactive=120m max_size=2g;
@@ -445,9 +445,9 @@ For a personal account of what happens when production security measures work to
 
 ---
 
-*Previous: Part 2, "Building the LEMP Stack"*
+*Previous: [Part 2, "Building the LEMP Stack"](/blog/wp-infra-02-building-the-lemp-stack)*
 
-*Next: Part 4, "Four Layers of Caching"*
+*Next: Part 4, "Four Layers of Caching" (coming soon)*
 
 
 ---
