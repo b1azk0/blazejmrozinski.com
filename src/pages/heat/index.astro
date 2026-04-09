@@ -1,0 +1,320 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getCollection } from 'astro:content';
+import { labels, type LabelSlug } from '@/lib/labels';
+
+// --- Collect published blog posts ---
+const now = new Date();
+const allPosts = await getCollection('blog', ({ data }) => data.status === 'published' && data.date <= now);
+const posts = allPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+
+// --- Collect projects and companies ---
+const allProjects = await getCollection('projects');
+const allCompanies = await getCollection('companies');
+
+// --- Count tag frequencies ---
+const tagCounts = new Map<string, number>();
+const tagLabelMap = new Map<string, Map<string, number>>(); // tag -> { label -> count }
+
+for (const post of posts) {
+  for (const tag of post.data.tags) {
+    tagCounts.set(tag, (tagCounts.get(tag) || 0) + 1);
+    if (post.data.label) {
+      if (!tagLabelMap.has(tag)) tagLabelMap.set(tag, new Map());
+      const labelMap = tagLabelMap.get(tag)!;
+      labelMap.set(post.data.label, (labelMap.get(post.data.label) || 0) + 1);
+    }
+  }
+}
+
+// --- Count label frequencies ---
+const labelCounts = new Map<string, number>();
+for (const post of posts) {
+  if (post.data.label) {
+    labelCounts.set(post.data.label, (labelCounts.get(post.data.label) || 0) + 1);
+  }
+}
+
+// --- Determine tag color: most common co-occurring label, or neutral gray ---
+function getTagColor(tag: string): string {
+  const labelMap = tagLabelMap.get(tag);
+  if (!labelMap || labelMap.size === 0) return '#a0a0a0';
+  if (labelMap.size >= 3) {
+    // Check if any label has a majority (> others individually)
+    const sorted = [...labelMap.entries()].sort((a, b) => b[1] - a[1]);
+    if (sorted[0][1] === sorted[1][1]) return '#a0a0a0';
+  }
+  const topLabel = [...labelMap.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  return labels[topLabel as LabelSlug]?.accent ?? '#a0a0a0';
+}
+
+// --- Compute font sizes (14px to 48px) ---
+const allCounts = [...tagCounts.values(), ...labelCounts.values()];
+const maxCount = Math.max(...allCounts, 1);
+const minCount = Math.min(...allCounts, 1);
+
+function fontSize(count: number): number {
+  if (maxCount === minCount) return 28;
+  const ratio = (count - minCount) / (maxCount - minCount);
+  return Math.round(14 + ratio * 34);
+}
+
+function fontWeight(count: number): number {
+  if (maxCount === minCount) return 600;
+  const ratio = (count - minCount) / (maxCount - minCount);
+  return Math.round(400 + ratio * 400);
+}
+
+// --- Build keyword list for the cloud ---
+interface CloudKeyword {
+  text: string;
+  type: 'tag' | 'label';
+  count: number;
+  color: string;
+  size: number;
+  weight: number;
+  slug: string;
+}
+
+const keywords: CloudKeyword[] = [];
+
+for (const [tag, count] of tagCounts) {
+  keywords.push({
+    text: tag,
+    type: 'tag',
+    count,
+    color: getTagColor(tag),
+    size: fontSize(count),
+    weight: fontWeight(count),
+    slug: tag,
+  });
+}
+
+for (const [label, count] of labelCounts) {
+  const config = labels[label as LabelSlug];
+  if (!config) continue;
+  keywords.push({
+    text: config.name,
+    type: 'label',
+    count,
+    color: config.accent,
+    size: fontSize(count),
+    weight: fontWeight(count),
+    slug: label,
+  });
+}
+
+// Shuffle for visual variety (deterministic shuffle using count as seed proxy)
+keywords.sort((a, b) => {
+  const hashA = a.text.length * 7 + a.count * 13;
+  const hashB = b.text.length * 7 + b.count * 13;
+  return hashA - hashB;
+});
+
+// --- Prepare post data for results ---
+const postData = posts.map((post) => ({
+  title: post.data.title,
+  description: post.data.description,
+  date: post.data.date,
+  tags: post.data.tags,
+  label: post.data.label || '',
+  slug: post.id,
+  labelName: post.data.label && labels[post.data.label as LabelSlug]?.name || '',
+  labelColor: post.data.label && labels[post.data.label as LabelSlug]?.accent || '',
+}));
+
+// --- Prepare project/company data for results ---
+const projectData = allProjects.map((p) => ({
+  name: p.data.name,
+  description: p.data.description,
+  domain: p.data.domain,
+  slug: p.id,
+  relatedPosts: p.data.related_posts || [],
+  type: 'project' as const,
+}));
+
+const companyData = allCompanies.map((c) => ({
+  name: c.data.name,
+  description: c.data.description,
+  domain: c.data.domain,
+  slug: c.id,
+  relatedProjects: c.data.related_projects || [],
+  type: 'company' as const,
+}));
+---
+
+<Base
+  title="Explore by Keyword"
+  description="Interactive keyword cloud — explore blog posts, projects, and companies by topic."
+  robots="noindex, nofollow"
+>
+  <div class="w-full max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <!-- Page title -->
+    <div class="text-center mb-12">
+      <h1 class="text-3xl sm:text-4xl font-bold tracking-tight mb-3">Explore by keyword</h1>
+      <p class="text-muted-foreground text-sm">Click a keyword to see matching content</p>
+    </div>
+
+    <!-- Word Cloud -->
+    <div
+      id="word-cloud"
+      class="flex flex-wrap justify-center items-baseline gap-x-4 gap-y-3 sm:gap-x-5 sm:gap-y-4 mb-12 px-2 sm:px-8"
+    >
+      {keywords.map((kw) => (
+        <button
+          class:list={[
+            'keyword transition-all duration-200 cursor-pointer select-none',
+            kw.type === 'label' ? 'keyword-label' : 'keyword-tag',
+          ]}
+          data-keyword={kw.slug}
+          data-type={kw.type}
+          style={
+            kw.type === 'tag'
+              ? `font-size:${kw.size}px;font-weight:${kw.weight};color:${kw.color};`
+              : `font-size:${kw.size}px;font-weight:${kw.weight};border-color:${kw.color};color:${kw.color};`
+          }
+        >
+          {kw.text}
+        </button>
+      ))}
+    </div>
+
+    <!-- Divider (hidden until click) -->
+    <div id="results-divider" class="border-t border-border mb-8 hidden"></div>
+
+    <!-- Result count -->
+    <p id="result-count" class="text-sm text-muted-foreground mb-6 hidden"></p>
+
+    <!-- Blog post results -->
+    <div id="post-results" class="grid gap-4 mb-8 hidden">
+      {postData.map((post) => (
+        <article
+          class="result-post rounded-lg border bg-card text-card-foreground p-5 transition-all"
+          data-tags={post.tags.join(',')}
+          data-label={post.label}
+          style={post.labelColor ? `border-left: 3px solid ${post.labelColor};` : ''}
+        >
+          <a href={`/blog/${post.slug}`} class="block">
+            <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
+              {post.title}
+            </h3>
+          </a>
+          <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed line-clamp-2">
+            {post.description}
+          </p>
+          <div class="flex items-center gap-3 mt-3 text-xs text-muted-foreground">
+            <time datetime={post.date.toISOString()}>
+              {post.date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </time>
+            {post.labelName && (
+              <span class="inline-flex items-center gap-1.5">
+                <span
+                  class="w-1.5 h-1.5 rounded-full shrink-0"
+                  style={`background-color:${post.labelColor};`}
+                  aria-hidden="true"
+                />
+                {post.labelName}
+              </span>
+            )}
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <!-- Related Pages heading -->
+    <h2 id="related-heading" class="text-lg font-semibold mb-4 hidden">Related Pages</h2>
+
+    <!-- Project/Company results -->
+    <div id="page-results" class="grid gap-4 mb-12 hidden">
+      {projectData.map((p) => (
+        <article
+          class="result-page rounded-lg border border-dashed bg-card text-card-foreground p-5 transition-all"
+          data-domain={p.domain}
+          data-related-posts={p.relatedPosts.join(',')}
+          data-page-type="project"
+        >
+          <a href={`/work/${p.slug}`} class="block">
+            <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
+              {p.name}
+            </h3>
+          </a>
+          <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed line-clamp-2">
+            {p.description}
+          </p>
+          <div class="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
+            <span>Project</span>
+            <span class="opacity-40">·</span>
+            <span>{p.domain}</span>
+          </div>
+        </article>
+      ))}
+      {companyData.map((c) => (
+        <article
+          class="result-page rounded-lg border border-dashed bg-card text-card-foreground p-5 transition-all"
+          data-domain={c.domain}
+          data-related-projects={c.relatedProjects.join(',')}
+          data-page-type="company"
+        >
+          <a href={`/work/${c.slug}`} class="block">
+            <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
+              {c.name}
+            </h3>
+          </a>
+          <p class="text-sm text-muted-foreground mt-1.5 leading-relaxed line-clamp-2">
+            {c.description}
+          </p>
+          <div class="flex items-center gap-2 mt-3 text-xs text-muted-foreground">
+            <span>Company</span>
+            <span class="opacity-40">·</span>
+            <span>{c.domain}</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</Base>
+
+<style>
+  .keyword-tag {
+    background: none;
+    border: none;
+    padding: 2px 4px;
+    line-height: 1.2;
+  }
+
+  .keyword-tag:hover {
+    transform: scale(1.08);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .keyword-label {
+    background: none;
+    border: 2px solid;
+    border-radius: 9999px;
+    padding: 2px 12px;
+    line-height: 1.4;
+  }
+
+  .keyword-label:hover {
+    background-color: color-mix(in srgb, currentColor 12%, transparent);
+  }
+
+  .keyword.active.keyword-tag {
+    background-color: color-mix(in srgb, currentColor 15%, transparent);
+    border-radius: 4px;
+    transform: scale(1.05);
+  }
+
+  .keyword.active.keyword-label {
+    background-color: color-mix(in srgb, currentColor 15%, transparent);
+    transform: scale(1.05);
+  }
+
+  @media (max-width: 640px) {
+    .keyword-tag,
+    .keyword-label {
+      font-size: calc(var(--base-size, 14px) * 0.8) !important;
+    }
+  }
+</style>
