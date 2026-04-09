@@ -167,8 +167,8 @@ const companyData = allCompanies.map((c) => ({
           data-type={kw.type}
           style={
             kw.type === 'tag'
-              ? `font-size:${kw.size}px;font-weight:${kw.weight};color:${kw.color};`
-              : `font-size:${kw.size}px;font-weight:${kw.weight};border-color:${kw.color};color:${kw.color};`
+              ? `font-size:${kw.size}px;--mob-size:${Math.round(kw.size * 0.8)}px;font-weight:${kw.weight};color:${kw.color};`
+              : `font-size:${kw.size}px;--mob-size:${Math.round(kw.size * 0.8)}px;font-weight:${kw.weight};border-color:${kw.color};color:${kw.color};`
           }
         >
           {kw.text}
@@ -311,6 +311,11 @@ const companyData = allCompanies.map((c) => ({
   @media (max-width: 640px) {
     #word-cloud {
       gap: 8px 12px;
+    }
+
+    .keyword-tag,
+    .keyword-label {
+      font-size: var(--mob-size) !important;
     }
   }
 </style>
