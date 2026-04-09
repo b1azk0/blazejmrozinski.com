@@ -5,12 +5,15 @@ import { join, basename } from 'node:path';
 import { labels } from '../src/lib/labels.ts';
 import { getCoverSvg } from '../src/lib/cover-svgs.ts';
 import type { LabelSlug } from '../src/lib/labels.ts';
+import { getDomainConfig } from '../src/lib/domains.ts';
+import { glossarySvg } from '../src/lib/cover-svgs.ts';
 
 const ROOT = new URL('..', import.meta.url).pathname;
 const BLOG_DIR = join(ROOT, 'src/content/blog');
 const OUTPUT_DIR = join(ROOT, 'public/covers');
 const FONT_PATH_REGULAR = join(ROOT, 'public/fonts/Geist-Regular.ttf');
 const FONT_PATH_BOLD = join(ROOT, 'public/fonts/Geist-Bold.ttf');
+const GLOSSARY_DIR = join(ROOT, 'src/content/glossary');
 
 const WIDTH = 1200;
 const HEIGHT = 630;
@@ -49,6 +52,24 @@ function getPostFiles(): Array<{ slug: string; title: string; label: LabelSlug }
     posts.push({ slug, title: fm.title, label: fm.label as LabelSlug });
   }
   return posts;
+}
+
+function getGlossaryFiles(): Array<{ slug: string; title: string; domain: string }> {
+  if (!existsSync(GLOSSARY_DIR)) return [];
+  const files = readdirSync(GLOSSARY_DIR, { recursive: true })
+    .filter((f) => String(f).endsWith('.md'));
+
+  const terms: Array<{ slug: string; title: string; domain: string }> = [];
+  for (const file of files) {
+    const filePath = join(GLOSSARY_DIR, String(file));
+    const content = readFileSync(filePath, 'utf-8');
+    const fm = parseFrontmatter(content);
+    if (!fm.term || !fm.domain) continue;
+    if (fm.status === 'draft') continue;
+    const slug = basename(String(file), '.md');
+    terms.push({ slug, title: fm.term, domain: fm.domain });
+  }
+  return terms;
 }
 
 function buildCoverElement(title: string, label: LabelSlug) {
@@ -165,6 +186,120 @@ function buildCoverElement(title: string, label: LabelSlug) {
   };
 }
 
+function buildGlossaryCoverElement(title: string, domain: string) {
+  const config = getDomainConfig(domain);
+  const svgMarkup = glossarySvg(config.accent);
+  const svgDataUri = `data:image/svg+xml;base64,${Buffer.from(svgMarkup).toString('base64')}`;
+
+  return {
+    type: 'div',
+    props: {
+      style: {
+        display: 'flex',
+        width: '100%',
+        height: '100%',
+        background: `linear-gradient(145deg, ${config.gradient[0]}, ${config.gradient[1]} 60%, ${config.gradient[2]})`,
+        padding: '56px',
+        position: 'relative',
+        fontFamily: 'Geist',
+      },
+      children: [
+        {
+          type: 'img',
+          props: {
+            src: svgDataUri,
+            width: 420,
+            height: 360,
+            style: {
+              position: 'absolute',
+              right: '30px',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              opacity: 0.85,
+            },
+          },
+        },
+        {
+          type: 'div',
+          props: {
+            style: {
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'space-between',
+              height: '100%',
+              width: '60%',
+              zIndex: 1,
+            },
+            children: [
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                  },
+                  children: [
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          padding: '6px 16px',
+                          border: `1.5px solid ${config.accent}33`,
+                          borderRadius: '6px',
+                          background: `${config.accent}0d`,
+                          fontSize: '16px',
+                          color: `${config.accent}cc`,
+                          letterSpacing: '3px',
+                          textTransform: 'uppercase' as const,
+                          fontWeight: 500,
+                        },
+                        children: 'Glossary',
+                      },
+                    },
+                  ],
+                },
+              },
+              {
+                type: 'div',
+                props: {
+                  style: {
+                    display: 'flex',
+                    flexDirection: 'column',
+                  },
+                  children: [
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: '42px',
+                          fontWeight: 700,
+                          color: '#f0f0f0',
+                          lineHeight: 1.25,
+                        },
+                        children: title,
+                      },
+                    },
+                    {
+                      type: 'div',
+                      props: {
+                        style: {
+                          fontSize: '18px',
+                          color: `${config.accent}88`,
+                          marginTop: '16px',
+                        },
+                        children: 'blazejmrozinski.com',
+                      },
+                    },
+                  ],
+                },
+              },
+            ],
+          },
+        },
+      ],
+    },
+  };
+}
+
 async function main() {
   const posts = getPostFiles();
   if (posts.length === 0) {
@@ -199,6 +334,33 @@ async function main() {
     const outPath = join(OUTPUT_DIR, `${post.slug}.png`);
     writeFileSync(outPath, png);
     console.log(`  ✓ ${post.slug}.png`);
+  }
+
+  // Generate glossary covers
+  const glossaryTerms = getGlossaryFiles();
+  if (glossaryTerms.length > 0) {
+    console.log(`[generate-covers] Generating ${glossaryTerms.length} glossary cover(s)...`);
+    for (const term of glossaryTerms) {
+      const element = buildGlossaryCoverElement(term.title, term.domain);
+
+      const svg = await satori(element as any, {
+        width: WIDTH,
+        height: HEIGHT,
+        fonts: [
+          { name: 'Geist', data: fontDataRegular, weight: 400, style: 'normal' as const },
+          { name: 'Geist', data: fontDataBold, weight: 700, style: 'normal' as const },
+        ],
+      });
+
+      const resvg = new Resvg(svg, {
+        fitTo: { mode: 'width', value: WIDTH },
+      });
+      const png = resvg.render().asPng();
+
+      const outPath = join(OUTPUT_DIR, `glossary-${term.slug}.png`);
+      writeFileSync(outPath, png);
+      console.log(`  ✓ glossary-${term.slug}.png`);
+    }
   }
 
   console.log('[generate-covers] Done.');

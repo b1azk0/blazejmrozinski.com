@@ -196,3 +196,26 @@ function academicWorkSvg(c: string): string {
     <path d="M184 20 L188 24 L197 15" stroke="#22c55e55" stroke-width="2.5" fill="none" stroke-linecap="round"/>
   </svg>`;
 }
+
+export function glossarySvg(accent: string): string {
+  return `<svg viewBox="0 0 280 240" xmlns="http://www.w3.org/2000/svg" fill="none">
+    <rect x="50" y="12" width="180" height="216" rx="6" fill="${accent}08" stroke="${accent}22" stroke-width="2"/>
+    <rect x="30" y="4" width="180" height="216" rx="6" fill="${accent}0d" stroke="${accent}30" stroke-width="2"/>
+    <rect x="30" y="4" width="24" height="216" rx="6" fill="${accent}12"/>
+    <line x1="54" y1="4" x2="54" y2="220" stroke="${accent}20" stroke-width="1"/>
+    <rect x="70" y="28" width="100" height="10" rx="3" fill="${accent}28"/>
+    <rect x="70" y="46" width="70" height="6" rx="2" fill="${accent}15"/>
+    <line x1="70" y1="62" x2="190" y2="62" stroke="${accent}12" stroke-width="1"/>
+    <text x="72" y="84" font-family="monospace" font-size="24" font-weight="bold" fill="${accent}55">Aa</text>
+    <rect x="70" y="100" width="120" height="4" rx="1.5" fill="${accent}10"/>
+    <rect x="70" y="110" width="110" height="4" rx="1.5" fill="${accent}10"/>
+    <rect x="70" y="120" width="100" height="4" rx="1.5" fill="${accent}10"/>
+    <line x1="70" y1="138" x2="190" y2="138" stroke="${accent}12" stroke-width="1"/>
+    <rect x="70" y="150" width="90" height="6" rx="2" fill="${accent}20"/>
+    <rect x="70" y="164" width="120" height="4" rx="1.5" fill="${accent}10"/>
+    <rect x="70" y="174" width="105" height="4" rx="1.5" fill="${accent}10"/>
+    <rect x="70" y="184" width="115" height="4" rx="1.5" fill="${accent}10"/>
+    <circle cx="190" cy="30" r="12" fill="${accent}15" stroke="${accent}35" stroke-width="1.5"/>
+    <text x="184" y="35" font-family="sans-serif" font-size="14" font-weight="bold" fill="${accent}55">?</text>
+  </svg>`;
+}
