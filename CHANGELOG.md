@@ -2,6 +2,17 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.6.0] — 2026-04-09
+
+### Added
+- Glossary content collection with term, seoTitle, definition, domain, relatedContent, relatedTerms fields
+- Glossary index page at `/glossary` with alphabetical grouping and letter anchors
+- Individual term pages at `/glossary/[term]` with DefinedTerm JSON-LD, domain badges, related content, and see-also cross-links
+- Domain-to-color map utility (`src/lib/domains.ts`) for glossary visual theming
+- Cover image generation for glossary terms with book/dictionary illustration
+- Glossary sitemap (`sitemap-glossary.xml`) registered in sitemap index
+- Glossary link in footer navigation
+
 ## [0.5.3] — 2026-04-09
 
 ### Fixed
