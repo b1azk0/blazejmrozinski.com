@@ -445,13 +445,6 @@ For a personal account of what happens when production security measures work to
 
 ---
 
-*Previous: Part 2, "Building the LEMP Stack"*
-
-*Next: Part 4, "Four Layers of Caching"*
-
-
----
-
 ## WordPress Infrastructure from Scratch — Full Series
 
 1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)

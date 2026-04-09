@@ -308,9 +308,6 @@ You now have a secured Debian server on Hetzner, hardened against the most commo
 
 The server tuning is where things get interesting. Managed hosting hides these decisions from you, and that's exactly the problem. The difference between a WordPress server that handles 50 concurrent users and one that handles 500 lives in configuration details like PHP-FPM worker counts, MariaDB buffer pool sizes, and OPcache settings. Knowing what those are and why they matter is worth more than any hosting dashboard.
 
-*Next: Part 2, "Building the LEMP Stack"*
-
-
 ---
 
 ## WordPress Infrastructure from Scratch — Full Series

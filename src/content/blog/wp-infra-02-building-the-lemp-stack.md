@@ -626,11 +626,6 @@ The stack is running. Nginx is configured for WordPress workloads with proper bu
 
 In Part 3, we deploy WordPress itself: `wp-config.php` configuration, database creation, the Nginx vhost with FastCGI cache wiring, SSL certificates via Certbot, and the essential plugin stack including Object Cache Pro and Nginx Helper.
 
-*Previous: Part 1, "Why I Ditched Managed Hosting"*
-
-*Next: Part 3, "Deploying WordPress the Right Way"*
-
-
 ---
 
 ## WordPress Infrastructure from Scratch — Full Series
