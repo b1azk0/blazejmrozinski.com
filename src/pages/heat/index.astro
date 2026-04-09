@@ -39,12 +39,9 @@ for (const post of posts) {
 function getTagColor(tag: string): string {
   const labelMap = tagLabelMap.get(tag);
   if (!labelMap || labelMap.size === 0) return '#a0a0a0';
-  if (labelMap.size >= 3) {
-    // Check if any label has a majority (> others individually)
-    const sorted = [...labelMap.entries()].sort((a, b) => b[1] - a[1]);
-    if (sorted[0][1] === sorted[1][1]) return '#a0a0a0';
-  }
-  const topLabel = [...labelMap.entries()].sort((a, b) => b[1] - a[1])[0][0];
+  const sorted = [...labelMap.entries()].sort((a, b) => b[1] - a[1]);
+  if (sorted.length > 1 && sorted[0][1] === sorted[1][1]) return '#a0a0a0';
+  const topLabel = sorted[0][0];
   return labels[topLabel as LabelSlug]?.accent ?? '#a0a0a0';
 }
 
@@ -62,7 +59,7 @@ function fontSize(count: number): number {
 function fontWeight(count: number): number {
   if (maxCount === minCount) return 600;
   const ratio = (count - minCount) / (maxCount - minCount);
-  return Math.round(400 + ratio * 400);
+  return Math.round((400 + ratio * 400) / 100) * 100;
 }
 
 // --- Build keyword list for the cloud ---
@@ -104,7 +101,7 @@ for (const [label, count] of labelCounts) {
   });
 }
 
-// Shuffle for visual variety (deterministic shuffle using count as seed proxy)
+// Order by derived hash for visual spread
 keywords.sort((a, b) => {
   const hashA = a.text.length * 7 + a.count * 13;
   const hashB = b.text.length * 7 + b.count * 13;
@@ -312,9 +309,8 @@ const companyData = allCompanies.map((c) => ({
   }
 
   @media (max-width: 640px) {
-    .keyword-tag,
-    .keyword-label {
-      font-size: calc(var(--base-size, 14px) * 0.8) !important;
+    #word-cloud {
+      gap: 8px 12px;
     }
   }
 </style>
