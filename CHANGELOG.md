@@ -2,6 +2,11 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.6.1] — 2026-04-10
+
+### Added
+- Word heatmap page at `/heat/` — interactive keyword cloud visualizing blog tag and label frequency with click-to-filter results, GA4 tracking (noindex, hidden from navigation)
+
 ## [0.6.0] — 2026-04-09
 
 ### Added
