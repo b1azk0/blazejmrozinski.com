@@ -11,7 +11,7 @@ relatedTerms:
   - "structural-equation-modeling"
   - "construct-validity"
   - "psychometric-assessment"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

@@ -13,7 +13,7 @@ relatedTerms:
   - "classical-test-theory"
   - "construct-validity"
   - "big-five-personality"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

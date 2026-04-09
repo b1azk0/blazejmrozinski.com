@@ -13,7 +13,7 @@ relatedTerms:
   - "psychometric-assessment"
   - "classical-test-theory"
   - "item-response-theory"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

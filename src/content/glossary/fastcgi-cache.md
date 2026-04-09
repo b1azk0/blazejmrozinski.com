@@ -11,7 +11,7 @@ relatedTerms:
   - "redis-object-cache"
   - "opcache"
   - "php-fpm"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

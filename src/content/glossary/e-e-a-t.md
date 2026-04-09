@@ -10,7 +10,7 @@ relatedContent:
 relatedTerms:
   - "structured-data-json-ld"
   - "internal-linking"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

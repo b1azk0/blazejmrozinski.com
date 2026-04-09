@@ -10,7 +10,7 @@ relatedTerms:
   - "vps"
   - "lemp-stack"
   - "ssl-tls-certificate"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

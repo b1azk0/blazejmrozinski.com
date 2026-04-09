@@ -8,7 +8,7 @@ relatedContent:
   - "blog/wp-infra-01-why-i-ditched-managed-hosting"
 relatedTerms:
   - "lemp-stack"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

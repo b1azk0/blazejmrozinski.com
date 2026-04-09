@@ -10,7 +10,7 @@ relatedContent:
 relatedTerms:
   - "structured-data-json-ld"
   - "e-e-a-t"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

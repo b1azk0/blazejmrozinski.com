@@ -10,7 +10,7 @@ relatedContent:
 relatedTerms:
   - "content-model"
   - "structured-data-json-ld"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

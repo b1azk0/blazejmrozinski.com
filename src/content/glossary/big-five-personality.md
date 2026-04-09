@@ -9,7 +9,7 @@ relatedContent:
 relatedTerms:
   - "psychometric-assessment"
   - "construct-validity"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

@@ -10,7 +10,7 @@ relatedContent:
 relatedTerms:
   - "knowledge-base-ai"
   - "specification-driven-development"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

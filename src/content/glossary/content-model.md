@@ -9,7 +9,7 @@ relatedContent:
 relatedTerms:
   - "static-site-generator"
   - "structured-data-json-ld"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

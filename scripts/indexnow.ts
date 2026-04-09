@@ -18,6 +18,7 @@ const SITEMAPS = [
   'sitemap-pages.xml',
   'sitemap-work.xml',
   'sitemap-photography.xml',
+  'sitemap-glossary.xml',
 ];
 
 function extractUrls(xml: string): string[] {

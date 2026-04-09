@@ -10,7 +10,7 @@ relatedContent:
 relatedTerms:
   - "psychometric-assessment"
   - "big-five-personality"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

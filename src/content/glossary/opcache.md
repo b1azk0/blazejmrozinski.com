@@ -10,7 +10,7 @@ relatedTerms:
   - "php-fpm"
   - "lemp-stack"
   - "fastcgi-cache"
-status: draft
+status: published
 date: 2026-04-09
 ---
 

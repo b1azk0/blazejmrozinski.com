@@ -12,7 +12,7 @@ relatedTerms:
   - "opcache"
   - "fastcgi-cache"
   - "vps"
-status: draft
+status: published
 date: 2026-04-09
 ---
 
