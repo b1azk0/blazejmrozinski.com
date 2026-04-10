@@ -2,6 +2,17 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.7.0] — 2026-04-10 — Changelog
+
+### Added
+- Changelog timeline page at `/changelog/` with vertical timeline, colored release dots, and major/patch visual tiers
+- Individual release detail pages at `/changelog/vX.Y.Z/` with categorized change lists and prev/next navigation
+- CHANGELOG.md parser utility (`src/lib/changelog.ts`) — extracts structured release data at build time
+- Version badge in footer brand column linking to changelog
+- Changelog link in footer navigation
+- Changelog sitemap at `/sitemap-changelog.xml` registered in sitemap index
+- Release title convention in CHANGELOG.md headings (`## [x.y.z] — date — Title`)
+
 ## [0.6.1] — 2026-04-10 — Word Heatmap
 
 ### Added
