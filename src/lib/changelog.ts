@@ -39,11 +39,15 @@ function deriveTitle(changes: ReleaseChanges): string {
   return first;
 }
 
+function stripInlineMarkdown(text: string): string {
+  return text.replace(/`([^`]+)`/g, '$1').replace(/\*\*([^*]+)\*\*/g, '$1').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1');
+}
+
 function deriveDescription(changes: ReleaseChanges): string {
   const first = changes.added[0] || changes.changed[0] || changes.fixed[0] || changes.removed[0] || '';
   const period = first.indexOf('. ');
-  if (period > 0) return first.slice(0, period + 1);
-  return first;
+  const raw = period > 0 ? first.slice(0, period + 1) : first;
+  return stripInlineMarkdown(raw);
 }
 
 function parseChanges(block: string): ReleaseChanges {
@@ -69,7 +73,10 @@ function parseChanges(block: string): ReleaseChanges {
   return changes;
 }
 
+let _cache: Release[] | null = null;
+
 export function getAllReleases(): Release[] {
+  if (_cache) return _cache;
   const content = readFileSync(join(process.cwd(), 'CHANGELOG.md'), 'utf-8');
   const releases: Release[] = [];
   let majorIndex = 0;
@@ -86,7 +93,7 @@ export function getAllReleases(): Release[] {
 
     const changes = parseChanges(block);
     const accentColor = isMajor
-      ? (version === '0.2.0' ? '#ffffff' : ACCENT_PALETTE[majorIndex % ACCENT_PALETTE.length])
+      ? (version === '0.2.0' ? '#e2e8f0' : ACCENT_PALETTE[majorIndex % ACCENT_PALETTE.length])
       : '#666666';
     if (isMajor) majorIndex++;
 
@@ -96,6 +103,7 @@ export function getAllReleases(): Release[] {
     releases.push({ version, date, title, description, isMajor, accentColor, changes });
   }
 
+  _cache = releases;
   return releases;
 }
 

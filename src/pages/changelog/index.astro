@@ -72,7 +72,6 @@ function shortDate(dateStr: string): string {
           const isLaunch = r.version === '0.2.0';
           const dotSize = isLaunch ? 'h-5 w-5' : 'h-4 w-4';
           const dotOffset = isLaunch ? '-left-[11px]' : '-left-[9px]';
-          const borderClass = isLaunch ? 'border-foreground/30' : 'border-border';
 
           return (
             <div class="relative pb-8 pl-6 sm:pl-8" data-animate data-delay={delay}>
