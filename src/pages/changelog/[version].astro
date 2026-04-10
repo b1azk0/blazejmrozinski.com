@@ -1,0 +1,149 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import { getAllReleases } from '@/lib/changelog';
+import type { Release } from '@/lib/changelog';
+
+export function getStaticPaths() {
+  const releases = getAllReleases();
+  return releases.map((release, index) => ({
+    params: { version: `v${release.version}` },
+    props: {
+      release,
+      prevRelease: releases[index + 1] || null,
+      nextRelease: releases[index - 1] || null,
+    },
+  }));
+}
+
+interface Props {
+  release: Release;
+  prevRelease: Release | null;
+  nextRelease: Release | null;
+}
+
+const { release, prevRelease, nextRelease } = Astro.props;
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+const categories = [
+  { key: 'added' as const, label: 'Added', dotColor: 'bg-emerald-400', textColor: 'text-emerald-400' },
+  { key: 'changed' as const, label: 'Changed', dotColor: 'bg-amber-400', textColor: 'text-amber-400' },
+  { key: 'fixed' as const, label: 'Fixed', dotColor: 'bg-blue-400', textColor: 'text-blue-400' },
+  { key: 'removed' as const, label: 'Removed', dotColor: 'bg-red-400', textColor: 'text-red-400' },
+];
+---
+
+<Base
+  title={`v${release.version}: ${release.title} — Changelog`}
+  description={release.description}
+>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={[
+      { label: 'Home', href: '/' },
+      { label: 'Changelog', href: '/changelog' },
+      { label: `v${release.version}` },
+    ]} />
+
+    {/* Header */}
+    <header class="mb-8" data-animate>
+      <div class="flex items-center gap-3 mb-3">
+        <span
+          class="text-xs font-semibold tracking-wide px-2.5 py-1 rounded-full"
+          style={`color: ${release.accentColor}; background-color: ${release.accentColor}15;`}
+        >
+          v{release.version}
+        </span>
+        <span class="text-sm text-muted-foreground/60">
+          {formatDate(release.date)}
+        </span>
+      </div>
+      <h1 class="text-4xl font-bold tracking-tight mb-3">{release.title}</h1>
+      <p class="text-muted-foreground leading-relaxed">{release.description}</p>
+    </header>
+
+    {/* Stats bar */}
+    <div class="flex gap-2 flex-wrap mb-8" data-animate data-delay="1">
+      {release.changes.added.length > 0 && (
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-400">
+          {release.changes.added.length} added
+        </span>
+      )}
+      {release.changes.changed.length > 0 && (
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400">
+          {release.changes.changed.length} changed
+        </span>
+      )}
+      {release.changes.fixed.length > 0 && (
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-blue-500/10 text-blue-400">
+          {release.changes.fixed.length} fixed
+        </span>
+      )}
+      {release.changes.removed.length > 0 && (
+        <span class="text-xs font-medium px-2.5 py-1 rounded-full bg-red-500/10 text-red-400">
+          {release.changes.removed.length} removed
+        </span>
+      )}
+    </div>
+
+    <hr class="border-border mb-8" />
+
+    {/* Change sections */}
+    {categories.map(({ key, label, dotColor, textColor }) => {
+      const items = release.changes[key];
+      if (items.length === 0) return null;
+      return (
+        <section class="mb-8" data-animate data-delay="2">
+          <div class="flex items-center gap-2 mb-4">
+            <span class:list={['w-1.5 h-1.5 rounded-full', dotColor]} />
+            <h2 class:list={['text-xs font-semibold uppercase tracking-widest', textColor]}>
+              {label}
+            </h2>
+          </div>
+          <ul class="space-y-0">
+            {items.map((item) => (
+              <li class="text-sm text-foreground/80 leading-relaxed py-2 border-b border-border/50 last:border-0">
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      );
+    })}
+
+    {/* Prev / Next */}
+    <hr class="border-border mt-4 mb-6" />
+    <nav class="flex justify-between items-start gap-4" data-animate data-delay="3">
+      {prevRelease ? (
+        <a
+          href={`/changelog/v${prevRelease.version}/`}
+          class="flex items-start gap-2 text-muted-foreground hover:text-foreground transition-colors min-w-0"
+        >
+          <span class="text-muted-foreground/40 mt-0.5 shrink-0">←</span>
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wide text-muted-foreground/50">Previous</div>
+            <div class="text-sm truncate">v{prevRelease.version} — {prevRelease.title}</div>
+          </div>
+        </a>
+      ) : <div />}
+      {nextRelease ? (
+        <a
+          href={`/changelog/v${nextRelease.version}/`}
+          class="flex items-start gap-2 text-muted-foreground hover:text-foreground transition-colors text-right min-w-0"
+        >
+          <div class="min-w-0">
+            <div class="text-[10px] uppercase tracking-wide text-muted-foreground/50">Next</div>
+            <div class="text-sm truncate">v{nextRelease.version} — {nextRelease.title}</div>
+          </div>
+          <span class="text-muted-foreground/40 mt-0.5 shrink-0">→</span>
+        </a>
+      ) : <div />}
+    </nav>
+  </div>
+</Base>
