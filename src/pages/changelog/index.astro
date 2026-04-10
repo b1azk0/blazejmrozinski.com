@@ -1,0 +1,168 @@
+---
+import Base from '@/layouts/Base.astro';
+import { getAllReleases } from '@/lib/changelog';
+import type { Release } from '@/lib/changelog';
+
+const releases = getAllReleases();
+const totalReleases = releases.length;
+const earliestDate = releases.length > 0 ? releases[releases.length - 1].date : '';
+const earliestMonth = earliestDate
+  ? new Date(earliestDate + 'T00:00:00').toLocaleDateString('en-US', { month: 'long', year: 'numeric' })
+  : '';
+
+// Group into timeline entries: major releases get cards, consecutive patches cluster
+type TimelineEntry =
+  | { type: 'major'; release: Release }
+  | { type: 'patches'; releases: Release[] };
+
+const timeline: TimelineEntry[] = [];
+let patchBuffer: Release[] = [];
+
+for (const release of releases) {
+  if (release.isMajor) {
+    if (patchBuffer.length > 0) {
+      timeline.push({ type: 'patches', releases: [...patchBuffer] });
+      patchBuffer = [];
+    }
+    timeline.push({ type: 'major', release });
+  } else {
+    patchBuffer.push(release);
+  }
+}
+if (patchBuffer.length > 0) {
+  timeline.push({ type: 'patches', releases: patchBuffer });
+}
+
+function formatDate(dateStr: string): string {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
+  });
+}
+
+function shortDate(dateStr: string): string {
+  return new Date(dateStr + 'T00:00:00').toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+  });
+}
+---
+
+<Base
+  title="Changelog"
+  description="How blazejmrozinski.com evolves — every feature, fix, and iteration tracked release by release."
+>
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-2" data-animate>Changelog</h1>
+    <p class="text-muted-foreground mb-1" data-animate data-delay="1">
+      How this site evolves — every feature, fix, and iteration.
+    </p>
+    <p class="text-sm text-muted-foreground/60 mb-10" data-animate data-delay="1">
+      {totalReleases} releases since {earliestMonth}
+    </p>
+
+    <!-- Timeline -->
+    <div class="relative ml-3 sm:ml-6 border-l-2 border-border" data-animate data-delay="2">
+      {timeline.map((entry, i) => {
+        const delay = String(Math.min(i + 3, 6));
+
+        if (entry.type === 'major') {
+          const r = entry.release;
+          const isLaunch = r.version === '0.2.0';
+          const dotSize = isLaunch ? 'h-5 w-5' : 'h-4 w-4';
+          const dotOffset = isLaunch ? '-left-[11px]' : '-left-[9px]';
+          const borderClass = isLaunch ? 'border-foreground/30' : 'border-border';
+
+          return (
+            <div class="relative pb-8 pl-6 sm:pl-8" data-animate data-delay={delay}>
+              {/* Timeline dot */}
+              <div
+                class:list={['absolute top-5 rounded-full border-[3px] border-background', dotSize, dotOffset]}
+                style={`background-color: ${r.accentColor};`}
+              />
+              {/* Card */}
+              <a
+                href={`/changelog/v${r.version}/`}
+                class:list={[
+                  'block rounded-xl border p-5 bg-card hover:border-foreground/20 transition-colors group',
+                  isLaunch && 'border-foreground/10',
+                ]}
+              >
+                <div class="flex items-baseline justify-between gap-4 mb-1">
+                  <span
+                    class="text-xs font-semibold tracking-wide"
+                    style={`color: ${r.accentColor};`}
+                  >
+                    v{r.version}
+                  </span>
+                  <span class="text-xs text-muted-foreground/50 shrink-0">
+                    {formatDate(r.date)}
+                  </span>
+                </div>
+                <h2 class="text-lg font-bold tracking-tight mb-1 group-hover:text-primary transition-colors">
+                  {r.title}
+                </h2>
+                <p class="text-sm text-muted-foreground leading-relaxed mb-3">
+                  {r.description}
+                </p>
+                <div class="flex items-center gap-2 flex-wrap">
+                  {r.changes.added.length > 0 && (
+                    <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400">
+                      {r.changes.added.length} added
+                    </span>
+                  )}
+                  {r.changes.changed.length > 0 && (
+                    <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-400">
+                      {r.changes.changed.length} changed
+                    </span>
+                  )}
+                  {r.changes.fixed.length > 0 && (
+                    <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400">
+                      {r.changes.fixed.length} fixed
+                    </span>
+                  )}
+                  {r.changes.removed.length > 0 && (
+                    <span class="text-[10px] font-medium px-2 py-0.5 rounded-full bg-red-500/10 text-red-400">
+                      {r.changes.removed.length} removed
+                    </span>
+                  )}
+                  <span class="flex-1" />
+                  <span class="text-xs text-muted-foreground/40 group-hover:text-muted-foreground transition-colors">
+                    view release →
+                  </span>
+                </div>
+              </a>
+            </div>
+          );
+        }
+
+        // Patch cluster
+        return (
+          <div class="relative pb-8 pl-6 sm:pl-8" data-animate data-delay={delay}>
+            {/* Small dot */}
+            <div class="absolute -left-[5px] top-2 h-2 w-2 rounded-full bg-muted-foreground/30" />
+            <div class="space-y-1">
+              {entry.releases.map((r) => (
+                <a
+                  href={`/changelog/v${r.version}/`}
+                  class="flex items-baseline justify-between gap-4 py-1 text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <div class="flex items-baseline gap-2 min-w-0">
+                    <span class="text-xs font-medium text-muted-foreground/70 shrink-0">
+                      v{r.version}
+                    </span>
+                    <span class="text-sm truncate">{r.title}</span>
+                  </div>
+                  <span class="text-xs text-muted-foreground/40 shrink-0">
+                    {shortDate(r.date)}
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</Base>
