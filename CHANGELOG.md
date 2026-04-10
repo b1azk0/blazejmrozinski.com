@@ -2,12 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
-## [0.6.1] — 2026-04-10
+## [0.6.1] — 2026-04-10 — Word Heatmap
 
 ### Added
 - Word heatmap page at `/heat/` — interactive keyword cloud visualizing blog tag and label frequency with click-to-filter results, GA4 tracking (noindex, hidden from navigation)
 
-## [0.6.0] — 2026-04-09
+## [0.6.0] — 2026-04-09 — Glossary
 
 ### Added
 - Glossary content collection with term, seoTitle, definition, domain, relatedContent, relatedTerms fields
@@ -18,13 +18,13 @@ All notable changes to blazejmrozinski.com are documented here.
 - Glossary sitemap (`sitemap-glossary.xml`) registered in sitemap index
 - Glossary link in footer navigation
 
-## [0.5.3] — 2026-04-09
+## [0.5.3] — 2026-04-09 — IndexNow Fix
 
 ### Fixed
 - Replaced stale IndexNow API key with new key (`3a838b06f8a64c129f2d2c72f535b6b2`)
 - Updated key file in `public/` and key reference in `scripts/indexnow.ts`
 
-## [0.5.2] — 2026-04-06
+## [0.5.2] — 2026-04-06 — SEO Meta Titles
 
 ### Changed
 - Optimized meta titles on About, Work, CV, Publications, and Blog pages for keyword-rich SEO
@@ -37,7 +37,7 @@ All notable changes to blazejmrozinski.com are documented here.
 - metaTitle values for Digital Savages, Gyfted, Nerds.family, SWPS University, and HSE Career Quiz
 - Company and project templates now prefer `metaTitle` over `name` for `<title>` tag while keeping `name` as the visible H1
 
-## [0.5.1] — 2026-04-06
+## [0.5.1] — 2026-04-06 — WordPress Infrastructure Series
 
 ### Added
 - "WordPress Infrastructure from Scratch" blog series (7 posts)
@@ -54,7 +54,7 @@ All notable changes to blazejmrozinski.com are documented here.
 ### Removed
 - Test cover post (`test-cover-post.md`)
 
-## [0.5.0] — 2026-04-06
+## [0.5.0] — 2026-04-06 — Blog Label System
 
 ### Added
 - Blog label system with 7 topic categories (Infrastructure, AI & Automation, Product, Research, Systems Thinking, Operator Notes, Academic Work)
@@ -68,7 +68,7 @@ All notable changes to blazejmrozinski.com are documented here.
 - Prebuild script (`scripts/generate-covers.ts`) hooked into `npm run build`
 - Static Geist TTF fonts for satori rendering (requires TTF, not variable WOFF2)
 
-## [0.4.0] — 2026-04-05
+## [0.4.0] — 2026-04-05 — Photography Gallery
 
 ### Added
 - Travel photography gallery with album pages and inline photo expand
@@ -81,14 +81,14 @@ All notable changes to blazejmrozinski.com are documented here.
 - Sample album for development/testing
 - Astro `astro:assets` image optimization (WebP, responsive srcset, lazy loading)
 
-## [0.3.0] — 2026-04-04
+## [0.3.0] — 2026-04-04 — RSS & Analytics
 
 ### Added
 - RSS 2.0 feed at `/rss.xml` via `@astrojs/rss`
 - Cookie consent banner with conditional GA4 loading
 - Stats labels and enriched Work page and homepage service cards
 
-## [0.2.0] — 2026-04-04
+## [0.2.0] — 2026-04-04 — Site Launch
 
 ### Added
 - Homepage with newspaper grid layout, services, case studies, companies, writing, booking CTA
@@ -106,7 +106,7 @@ All notable changes to blazejmrozinski.com are documented here.
 - TagFilter, JsonLd, SEO, CookieConsent
 - Header with active-page highlighting, Footer with 3-column layout
 
-## [0.1.0] — 2026-04-04
+## [0.1.0] — 2026-04-04 — Initial Setup
 
 ### Added
 - Initial Astro project with Tailwind CSS, sitemap, Netlify config
