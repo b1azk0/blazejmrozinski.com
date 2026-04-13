@@ -68,7 +68,6 @@ const pages = defineCollection({
     description: z.string(),
     lang: z.enum(['en', 'pl']).default('en'),
     source_hash: z.string().optional(),
-    slug: z.string().optional(),
   }),
 });
 

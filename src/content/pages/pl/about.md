@@ -1,8 +1,7 @@
 ---
-title: CV
-description: Curriculum Vitae — Blazej Mrozinski.
+title: O mnie
+description: Blazej Mrozinski — psycholog, psychometra, product builder.
 lang: pl
-slug: cv
 ---
 
 (Polish translation pending — will be filled by Claude in the translation session.)

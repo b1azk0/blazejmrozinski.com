@@ -38,10 +38,10 @@ export const GET: APIRoute = async () => {
 
   // EN ids that have a PL sibling
   const companiesWithPl = new Set(
-    allCompanies.filter((c) => c.data.lang === 'pl').map((c) => c.id.replace(/\.pl$/, '')),
+    allCompanies.filter((c) => c.data.lang === 'pl').map((c) => c.id.replace(/^pl\//, '')),
   );
   const projectsWithPl = new Set(
-    allProjects.filter((p) => p.data.lang === 'pl').map((p) => p.id.replace(/\.pl$/, '')),
+    allProjects.filter((p) => p.data.lang === 'pl').map((p) => p.id.replace(/^pl\//, '')),
   );
 
   const urls: UrlSpec[] = [

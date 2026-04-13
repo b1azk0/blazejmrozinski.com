@@ -17,9 +17,11 @@ const posts = allPosts
   .slice(0, 3);
 
 const companies = (await getCollection('companies'))
+  .filter((c) => c.data.lang === 'en')
   .sort((a, b) => a.data.order - b.data.order);
 
-const allProjects = await getCollection('projects');
+const allProjects = (await getCollection('projects'))
+  .filter((p) => p.data.lang === 'en');
 const caseStudies = allProjects
   .filter((p) => p.data.challenge || p.data.results)
   .sort((a, b) => a.data.order - b.data.order);

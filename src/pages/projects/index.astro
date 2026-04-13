@@ -4,6 +4,7 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
+  .filter((p) => p.data.lang === 'en')
   .sort((a, b) => a.data.order - b.data.order);
 
 const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);

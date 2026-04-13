@@ -35,14 +35,13 @@ function readPlFrontmatterHash(content) {
 export function scanCollection(dir) {
   const result = { missing: [], drifted: [], upToDate: [] };
   if (!existsSync(dir)) return result;
+  const plDir = join(dir, 'pl');
   const entries = readdirSync(dir);
   for (const name of entries) {
     if (!name.endsWith('.md')) continue;
-    if (name.endsWith('.pl.md')) continue;
     const enPath = join(dir, name);
     if (!statSync(enPath).isFile()) continue;
-    const plName = name.replace(/\.md$/, '.pl.md');
-    const plPath = join(dir, plName);
+    const plPath = join(plDir, name);
     const enContent = readFileSync(enPath, 'utf8');
     const enHash = computeHash(enContent);
     if (!existsSync(plPath)) {

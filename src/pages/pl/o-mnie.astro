@@ -7,7 +7,7 @@ import { Image } from 'astro:assets';
 import headshot from '@/assets/headshot.png';
 import { getCollection, render } from 'astro:content';
 
-const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about.pl');
+const aboutPage = (await getCollection('pages')).find((p) => p.id === 'pl/about');
 let AboutContent: any = null;
 let aboutHeadings: { depth: number; slug: string; text: string }[] = [];
 if (aboutPage) {

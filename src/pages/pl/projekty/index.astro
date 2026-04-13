@@ -29,7 +29,7 @@ const otherProjects = projects.filter((p) => !p.data.challenge && !p.data.result
               name={project.data.name}
               description={project.data.description}
               domain={project.data.domain}
-              slug={project.id.replace(/\.pl$/, '')}
+              slug={project.id.replace(/^pl\//, '')}
               isCaseStudy={true}
               locale="pl"
             />
@@ -48,7 +48,7 @@ const otherProjects = projects.filter((p) => !p.data.challenge && !p.data.result
                 name={project.data.name}
                 description={project.data.description}
                 domain={project.data.domain}
-                slug={project.id.replace(/\.pl$/, '')}
+                slug={project.id.replace(/^pl\//, '')}
                 locale="pl"
               />
             </div>

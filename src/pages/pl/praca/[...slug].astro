@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   return companies
     .filter((c) => c.data.lang === 'pl')
     .map((entry) => ({
-      params: { slug: entry.id.replace(/\.pl$/, '') },
+      params: { slug: entry.id.replace(/^pl\//, '') },
       props: { entry },
     }));
 }
@@ -22,10 +22,10 @@ const { Content, headings } = await render(entry);
 const allProjects = await getCollection('projects');
 const relatedProjects = allProjects
   .filter((p) => p.data.lang === 'pl')
-  .filter((p) => p.data.company === entry.id.replace(/\.pl$/, ''))
+  .filter((p) => p.data.company === entry.id.replace(/^pl\//, ''))
   .sort((a, b) => a.data.order - b.data.order);
 
-const enSlug = entry.id.replace(/\.pl$/, '');
+const enSlug = entry.id.replace(/^pl\//, '');
 const alternateUrl = `/work/${enSlug}`;
 
 const orgJsonLd = {
@@ -80,7 +80,7 @@ const orgJsonLd = {
               name={project.data.name}
               description={project.data.description}
               domain={project.data.domain}
-              slug={project.id.replace(/\.pl$/, '')}
+              slug={project.id.replace(/^pl\//, '')}
               locale="pl"
             />
           ))}

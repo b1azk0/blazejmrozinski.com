@@ -10,7 +10,7 @@ export async function getStaticPaths() {
   return projects
     .filter((p) => p.data.lang === 'pl')
     .map((entry) => ({
-      params: { slug: entry.id.replace(/\.pl$/, '') },
+      params: { slug: entry.id.replace(/^pl\//, '') },
       props: { entry },
     }));
 }
@@ -20,11 +20,11 @@ const { Content, headings } = await render(entry);
 
 const allCompanies = await getCollection('companies');
 const relatedCompany = entry.data.company
-  ? allCompanies.find((c) => c.data.lang === 'pl' && c.id.replace(/\.pl$/, '') === entry.data.company)
+  ? allCompanies.find((c) => c.data.lang === 'pl' && c.id.replace(/^pl\//, '') === entry.data.company)
   : null;
 
 const isCaseStudy = !!(entry.data.challenge || entry.data.results);
-const enSlug = entry.id.replace(/\.pl$/, '');
+const enSlug = entry.id.replace(/^pl\//, '');
 const alternateUrl = `/projects/${enSlug}`;
 
 const projectJsonLd = {

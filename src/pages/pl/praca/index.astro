@@ -4,7 +4,7 @@ import CompanyCard from '@/components/CompanyCard.astro';
 import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
-const workPage = (await getCollection('pages')).find((p) => p.id === 'work.pl');
+const workPage = (await getCollection('pages')).find((p) => p.id === 'pl/work');
 let WorkContent: any = null;
 let workHeadings: { depth: number; slug: string; text: string }[] = [];
 if (workPage) {
@@ -45,7 +45,7 @@ const companies = (await getCollection('companies'))
               name={company.data.name}
               domain={company.data.domain}
               role={company.data.role}
-              slug={company.id.replace(/\.pl$/, '')}
+              slug={company.id.replace(/^pl\//, '')}
               locale="pl"
             />
           </div>

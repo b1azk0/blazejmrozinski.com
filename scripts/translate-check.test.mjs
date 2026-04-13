@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { mkdtempSync, writeFileSync, mkdirSync, rmSync } from 'node:fs';
+import { mkdtempSync, writeFileSync, mkdirSync, rmSync, existsSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { computeHash, scanCollection, compareDictionaries } from './translate-check.lib.mjs';
@@ -33,7 +33,7 @@ test('computeHash returns a 12-char hex string', () => {
   assert.match(hash, /^[a-f0-9]{12}$/);
 });
 
-test('scanCollection reports MISSING when no .pl.md sibling exists', () => {
+test('scanCollection reports MISSING when no pl/ sibling exists', () => {
   const dir = makeTempContentDir();
   writeFileSync(join(dir, 'about.md'), '---\ntitle: About\n---\nBody\n');
   const result = scanCollection(dir);
@@ -49,8 +49,9 @@ test('scanCollection reports UP TO DATE when source_hash matches', () => {
   const enContent = '---\ntitle: About\n---\nBody\n';
   writeFileSync(join(dir, 'about.md'), enContent);
   const expectedHash = computeHash(enContent);
+  mkdirSync(join(dir, 'pl'));
   writeFileSync(
-    join(dir, 'about.pl.md'),
+    join(dir, 'pl', 'about.md'),
     `---\ntitle: O mnie\nlang: pl\nsource_hash: ${expectedHash}\n---\nTresc\n`,
   );
   const result = scanCollection(dir);
@@ -63,8 +64,9 @@ test('scanCollection reports UP TO DATE when source_hash matches', () => {
 test('scanCollection reports DRIFTED when source_hash mismatches', () => {
   const dir = makeTempContentDir();
   writeFileSync(join(dir, 'about.md'), '---\ntitle: About\n---\nNew body\n');
+  mkdirSync(join(dir, 'pl'));
   writeFileSync(
-    join(dir, 'about.pl.md'),
+    join(dir, 'pl', 'about.md'),
     '---\ntitle: O mnie\nlang: pl\nsource_hash: stale1234567\n---\nTresc\n',
   );
   const result = scanCollection(dir);
@@ -75,19 +77,21 @@ test('scanCollection reports DRIFTED when source_hash mismatches', () => {
   rmSync(dir, { recursive: true, force: true });
 });
 
-test('scanCollection ignores .pl.md files as primary entries', () => {
+test('scanCollection does not report files inside pl/ as primary entries', () => {
   const dir = makeTempContentDir();
   writeFileSync(join(dir, 'about.md'), '---\ntitle: About\n---\nBody\n');
   const enHash = computeHash('---\ntitle: About\n---\nBody\n');
-  writeFileSync(join(dir, 'about.pl.md'), `---\ntitle: O mnie\nlang: pl\nsource_hash: ${enHash}\n---\n\n`);
+  mkdirSync(join(dir, 'pl'));
+  writeFileSync(join(dir, 'pl', 'about.md'), `---\ntitle: O mnie\nlang: pl\nsource_hash: ${enHash}\n---\n\n`);
   const result = scanCollection(dir);
-  // about.pl.md should NOT itself be reported as missing/drifted/upToDate
+  // Only about.md (the EN file) should appear in any bucket; the pl/about.md is the sibling, not a primary entry
   const allFiles = [
     ...result.missing,
     ...result.drifted.map((d) => d.file),
     ...result.upToDate,
   ];
-  assert.equal(allFiles.filter((f) => f.endsWith('.pl.md')).length, 0);
+  assert.equal(allFiles.length, 1);
+  assert.equal(allFiles[0], join(dir, 'about.md'));
   rmSync(dir, { recursive: true, force: true });
 });
 

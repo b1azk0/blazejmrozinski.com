@@ -3,7 +3,7 @@ import Base from '@/layouts/Base.astro';
 import SectionDots from '@/components/SectionDots.astro';
 import { getCollection, render } from 'astro:content';
 
-const cvPage = (await getCollection('pages')).find((p) => p.id === 'cv.pl');
+const cvPage = (await getCollection('pages')).find((p) => p.id === 'pl/cv');
 let CvContent: any = null;
 let cvHeadings: { depth: number; slug: string; text: string }[] = [];
 if (cvPage) {
