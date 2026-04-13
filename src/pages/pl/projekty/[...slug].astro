@@ -1,0 +1,64 @@
+---
+import Base from '@/layouts/Base.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import SectionDots from '@/components/SectionDots.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects');
+  return projects
+    .filter((p) => p.data.lang === 'pl')
+    .map((entry) => ({
+      params: { slug: entry.id.replace(/\.pl$/, '') },
+      props: { entry },
+    }));
+}
+
+const { entry } = Astro.props;
+const { Content, headings } = await render(entry);
+
+const allCompanies = await getCollection('companies');
+const relatedCompany = entry.data.company
+  ? allCompanies.find((c) => c.data.lang === 'pl' && c.id.replace(/\.pl$/, '') === entry.data.company)
+  : null;
+
+const isCaseStudy = !!(entry.data.challenge || entry.data.results);
+const enSlug = entry.id.replace(/\.pl$/, '');
+const alternateUrl = `/projects/${enSlug}`;
+
+const projectJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWork',
+  '@language': 'pl',
+  name: entry.data.name,
+  description: entry.data.description,
+};
+---
+
+<Base
+  title={entry.data.metaTitle || entry.data.name}
+  description={entry.data.description}
+  locale="pl"
+  alternateUrl={alternateUrl}
+>
+  <JsonLd data={projectJsonLd} />
+  <SectionDots headings={headings} />
+
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={[
+      { label: 'Strona glowna', href: '/pl/' },
+      { label: 'Projekty', href: '/pl/projekty' },
+      { label: entry.data.name },
+    ]} />
+
+    <div class="mt-6 mb-8" data-animate>
+      <h1 class="text-4xl font-bold tracking-tight">{entry.data.name}</h1>
+      <p class="text-muted-foreground mt-2">{entry.data.description}</p>
+    </div>
+
+    <div class="prose prose-neutral dark:prose-invert max-w-none mb-12" data-animate>
+      <Content />
+    </div>
+  </div>
+</Base>
