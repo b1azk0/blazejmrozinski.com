@@ -36,6 +36,8 @@ const companies = defineCollection({
     domain: z.string(),
     order: z.number().default(0),
     related_projects: z.array(z.string()).default([]),
+    lang: z.enum(['en', 'pl']).default('en'),
+    source_hash: z.string().optional(),
   }),
 });
 
@@ -54,6 +56,8 @@ const projects = defineCollection({
     approach: z.string().optional(),
     results: z.array(z.string()).optional(),
     tools: z.array(z.string()).optional(),
+    lang: z.enum(['en', 'pl']).default('en'),
+    source_hash: z.string().optional(),
   }),
 });
 
@@ -62,6 +66,9 @@ const pages = defineCollection({
   schema: z.object({
     title: z.string(),
     description: z.string(),
+    lang: z.enum(['en', 'pl']).default('en'),
+    source_hash: z.string().optional(),
+    slug: z.string().optional(),
   }),
 });
 
