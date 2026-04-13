@@ -14,7 +14,8 @@
     "preview": "astro preview",
     "astro": "astro",
     "translate:check": "node scripts/translate-check.mjs",
-    "translate:check:test": "node --test scripts/translate-check.test.mjs"
+    "translate:check:test": "node --test scripts/translate-check.test.mjs",
+    "install-hooks": "node scripts/install-hooks.mjs"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",
