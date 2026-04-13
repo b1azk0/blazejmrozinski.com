@@ -1,0 +1,67 @@
+---
+import Base from '@/layouts/Base.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import HobbiesSection from '@/components/HobbiesSection.astro';
+import SectionDots from '@/components/SectionDots.astro';
+import { Image } from 'astro:assets';
+import headshot from '@/assets/headshot.png';
+import { getCollection, render } from 'astro:content';
+
+const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about.pl');
+let AboutContent: any = null;
+let aboutHeadings: { depth: number; slug: string; text: string }[] = [];
+if (aboutPage) {
+  const rendered = await render(aboutPage);
+  AboutContent = rendered.Content;
+  aboutHeadings = rendered.headings;
+}
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@language': 'pl',
+  name: 'Blazej Mrozinski',
+  url: 'https://www.blazejmrozinski.com/pl/o-mnie',
+  jobTitle: 'Psycholog, psychometra, product leader, data scientist',
+  image: 'https://www.blazejmrozinski.com/headshot.png',
+  sameAs: [
+    'https://linkedin.com/in/blazejmrozinski',
+    'https://github.com/b1azk0',
+    'https://scholar.google.com/citations?user=blazejmrozinski',
+    'https://orcid.org/0000-0002-5423-2291',
+  ],
+};
+---
+
+<Base
+  title={aboutPage?.data.title ?? 'O mnie'}
+  description={aboutPage?.data.description ?? ''}
+  locale="pl"
+  alternateUrl="/about"
+>
+  <JsonLd data={personJsonLd} />
+  <SectionDots headings={aboutHeadings} />
+
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <div class="flex items-center gap-6 mb-8" data-animate>
+      <Image
+        src={headshot}
+        alt="Blazej Mrozinski"
+        width={160}
+        height={160}
+        class="rounded-full shrink-0 opacity-90"
+      />
+      <div>
+        <h1 class="text-4xl font-bold tracking-tight">{aboutPage?.data.title ?? 'O mnie'}</h1>
+      </div>
+    </div>
+
+    {AboutContent && (
+      <div class="prose prose-neutral dark:prose-invert max-w-none" data-animate>
+        <AboutContent />
+      </div>
+    )}
+
+    <HobbiesSection />
+  </div>
+</Base>
