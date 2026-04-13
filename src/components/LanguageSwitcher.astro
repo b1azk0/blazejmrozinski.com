@@ -1,0 +1,34 @@
+---
+import { t } from '@/i18n/t';
+import type { Locale } from '@/i18n/locale';
+
+interface Props {
+  currentLocale: Locale;
+  alternateUrl?: string;
+}
+
+const { currentLocale, alternateUrl } = Astro.props;
+
+function deriveAlternate(): string {
+  if (alternateUrl) return alternateUrl;
+  return currentLocale === 'en' ? '/pl/' : '/';
+}
+
+const targetHref = deriveAlternate();
+const isShowingEn = currentLocale === 'pl';
+const labelKey = isShowingEn ? 'lang_switcher.switch_to_en' : 'lang_switcher.switch_to_pl';
+const buttonText = isShowingEn ? 'EN' : 'PL';
+const buttonLang = isShowingEn ? 'en' : 'pl';
+const buttonHreflang = isShowingEn ? 'en' : 'pl';
+---
+
+<a
+  href={targetHref}
+  hreflang={buttonHreflang}
+  lang={buttonLang}
+  aria-label={t(labelKey, currentLocale)}
+  title={t(labelKey, currentLocale)}
+  class="inline-flex items-center justify-center rounded-md px-2.5 h-8 text-xs font-medium border text-foreground/70 hover:text-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+>
+  {buttonText}
+</a>
