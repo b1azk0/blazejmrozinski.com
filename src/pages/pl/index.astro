@@ -49,6 +49,7 @@ const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);
             domain={company.data.domain}
             role={company.data.role}
             slug={company.id.replace(/\.pl$/, '')}
+            locale="pl"
           />
         ))}
       </div>
@@ -65,6 +66,7 @@ const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);
               domain={project.data.domain}
               slug={project.id.replace(/\.pl$/, '')}
               isCaseStudy={true}
+              locale="pl"
             />
           ))}
         </div>
