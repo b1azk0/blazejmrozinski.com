@@ -38,7 +38,7 @@ const orgJsonLd = {
 };
 ---
 
-<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description}>
+<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description} locale="en" alternateUrl={`/pl/praca/${entry.id}`}>
   <JsonLd data={orgJsonLd} />
   <SectionDots headings={headings} />
 

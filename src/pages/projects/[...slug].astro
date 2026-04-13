@@ -38,7 +38,7 @@ const creativeWorkJsonLd = {
 };
 ---
 
-<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description}>
+<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description} locale="en" alternateUrl={`/pl/projekty/${entry.id}`}>
   <JsonLd data={creativeWorkJsonLd} />
   <SectionDots headings={headings} />
 
