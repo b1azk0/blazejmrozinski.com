@@ -2,6 +2,11 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.7.1] — 2026-04-13 — Blog: SaaS is dead narrative
+
+### Added
+- Blog post "Everyone Says SaaS Is Dead. Here's What They're Actually Observing." — 1900-word analysis separating the valid diagnosis from the wrong prognosis in the "SaaS is dead" narrative. SEO-optimized for primary keyword "saas is dead" (label: operator-notes).
+
 ## [0.7.0] — 2026-04-10 — Changelog
 
 ### Added
