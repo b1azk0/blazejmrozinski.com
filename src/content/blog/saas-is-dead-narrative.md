@@ -1,6 +1,6 @@
 ---
 title: "Everyone Says SaaS Is Dead. Here's What They're Actually Observing."
-date: 2026-04-09
+date: 2026-04-13
 tags: [operator-lessons, ai-as-cto, product-thinking]
 audience: [founders, product-leaders, general-professional]
 format: what-changed-my-mind
