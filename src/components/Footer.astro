@@ -3,19 +3,30 @@ import { Image } from 'astro:assets';
 import logoLight from '@/assets/logo-light.png';
 import logoDark from '@/assets/logo-dark.png';
 import { getLatestVersion } from '@/lib/changelog';
+import routes from '@/i18n/routes.json';
+import { t } from '@/i18n/t';
+import type { Locale } from '@/i18n/locale';
 
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'en' } = Astro.props;
 const latestVersion = getLatestVersion();
+
+const prefix = locale === 'pl' ? '/pl' : '';
+const r = routes[locale];
 
 const footerLinks = {
   pages: [
-    { href: '/work', label: 'Work' },
-    { href: '/projects', label: 'Case Studies' },
-    { href: '/blog', label: 'Blog' },
-    { href: '/publications', label: 'Publications' },
-    { href: '/glossary', label: 'Glossary' },
-    { href: '/about', label: 'About' },
-    { href: '/cv', label: 'CV' },
-    { href: '/changelog', label: 'Changelog' },
+    { href: `${prefix}/${r.work}`,    label: t('nav.work', locale) },
+    { href: `${prefix}/${r.projects}`, label: t('nav.projects', locale) },
+    { href: `${prefix}/blog`,         label: t('nav.blog', locale) },
+    { href: `${prefix}/publications`, label: t('nav.publications', locale) },
+    { href: '/glossary',              label: 'Glossary' },
+    { href: `${prefix}/${r.about}`,   label: t('nav.about', locale) },
+    { href: `${prefix}/${r.cv}`,      label: t('nav.cv', locale) },
+    { href: '/changelog',             label: 'Changelog' },
   ],
   connect: [
     { href: 'https://linkedin.com/in/blazejmrozinski', label: 'LinkedIn' },
@@ -24,14 +35,16 @@ const footerLinks = {
     { href: 'https://orcid.org/0000-0002-5423-2291', label: 'ORCID' },
   ],
 };
+
+const homeHref = locale === 'pl' ? '/pl/' : '/';
+const contactHref = `${prefix}/${r.contact}`;
 ---
 
 <footer class="border-t bg-background">
   <div class="container max-w-5xl mx-auto px-4 sm:px-6 py-12">
     <div class="grid grid-cols-2 gap-8 md:grid-cols-4">
-      <!-- Brand -->
       <div class="col-span-2 md:col-span-1">
-        <a href="/" title="Blazej Mrozinski — Home" class="inline-block hover:opacity-80 transition-opacity">
+        <a href={homeHref} title={t('header.home_title', locale)} class="inline-block hover:opacity-80 transition-opacity">
           <Image
             src={logoLight}
             alt="Blazej Mrozinski"
@@ -48,19 +61,18 @@ const footerLinks = {
           />
         </a>
         <p class="mt-3 text-sm text-muted-foreground leading-relaxed">
-          Psychologist, psychometrician, product builder. Building at the intersection of cognitive science, AI, and growth engineering.
+          {t('footer.tagline', locale)}
         </p>
         <a
           href="/changelog"
           class="inline-block mt-2 text-[11px] text-muted-foreground/40 hover:text-muted-foreground transition-colors"
         >
-          v{latestVersion} · <span class="underline underline-offset-2">view changelog</span>
+          v{latestVersion} · <span class="underline underline-offset-2">{t('footer.view_changelog', locale)}</span>
         </a>
       </div>
 
-      <!-- Pages -->
       <nav aria-label="Footer navigation">
-        <p class="font-semibold mb-4 text-sm">Pages</p>
+        <p class="font-semibold mb-4 text-sm">{t('footer.section_pages', locale)}</p>
         <ul class="space-y-2">
           {footerLinks.pages.map((link) => (
             <li>
@@ -76,9 +88,8 @@ const footerLinks = {
         </ul>
       </nav>
 
-      <!-- Connect -->
       <div>
-        <p class="font-semibold mb-4 text-sm">Connect</p>
+        <p class="font-semibold mb-4 text-sm">{t('footer.section_connect', locale)}</p>
         <ul class="space-y-2">
           {footerLinks.connect.map((link) => (
             <li>
@@ -99,18 +110,17 @@ const footerLinks = {
         </ul>
       </div>
 
-      <!-- Contact -->
       <div>
-        <p class="font-semibold mb-4 text-sm">Get in Touch</p>
+        <p class="font-semibold mb-4 text-sm">{t('footer.section_get_in_touch', locale)}</p>
         <p class="text-sm text-muted-foreground">
-          Interested in working together?
+          {t('footer.interested', locale)}
         </p>
         <a
-          href="/contact"
-          title="Contact me"
+          href={contactHref}
+          title={t('footer.contact_me', locale)}
           class="inline-flex items-center gap-2 mt-3 text-sm font-medium text-foreground hover:text-primary transition-colors"
         >
-          Contact me
+          {t('footer.contact_me', locale)}
           <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
           </svg>
@@ -119,7 +129,7 @@ const footerLinks = {
     </div>
 
     <div class="mt-8 border-t pt-8 text-center text-sm text-muted-foreground">
-      <p>&copy; {new Date().getFullYear()} Blazej Mrozinski. All rights reserved.</p>
+      <p>&copy; {new Date().getFullYear()} Blazej Mrozinski. {t('footer.rights', locale)}.</p>
     </div>
   </div>
 </footer>
