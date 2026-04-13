@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "work": "Work",
+    "projects": "Case Studies",
+    "blog": "Blog",
+    "publications": "Publications",
+    "about": "About",
+    "cv": "CV",
+    "contact": "Contact"
+  },
+  "footer": {
+    "section_pages": "Pages",
+    "section_connect": "Connect",
+    "section_get_in_touch": "Get in Touch",
+    "tagline": "Psychologist, psychometrician, product builder. Building at the intersection of cognitive science, AI, and growth engineering.",
+    "interested": "Interested in working together?",
+    "contact_me": "Contact me",
+    "view_changelog": "view changelog",
+    "rights": "All rights reserved"
+  },
+  "base": {
+    "skip_to_content": "Skip to content"
+  },
+  "lang_switcher": {
+    "switch_to_pl": "Przełącz na polski",
+    "switch_to_en": "Switch to English"
+  },
+  "404": {
+    "title": "Page not found",
+    "body": "The page you're looking for doesn't exist.",
+    "back_home": "Back to home"
+  },
+  "header": {
+    "home_title": "Blazej Mrozinski — Home",
+    "main_nav": "Main navigation",
+    "mobile_nav": "Mobile navigation",
+    "toggle_menu": "Toggle navigation menu",
+    "close_menu": "Close menu"
+  }
+}
