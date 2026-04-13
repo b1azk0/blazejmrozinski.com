@@ -8,6 +8,8 @@ import FontPreload from "@/components/FontPreload.astro";
 import ThemeScript from "@/components/ThemeScript.astro";
 import CookieConsent from "@/components/CookieConsent.astro";
 import AnimationObserver from "@/components/AnimationObserver.astro";
+import { t } from "@/i18n/t";
+import type { Locale } from "@/i18n/locale";
 
 interface Props {
   title: string;
@@ -19,32 +21,57 @@ interface Props {
   author?: string;
   keywords?: string;
   fullWidth?: boolean;
+  locale?: Locale;
+  alternateUrl?: string;
 }
 
-const { title, description, canonical, ogImage, ogType = 'website', robots, author, keywords, fullWidth = false } = Astro.props;
+const {
+  title,
+  description,
+  canonical,
+  ogImage,
+  ogType = 'website',
+  robots,
+  author,
+  keywords,
+  fullWidth = false,
+  locale = 'en',
+  alternateUrl,
+} = Astro.props;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang={locale}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <FontPreload />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <SEO title={title} description={description} canonical={canonical} ogImage={ogImage} ogType={ogType} robots={robots} author={author} keywords={keywords} />
+    <SEO
+      title={title}
+      description={description}
+      canonical={canonical}
+      ogImage={ogImage}
+      ogType={ogType}
+      robots={robots}
+      author={author}
+      keywords={keywords}
+      locale={locale}
+      alternateUrl={alternateUrl}
+    />
     <ClientRouter />
     <ThemeScript />
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col antialiased">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 bg-primary text-primary-foreground px-4 py-2 rounded-md font-medium">
-      Skip to content
+      {t('base.skip_to_content', locale)}
     </a>
-    <Header />
+    <Header locale={locale} alternateUrl={alternateUrl} />
     <main id="main-content" class:list={["flex-1", fullWidth ? "w-full" : ""]}>
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
     <CookieConsent />
     <AnimationObserver />
   </body>
