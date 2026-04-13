@@ -59,11 +59,12 @@ Three moving parts:
 | `/cv` | `/pl/cv` |
 | `/work` | `/pl/praca` |
 | `/work/gyfted` | `/pl/praca/gyfted` |
-| `/work/contentforge` | `/pl/praca/contentforge` |
+| `/projects` | `/pl/projekty` |
+| `/projects/contentforge` | `/pl/projekty/contentforge` |
 | `/contact` | `/pl/kontakt` |
 | `/404` | `/pl/404` |
 
-Project and company slugs (proper nouns) are unchanged across locales.
+`/work` is the companies section; `/projects` is the case-studies section. Both need their own translated route prefix. Project and company slugs (proper nouns) are unchanged across locales.
 
 ### Slug translation declaration
 
@@ -71,8 +72,8 @@ Project and company slugs (proper nouns) are unchanged across locales.
 
 ```json
 {
-  "en": { "about": "about", "work": "work", "contact": "contact", "cv": "cv" },
-  "pl": { "about": "o-mnie", "work": "praca", "contact": "kontakt", "cv": "cv" }
+  "en": { "about": "about", "work": "work", "projects": "projects", "contact": "contact", "cv": "cv" },
+  "pl": { "about": "o-mnie", "work": "praca", "projects": "projekty", "contact": "kontakt", "cv": "cv" }
 }
 ```
 
@@ -149,14 +150,19 @@ src/pages/
   work/[slug].astro        → /work/gyfted, etc.
   pl/
     index.astro            → /pl/
-    [slug].astro           → /pl/o-mnie, /pl/cv, /pl/kontakt (single segment)
+    o-mnie.astro           → /pl/o-mnie
+    cv.astro               → /pl/cv
+    kontakt.astro          → /pl/kontakt
     404.astro              → /pl/404
     praca/
       index.astro          → /pl/praca
-      [slug].astro         → /pl/praca/gyfted, etc.
+      [...slug].astro      → /pl/praca/gyfted, etc.
+    projekty/
+      index.astro          → /pl/projekty
+      [...slug].astro      → /pl/projekty/contentforge, etc.
 ```
 
-The single-segment `[slug].astro` under `/pl/` handles all top-level Polish pages by reading `routes.json` to map Polish slugs back to `pages/` collection entries. Astro's routing prefers more-specific files (`index.astro`, `404.astro`) over the dynamic `[slug].astro`, so they coexist cleanly. Adding a new EN page only requires updating `routes.json` and creating its `.pl.md` sibling; the dynamic route picks it up.
+**Why explicit shells per page rather than a single catch-all:** Each top-level EN page (`about.astro`, `cv.astro`, `work/index.astro`, etc.) is a hand-built shell with its own custom layout — headshot images, `JsonLd` blocks, `SectionDots`, `HobbiesSection`, etc. They're not uniform. We mirror each EN shell with a Polish counterpart that imports the same components, passes `locale="pl"`, and reads the matching `.pl.md` from the `pages` collection. Mechanical duplication of ~7 thin shell files; the underlying components (Header, Footer, SEO, Layout) all stay locale-aware so each shell is short.
 
 The `pl/praca/` folder is explicit because the route prefix itself is translated and Astro's routing is path-based.
 
