@@ -633,7 +633,7 @@ In Part 3, we deploy WordPress itself: `wp-config.php` configuration, database c
 1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
 2. **Building the LEMP Stack** *(you are here)*
 3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. Four Layers of Caching *(stay tuned)*
+4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
 5. Locking It Down *(stay tuned)*
 6. Automating the Boring Parts *(stay tuned)*
 7. Watching Over It All *(stay tuned)*

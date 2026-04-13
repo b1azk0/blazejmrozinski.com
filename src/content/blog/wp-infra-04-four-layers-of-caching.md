@@ -409,6 +409,12 @@ Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall
 
 ---
 
-*Previous: Part 3, "Deploying WordPress the Right Way"*
+## WordPress Infrastructure from Scratch — Full Series
 
-*Next: Part 5, "Locking It Down"*
+1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
+2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
+3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
+4. **Four Layers of Caching** *(you are here)*
+5. Locking It Down *(stay tuned)*
+6. Automating the Boring Parts *(stay tuned)*
+7. Watching Over It All *(stay tuned)*
