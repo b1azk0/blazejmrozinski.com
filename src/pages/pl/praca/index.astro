@@ -1,0 +1,56 @@
+---
+import Base from '@/layouts/Base.astro';
+import CompanyCard from '@/components/CompanyCard.astro';
+import SectionDots from '@/components/SectionDots.astro';
+import { getCollection, render } from 'astro:content';
+
+const workPage = (await getCollection('pages')).find((p) => p.id === 'work.pl');
+let WorkContent: any = null;
+let workHeadings: { depth: number; slug: string; text: string }[] = [];
+if (workPage) {
+  const rendered = await render(workPage);
+  WorkContent = rendered.Content;
+  workHeadings = rendered.headings;
+}
+workHeadings = [...workHeadings.filter((h) => h.depth <= 3), { depth: 2, slug: 'companies', text: 'Firmy' }];
+
+const companies = (await getCollection('companies'))
+  .filter((c) => c.data.lang === 'pl')
+  .sort((a, b) => a.data.order - b.data.order);
+---
+
+<Base
+  title={workPage?.data.title ?? 'Praca'}
+  description={workPage?.data.description ?? ''}
+  locale="pl"
+  alternateUrl="/work"
+>
+  <SectionDots headings={workHeadings} />
+
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>{workPage?.data.title ?? 'Praca'}</h1>
+
+    {WorkContent && (
+      <div class="prose prose-neutral dark:prose-invert max-w-none mb-12" data-animate>
+        <WorkContent />
+      </div>
+    )}
+
+    <section id="companies" data-animate>
+      <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Firmy</h2>
+      <div class="grid gap-4">
+        {companies.map((company, i) => (
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+            <CompanyCard
+              name={company.data.name}
+              domain={company.data.domain}
+              role={company.data.role}
+              slug={company.id.replace(/\.pl$/, '')}
+              locale="pl"
+            />
+          </div>
+        ))}
+      </div>
+    </section>
+  </div>
+</Base>
