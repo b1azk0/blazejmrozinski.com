@@ -2,6 +2,11 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.7.2] — 2026-04-13 — Blog: WP Infrastructure Part 4
+
+### Added
+- Blog post "WordPress Caching with Nginx FastCGI, Redis, OPcache, and Cloudflare (Under 50ms TTFB)" — Part 4 of the WordPress Infrastructure from Scratch series. Deep-dive on four-layer WordPress caching stack with WooCommerce bypass rules. Back-dated to 2026-04-12. Label: infrastructure.
+
 ## [0.7.1] — 2026-04-13 — Blog: SaaS is dead narrative
 
 ### Added

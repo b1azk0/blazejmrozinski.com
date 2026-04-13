@@ -1,33 +1,33 @@
 ---
-title: "Four Layers of Caching: Making WordPress Serve Pages in Under 50ms"
-date: 2026-04-20
+title: "WordPress Caching with Nginx FastCGI, Redis, OPcache, and Cloudflare (Under 50ms TTFB)"
+date: 2026-04-12
 tags: [devops-reality, wordpress, hetzner, server-backend, performance, redis, nginx, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Stacking Cloudflare, FastCGI page cache, Redis Object Cache Pro, and OPcache+JIT to serve WordPress pages in under 50 milliseconds, with WooCommerce-specific bypass rules."
-status: draft
-label: infrastructure
+description: "Four-layer WordPress caching stack: Cloudflare CDN, Nginx FastCGI page cache, Redis Object Cache Pro, and PHP OPcache with JIT. Achieved sub-50ms TTFB with WooCommerce bypass rules."
+status: published
 safety_review: false
+label: infrastructure
 ---
 
-> *This is Part 4 of "WordPress Infrastructure from Scratch," a hands-on guide to building production WordPress and WooCommerce hosting on Hetzner. Code and configs at the [companion repository](https://github.com/b1azk0/wordpress-infrastructure).*
+> *This is Part 4 of "WordPress Infrastructure from Scratch," a hands-on guide to building production WordPress and WooCommerce hosting on Hetzner. Code and configs at the [companion repository](https://github.com/b1azk0/wordpress-infrastructure) under `04-caching-layers/`.*
 
-**Table of Contents**
+## Table of Contents
 
-1. [Why WordPress Is Slow by Default](#why-wordpress-is-slow-by-default)
-2. [Understanding the Cache Stack](#understanding-the-cache-stack)
-3. [Layer 1: Cloudflare CDN](#layer-1-cloudflare-cdn)
-4. [Layer 2: FastCGI Page Cache (Nginx)](#layer-2-fastcgi-page-cache-nginx)
-5. [Layer 3: Object Cache Pro (Redis)](#layer-3-object-cache-pro-redis)
-6. [Layer 4: OPcache + JIT](#layer-4-opcache--jit)
-7. [Compression and Browser Caching](#compression-and-browser-caching)
-8. [Performance Targets and Verification](#performance-targets-and-verification)
-9. [WooCommerce Caching Gotchas](#woocommerce-caching-gotchas)
+1. [Why WordPress Is Slow Without Caching](#why-wordpress-is-slow-without-caching)
+2. [WordPress Cache Stack Architecture](#wordpress-cache-stack-architecture)
+3. [Cloudflare CDN for WordPress: Configuration That Matters](#cloudflare-cdn-for-wordpress-configuration-that-matters)
+4. [Nginx FastCGI Page Cache: From 500ms to Sub-50ms](#nginx-fastcgi-page-cache-from-500ms-to-sub-50ms)
+5. [Redis Object Cache Pro: Database Query Caching](#redis-object-cache-pro-database-query-caching)
+6. [PHP OPcache and JIT for WordPress](#php-opcache-and-jit-for-wordpress)
+7. [Gzip Compression and Browser Cache Headers](#gzip-compression-and-browser-cache-headers)
+8. [WordPress Performance Testing and TTFB Verification](#wordpress-performance-testing-and-ttfb-verification)
+9. [WooCommerce Caching: Cart Fragments, Sessions, and Bypass Rules](#woocommerce-caching-cart-fragments-sessions-and-bypass-rules)
 10. [What's Next](#whats-next)
 
 ---
 
-## Why WordPress Is Slow by Default
+## Why WordPress Is Slow Without Caching
 
 WordPress, out of the box, is remarkably wasteful. Every single page request starts the PHP interpreter, loads the entire WordPress core, runs dozens of database queries, assembles the HTML from theme templates, and sends the result back to the browser. For a typical page on a WooCommerce site, that can mean 50 to 100 database queries, hundreds of milliseconds of PHP execution, and a time-to-first-byte well over 500ms.
 
@@ -35,7 +35,7 @@ Most caching guides address one layer. They tell you to install a caching plugin
 
 This post covers all four layers, the configuration details that matter, and one critical bug that cost me hours of debugging.
 
-## Understanding the Cache Stack
+## WordPress Cache Stack Architecture
 
 A request to any of my WordPress sites passes through four caching layers in sequence. Most requests never make it past layer two.
 
@@ -51,7 +51,7 @@ For an anonymous visitor loading a blog post, the request hits Cloudflare (layer
 
 For a logged-in WooCommerce customer browsing their account page, layers 1 and 2 are bypassed. PHP runs, but layers 3 and 4 ensure that the PHP execution is fast, with most database queries resolved from Redis and the PHP bytecode already compiled. Total time: under 500ms.
 
-## Layer 1: Cloudflare CDN
+## Cloudflare CDN for WordPress: Configuration That Matters
 
 Cloudflare is the outermost layer. It sits between the visitor's browser and the Hetzner origin server, handling several things that the origin server should never have to deal with.
 
@@ -66,13 +66,13 @@ Cloudflare is the outermost layer. It sits between the visitor's browser and the
 
 SSL/TLS mode must be **Full (strict)**. This was covered in Post 3, but it bears repeating here because it interacts with caching. "Flexible" mode causes redirect loops. "Full" without "strict" is less secure than it should be. Full (strict) means end-to-end encryption with certificate validation at both ends.
 
-**Bot Fight Mode: OFF.** This is counterintuitive. Cloudflare's Bot Fight Mode sounds like something you want enabled, but on WordPress sites it creates real problems. It can block WordPress plugin update checks, theme license verification, REST API calls from third-party services, search engine crawlers, and uptime monitoring bots. I keep it OFF and handle bot protection at the Nginx level with rate limiting and specific block rules. The security tradeoff is minimal because the threats Bot Fight Mode targets are already handled by other layers.
+**Bot Fight Mode: OFF.** Cloudflare's Bot Fight Mode sounds like something you want enabled, but on WordPress sites it creates real problems. It can block WordPress plugin update checks, theme license verification, REST API calls from third-party services, search engine crawlers, and uptime monitoring bots. I keep it OFF and handle bot protection at the Nginx level with rate limiting and specific block rules. The security tradeoff is minimal because the threats Bot Fight Mode targets are already handled by other layers.
 
 **Cache Rules over Page Rules.** Cloudflare's newer Cache Rules system is more flexible than the legacy Page Rules. The essential rules for WordPress: bypass cache for anything under `/wp-admin` or `/wp-login.php`, and set extended cache (30 days) for static asset file extensions (css, js, png, jpg, jpeg, gif, ico, svg, webp, woff, woff2).
 
 Early Hints, Tiered Cache, and Auto Minify are also enabled. These are smaller gains individually, but they compound. Early Hints lets browsers start loading resources before the full HTML response arrives. Tiered Cache improves edge cache hit ratios by routing through regional Cloudflare data centers.
 
-## Layer 2: FastCGI Page Cache (Nginx)
+## Nginx FastCGI Page Cache: From 500ms to Sub-50ms
 
 This is the layer that turns WordPress from a 200 to 500ms application into a sub-50ms one. The concept is simple: when Nginx passes a request to PHP-FPM and gets back rendered HTML, it stores that HTML on disk. The next time someone requests the same URL, Nginx serves the stored HTML directly. PHP never runs. The database is never queried. Nginx is just handing back a file.
 
@@ -163,7 +163,7 @@ sudo systemctl reload nginx
 
 This is part of the automated daily maintenance script that I will cover in Post 6.
 
-## Layer 3: Object Cache Pro (Redis)
+## Redis Object Cache Pro: Database Query Caching
 
 FastCGI page cache eliminates PHP entirely for anonymous visitors. But for logged-in users, WooCommerce customers, and admin pages, PHP still runs. This is where Redis object caching becomes important.
 
@@ -227,7 +227,7 @@ For WooCommerce specifically, Redis handles session storage. By default, WooComm
 
 Transient caching is also significant for WooCommerce. Product data, shipping calculations, and tax lookups all use transients. With Redis, these resolve from memory instead of requiring database queries.
 
-## Layer 4: OPcache + JIT
+## PHP OPcache and JIT for WordPress
 
 The final layer operates at the PHP level. OPcache stores compiled bytecode so that PHP files do not need to be parsed and compiled on every request. JIT (Just-In-Time compilation) goes further, compiling frequently executed code paths to machine code.
 
@@ -271,7 +271,7 @@ php -r "var_dump(opcache_get_status());"
 
 This outputs the current OPcache state including number of cached scripts, memory usage, hit rate, and JIT status. The key values to check: `opcache_enabled` should be `true`, `num_cached_scripts` should be in the thousands (matching your WordPress installation size), and `jit.on` should be `true`.
 
-## Compression and Browser Caching
+## Gzip Compression and Browser Cache Headers
 
 These are supporting layers, not primary cache layers, but they contribute meaningfully to the overall performance picture.
 
@@ -316,7 +316,7 @@ location ~* \.(js|css|png|jpg|jpeg|gif|ico|svg|webp)$ {
 
 Once a visitor's browser downloads a CSS file, it will not request it again for 30 days. Combined with Cloudflare's edge caching, most static assets are served from the browser cache or the nearest Cloudflare POP. The origin server rarely has to serve a static file more than once per unique visitor per month.
 
-## Performance Targets and Verification
+## WordPress Performance Testing and TTFB Verification
 
 Here are the targets and how I verify each one.
 
@@ -383,17 +383,17 @@ For WooCommerce sites, I run additional checks:
 
 If any of these return the wrong cache status, the bypass rules need adjustment.
 
-## WooCommerce Caching Gotchas
+## WooCommerce Caching: Cart Fragments, Sessions, and Bypass Rules
 
 WooCommerce introduces several caching complications that basic WordPress installations do not have.
 
-**Cart fragments.** WooCommerce uses an AJAX request (`wc-ajax=get_refreshed_fragments`) to update the mini-cart widget on every page load. This request runs PHP on every page, even for anonymous visitors, even on pages that are otherwise fully cached. It is a significant performance drain, roughly 0.5 seconds per request on typical configurations. I disable cart fragments entirely using Perfmatters and rely on a full page reload when the cart is updated. The user experience tradeoff is minimal: instead of the cart icon updating in real-time via AJAX, it updates on the next page navigation. For most stores, this is perfectly acceptable.
+**Cart fragments.** WooCommerce uses an AJAX request (`wc-ajax=get_refreshed_fragments`) to update the mini-cart widget on every page load. This request runs PHP on every page, even for anonymous visitors, even on pages that are otherwise fully cached. It is a significant performance drain, roughly 0.5 seconds per request on typical configurations. I disable cart fragments entirely using Perfmatters and rely on a full page reload when the cart is updated. The user experience tradeoff is minimal: instead of the cart icon updating in real-time via AJAX, it updates on the next page navigation. For most stores, nobody notices.
 
 **Dynamic pricing.** If your WooCommerce store uses dynamic pricing (prices that change based on user role, quantity, or time-based promotions), the page cache can serve stale prices. The bypass rules handle logged-in users, but anonymous users with cookie-based pricing rules need special attention. For the stores I manage, pricing is static for anonymous visitors, so the default bypass rules are sufficient.
 
 **Session storage.** WooCommerce sessions track cart contents, recently viewed products, and checkout state. By default, these are stored in the `wp_options` or `wp_woocommerce_sessions` database table, which means a database write on every page load for any visitor with a session. With Redis, sessions are stored in memory. Reads and writes are faster, and the database is not burdened with session churn. The `wp_woocommerce_session_` cookie in the bypass rules ensures that visitors with active sessions always get fresh pages.
 
-**The alloptions problem.** I mentioned this in the Object Cache Pro section, but it is worth reinforcing. WooCommerce's frequent option updates (transient counters, session metadata, cart hash tracking) cause constant invalidation of the `alloptions` cache. Without `split_alloptions`, this means a full database reload of all WordPress options on nearly every uncached request. With `split_alloptions` enabled in OCP, only the changed option is invalidated. This is one of those settings that looks trivial in the config file but makes a real, measurable difference in WooCommerce page load times.
+**The alloptions problem.** I mentioned this in the Object Cache Pro section, but it is worth reinforcing. WooCommerce's frequent option updates (transient counters, session metadata, cart hash tracking) cause constant invalidation of the `alloptions` cache. Without `split_alloptions`, this means a full database reload of all WordPress options on nearly every uncached request. With `split_alloptions` enabled in OCP, only the changed option is invalidated. In the config file it looks trivial. On a WooCommerce store with frequent cart activity, it cut uncached page load times noticeably.
 
 **What to never cache.** Cart, checkout, and my-account pages must always bypass the page cache. The same applies to any page that displays user-specific content: wishlists, order history, account dashboards. The bypass rules in the Nginx configuration handle the standard WooCommerce pages. Custom pages that display user-specific content may need additional URI patterns added to the `$request_uri` bypass rule.
 
@@ -409,14 +409,6 @@ Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall
 
 ---
 
----
+*Previous: Part 3, "Deploying WordPress the Right Way"*
 
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)
+*Next: Part 5, "Locking It Down"*
