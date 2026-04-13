@@ -1,0 +1,40 @@
+{
+  "nav": {
+    "work": "",
+    "projects": "",
+    "blog": "",
+    "publications": "",
+    "about": "",
+    "cv": "",
+    "contact": ""
+  },
+  "footer": {
+    "section_pages": "",
+    "section_connect": "",
+    "section_get_in_touch": "",
+    "tagline": "",
+    "interested": "",
+    "contact_me": "",
+    "view_changelog": "",
+    "rights": ""
+  },
+  "base": {
+    "skip_to_content": ""
+  },
+  "lang_switcher": {
+    "switch_to_pl": "",
+    "switch_to_en": ""
+  },
+  "404": {
+    "title": "",
+    "body": "",
+    "back_home": ""
+  },
+  "header": {
+    "home_title": "",
+    "main_nav": "",
+    "mobile_nav": "",
+    "toggle_menu": "",
+    "close_menu": ""
+  }
+}
