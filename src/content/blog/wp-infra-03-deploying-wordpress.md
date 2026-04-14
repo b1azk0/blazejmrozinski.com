@@ -80,7 +80,7 @@ tar xzf latest.tar.gz
 sudo rsync -a /tmp/wordpress/ /var/www/yourdomain.com/public/
 ```
 
-Set ownership so PHP-FPM can read and write the files:
+Set ownership so [PHP-FPM](/glossary/php-fpm/) can read and write the files:
 
 ```bash
 sudo chown -R www-data:www-data /var/www/yourdomain.com
@@ -176,7 +176,7 @@ I flag this because if you use `wp config create` with its `--extra-php` flag, y
 
 ## Redis and Object Cache Pro
 
-With the wp-config constants in the right place, the Redis integration needs a few more components.
+With the wp-config constants in the right place, the [Redis object cache](/glossary/redis-object-cache/) integration needs a few more components.
 
 Object Cache Pro is a premium plugin that replaces the free Redis Object Cache with substantially better performance. The key improvements: prefetching (batches multiple Redis calls into one round trip), split alloptions (prevents WordPress from reloading the entire options table on every request), igbinary serialization (faster and smaller than PHP's native serializer), and LZF compression (reduces Redis memory usage).
 

@@ -1,7 +1,7 @@
 ---
 term: "Fail2ban"
 seoTitle: "What Is Fail2ban? Automated Intrusion Prevention for Linux Servers"
-description: "Fail2ban monitors log files and automatically bans IPs that show malicious behavior. Learn how it works, jail configuration, and WordPress-specific protection."
+description: "Fail2ban is an intrusion prevention tool for Linux servers that scans log files and bans IPs showing malicious behavior. Learn how jails, filters, and actions work, plus WordPress-specific protection."
 definition: "Fail2ban is an intrusion prevention tool that monitors system log files for patterns of malicious activity and automatically bans offending IP addresses using firewall rules."
 domain: "infrastructure"
 relatedContent:
@@ -10,11 +10,15 @@ relatedTerms:
   - "vps"
   - "lemp-stack"
   - "ssl-tls-certificate"
+  - "php-fpm"
+  - "opcache"
+  - "fastcgi-cache"
+  - "redis-object-cache"
 status: published
 date: 2026-04-09
 ---
 
-Brute force attacks against WordPress and SSH are relentless and automated. Botnets probe every public IP address continuously, trying common passwords against `wp-login.php`, scanning for vulnerable plugin endpoints, hammering SSH with credential lists. A firewall blocks ports; it doesn't respond to behavior. Fail2ban bridges that gap by watching what actually happens and blocking sources that show hostile patterns.
+Any public-facing Linux server attracts a constant background of automated brute-force traffic — botnets probing SSH with credential lists, scanning for vulnerable HTTP endpoints, hammering login pages with common passwords. A firewall blocks ports; it doesn't respond to behavior. Fail2ban bridges that gap by watching what actually happens in log files and blocking sources that show hostile patterns. It runs on any Linux distribution and protects any service that produces a log of authentication attempts — SSH, web servers, mail servers, [LEMP stack](/glossary/lemp-stack/) hosts, database front-ends, VPN gateways. WordPress and SSH are the two cases I cover in the most depth here, but they are examples, not the limit of what Fail2ban does.
 
 ## How Fail2ban Works
 

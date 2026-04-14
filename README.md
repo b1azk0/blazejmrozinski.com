@@ -35,6 +35,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `projects` | `src/content/projects/` | Project writeups (7 projects across companies) |
 | `pages` | `src/content/pages/` | Static pages (about, work, CV) |
 | `photography` | `src/content/photography/` | Travel photo albums (folder per trip with co-located images) |
+| `glossary` | `src/content/glossary/` | Glossary terms (psychometrics, infrastructure, product, AI). Cross-linked into four topical clusters and used as the primary SEO surface — see `seo/2026-04-15-landing-pages-audit.md` in ContentForge. |
 
 Polish translations of `companies`, `projects`, and `pages` live under a `pl/` subdirectory inside each collection (e.g. `src/content/companies/pl/gyfted.md`). They are detected at build time by the Polish route pages and kept in sync with their English source via `npm run translate:check` (see Internationalization below).
 

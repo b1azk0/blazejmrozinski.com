@@ -33,7 +33,7 @@ Three properties distinguish a psychometric assessment from a questionnaire with
 
 **Cognitive ability tests** measure processing capacity — reasoning, working memory, verbal comprehension, numerical ability. These are the most predictive assessments in personnel selection. General mental ability predicts job performance across roles more strongly than almost any other single predictor.
 
-**Personality assessments** measure relatively stable trait dispositions — how a person characteristically thinks, feels, and behaves. The most research-supported framework is the Big Five (OCEAN). Well-constructed personality assessments use validated scales, sufficient item redundancy, and response distortion checks.
+**Personality assessments** measure relatively stable trait dispositions — how a person characteristically thinks, feels, and behaves. The most research-supported framework is the [Big Five (OCEAN)](/glossary/big-five-personality/). Well-constructed personality assessments use validated scales, sufficient item redundancy, and response distortion checks.
 
 **Interest inventories** measure preferences for types of work activities, environments, and people. The dominant framework is Holland's RIASEC model, which classifies interests into six types (Realistic, Investigative, Artistic, Social, Enterprising, Conventional). Interest-occupation fit predicts job satisfaction and tenure more than personality or ability.
 
@@ -47,13 +47,13 @@ Validity is the most important concept in psychometrics, and the most misunderst
 
 **Content validity evidence** addresses whether the items adequately sample the domain being measured. For a conscientiousness scale, do the items cover the full range of conscientious behavior, or just one facet? Content validity is typically established through expert review and systematic item development.
 
-**Construct validity evidence** addresses whether the assessment measures the theoretical construct it claims to measure. This involves examining the internal structure of the test (do items cluster the way the theory predicts?), convergent validity (does this scale correlate with other measures of the same construct?), and discriminant validity (does it not correlate too highly with measures of different constructs?).
+**[Construct validity](/glossary/construct-validity/) evidence** addresses whether the assessment measures the theoretical construct it claims to measure. This involves examining the internal structure of the test (do items cluster the way the theory predicts? — usually tested with [confirmatory factor analysis](/glossary/confirmatory-factor-analysis/)), convergent validity (does this scale correlate with other measures of the same construct?), and discriminant validity (does it not correlate too highly with measures of different constructs?).
 
 **Criterion validity evidence** addresses whether scores predict meaningful outcomes. Predictive validity studies correlate assessment scores with future performance measures — supervisor ratings, sales figures, training completion. Concurrent validity studies correlate scores with outcomes measured at the same time. For hiring assessments, criterion validity is ultimately what matters most.
 
 ## Reliability as a Prerequisite
 
-A test cannot be valid if it isn't reliable. Reliability — consistency of measurement — sets an upper bound on validity. A personality scale with Cronbach's alpha of 0.60 can't have a validity coefficient much above 0.45–0.50 in the best case. Most professional standards require reliability above 0.70 for research applications and 0.80–0.90 for high-stakes individual decisions.
+A test cannot be valid if it isn't reliable. Reliability — consistency of measurement — sets an upper bound on validity. A personality scale with Cronbach's alpha of 0.60 can't have a validity coefficient much above 0.45–0.50 in the best case. Most professional standards require reliability above 0.70 for research applications and 0.80–0.90 for high-stakes individual decisions. The two main frameworks for thinking about reliability are [Classical Test Theory](/glossary/classical-test-theory/), which decomposes scores into true score plus error, and [Item Response Theory](/glossary/item-response-theory/), which models reliability as varying across the latent trait continuum.
 
 ## Real-World Applications
 
@@ -61,8 +61,14 @@ A test cannot be valid if it isn't reliable. Reliability — consistency of meas
 
 **Development:** Assessments help people understand their own strengths and development areas. The evidentiary standard differs from selection — you can tolerate lower predictive validity if the insights are genuinely useful for reflection.
 
-**Career guidance:** Matching people to occupations using interest and ability profiles. This is the foundation of what the HSE Career Quiz does — using validated interest measures to surface occupation families where someone is likely to find engagement and fit.
+**Career guidance:** Matching people to occupations using interest and ability profiles. This is the foundation of what the [HSE Career Quiz](/projects/hse-career-quiz/) does — using validated interest measures and the [O*NET](/glossary/onet/) occupation database to surface occupation families where someone is likely to find engagement and fit.
 
 **Team design:** Understanding trait composition across teams — cognitive diversity, interpersonal style — to anticipate collaboration patterns and design working arrangements accordingly.
 
-Building assessments for Gyfted means navigating all of this: ensuring the instruments are psychometrically sound, that the scores are interpretable and actionable, and that the whole system holds up to scrutiny when consequential decisions are made with it.
+Building assessments for [Gyfted](/work/gyfted/) means navigating all of this: ensuring the instruments are psychometrically sound, that the scores are interpretable and actionable, and that the whole system holds up to scrutiny when consequential decisions are made with it.
+
+## How I Validate Psychometric Assessments
+
+The validation work I do for clients follows the same pattern regardless of domain: define the construct rigorously, generate or curate items against an explicit theoretical framework, pilot on a representative sample, screen items via [classical test theory](/glossary/classical-test-theory/) statistics, test the hypothesized structure with [confirmatory factor analysis](/glossary/confirmatory-factor-analysis/), establish [construct validity](/glossary/construct-validity/) through convergent and discriminant evidence, and verify measurement invariance across the demographic groups the assessment will be used with. Where the assessment scores ability rather than personality, [item response theory](/glossary/item-response-theory/) replaces or supplements CTT.
+
+If you're building or buying a psychometric assessment and want a second pair of eyes on the validation evidence — or you need someone to design the validation study from scratch — [get in touch](/contact/). I've done this work for hiring assessments, career guidance instruments, university admissions, and applied research, and I'm available for consulting engagements that range from a single review to full assessment development.

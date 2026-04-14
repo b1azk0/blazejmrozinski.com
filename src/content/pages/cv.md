@@ -7,6 +7,8 @@ description: "Curriculum Vitae — Blazej Mrozinski, PhD. Psychologist, psychome
 
 Psychologist, psychometrician, product leader, and data scientist specializing in assessment systems, matching logic, quantitative methodology, and translating behavioral science into deployable products. Twenty years across academic research and co-founding companies that put psychometric science into production. Work spans U.S., UK, Polish, and broader international contexts, in both theory-heavy and execution-heavy environments.
 
+**Available for selective consulting engagements** in psychometric assessment design and validation, product strategy at the intersection of behavioral science and AI, and SEO growth architecture for content-heavy products. [Get in touch](/contact/) to discuss a project.
+
 ## Impact Highlights
 
 - Screened 250+ candidates for LSEG, reducing manual review time by 60%

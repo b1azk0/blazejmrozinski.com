@@ -10,11 +10,13 @@ relatedTerms:
   - "lemp-stack"
   - "opcache"
   - "fastcgi-cache"
+  - "redis-object-cache"
+  - "fail2ban"
 status: published
 date: 2026-04-09
 ---
 
-PHP-FPM is how Nginx actually runs PHP. Without it, Nginx has no idea what to do with a `.php` file — it can only serve static content. PHP-FPM sits alongside Nginx as a separate process, maintains a pool of PHP workers ready to execute code, and communicates with Nginx via a Unix socket or TCP port.
+PHP-FPM is how Nginx actually runs PHP. Without it, Nginx has no idea what to do with a `.php` file — it can only serve static content. In a [LEMP stack](/glossary/lemp-stack/), PHP-FPM sits alongside Nginx as a separate process, maintains a pool of PHP workers ready to execute code, and communicates with Nginx via a Unix socket or TCP port.
 
 Understanding PHP-FPM configuration is essential for WordPress performance and stability. Get it wrong, and you'll either exhaust server memory or starve yourself of capacity to handle concurrent requests.
 
@@ -56,7 +58,7 @@ ps --no-headers -o rss -C php-fpm8.4 | awk '{ sum+=$1 } END { print sum/NR/1024 
 
 Typical WordPress PHP-FPM workers consume 30–80 MB each. A site with many plugins, WooCommerce, and page builders trends toward the high end. A lean WordPress install with few plugins can sit well under 40 MB.
 
-On a 4 GB server running Nginx, MariaDB, Redis, and the OS, you might have 2.5 GB available for PHP. At 60 MB per worker, that gives you roughly 40 workers. I typically leave headroom and set something like 30 for a server running two or three WordPress sites.
+On a 4 GB server running Nginx, MariaDB, [Redis object cache](/glossary/redis-object-cache/), and the OS, you might have 2.5 GB available for PHP. At 60 MB per worker, that gives you roughly 40 workers. I typically leave headroom and set something like 30 for a server running two or three WordPress sites. [OPcache](/glossary/opcache/) eliminates a substantial chunk of per-request CPU overhead inside each worker, and pairing PHP-FPM with [FastCGI cache](/glossary/fastcgi-cache/) lets Nginx skip the worker pool entirely for cache hits.
 
 ## pm.max_requests: Memory Leak Protection
 

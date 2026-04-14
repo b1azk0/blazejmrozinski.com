@@ -17,7 +17,7 @@ From 2010 to 2024, I directed the Experimental Psychology Laboratory. In practic
 
 ## Teaching
 
-I teach advanced research methods, psychometrics, data analysis, and R programming. The courses cover study design, statistical modeling, psychometric instrument construction and validation, competency assessment methodology, and evidence-based research design. The emphasis is always applied: how to design a study that produces defensible conclusions, how to build a measurement instrument that actually works, how to choose an analysis that matches the question, and how to recognize where intuition fails without evidence. I've guided students from turning vague interests into concrete research questions to producing empirically workable study designs and completed theses.
+I teach advanced research methods, psychometrics, data analysis, and R programming. The courses cover study design, statistical modeling, [psychometric assessment](/glossary/psychometric-assessment/) construction and validation (including [classical test theory](/glossary/classical-test-theory/), [item response theory](/glossary/item-response-theory/), and [confirmatory factor analysis](/glossary/confirmatory-factor-analysis/)), competency assessment methodology, and evidence-based research design. The emphasis is always applied: how to design a study that produces defensible conclusions, how to build a measurement instrument that actually works, how to choose an analysis that matches the question, and how to recognize where intuition fails without evidence. I've guided students from turning vague interests into concrete research questions to producing empirically workable study designs and completed theses.
 
 Part of what I teach is psychometric tool development — how to construct, validate, and interpret measurement instruments. That's the direct bridge to everything I build commercially. The same discipline that goes into a well-validated research scale goes into the assessment systems at [Gyfted](/work/gyfted) and the progression logic at [Nerds.family](/work/nerds-family).
 
@@ -25,7 +25,7 @@ Part of what I teach is psychometric tool development — how to construct, vali
 
 My research focuses on social cognition, self-concept, cognitive accessibility, and intergroup processes. Alongside the substantive psychology, I've worked on methodological questions — measurement, inference, and how to handle messy real-world behavioral data that doesn't arrive clean or balanced. The work has appeared in journals including *Journal of Personality and Social Psychology*, *Self and Identity*, *Frontiers in Psychology*, and *Personality and Individual Differences*.
 
-Research has been supported through nationally competitive funding from Poland's National Science Centre (NCN, including Maestro and OPUS grants) and the National Centre for Research and Development (NCBR). The methodological stance that runs through all of it — careful design, construct validity, replication awareness, and resistance to weak inference — is the same stance I carry into applied work.
+Research has been supported through nationally competitive funding from Poland's National Science Centre (NCN, including Maestro and OPUS grants) and the National Centre for Research and Development (NCBR). The methodological stance that runs through all of it — careful design, [construct validity](/glossary/construct-validity/), replication awareness, and resistance to weak inference — is the same stance I carry into applied work.
 
 ## The Bridge
 

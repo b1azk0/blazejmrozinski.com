@@ -33,11 +33,11 @@ The gap shows up when you operate across multiple projects, companies, and domai
 
 Each project works fine in isolation. What's missing is the connective tissue: the global context that turns a capable coding tool into something that understands your situation well enough to make real decisions.
 
-Longer context windows and better prompts help at the margins. But the most important context (why decisions were made, what was tried and failed, who is responsible for what across your entire operation) is exactly the kind of thing that doesn't live in any single repo.
+Longer [context windows](/glossary/context-window/) and better prompts help at the margins. But the most important context (why decisions were made, what was tried and failed, who is responsible for what across your entire operation) is exactly the kind of thing that doesn't live in any single repo.
 
 ## Building a Persistent Knowledge Base for AI
 
-Instead of hoping the AI would figure things out from increasingly elaborate prompts, I built it a persistent knowledge base. A structured set of documents that the AI reads at the start of every session, covering:
+Instead of hoping the AI would figure things out from increasingly elaborate prompts, I built it a persistent [AI knowledge base](/glossary/knowledge-base-ai/). A structured set of documents that the AI reads at the start of every session, covering:
 
 **Who we are.** The specific operating model, stated explicitly. I lead product, growth, and vision. The AI leads technology. I have veto power. The AI has free hand until I push back. This framing changes how the AI makes recommendations. It stops asking permission for routine technical decisions and starts flagging only the calls that genuinely need my input.
 

@@ -41,11 +41,11 @@ A request to any of my WordPress sites passes through four caching layers in seq
 
 **Layer 1: Cloudflare CDN.** The outermost layer. Handles HTTP/3, Brotli compression at the edge, and static asset caching. Sits in front of everything.
 
-**Layer 2: FastCGI page cache (Nginx).** This is the big one. Nginx stores the fully rendered HTML page on disk and serves it directly without ever touching PHP. If a visitor requests a page that is already cached, Nginx returns it in single-digit milliseconds.
+**Layer 2: [FastCGI page cache](/glossary/fastcgi-cache/) (Nginx).** This is the big one. Nginx stores the fully rendered HTML page on disk and serves it directly without ever touching PHP. If a visitor requests a page that is already cached, Nginx returns it in single-digit milliseconds.
 
-**Layer 3: Object Cache Pro (Redis).** When the page cache is bypassed (logged-in users, cart pages, POST requests), PHP still has to run. Redis caches database query results, PHP objects, transients, and the options table so that individual queries resolve from memory instead of hitting MariaDB.
+**Layer 3: Object Cache Pro ([Redis](/glossary/redis-object-cache/)).** When the page cache is bypassed (logged-in users, cart pages, POST requests), PHP still has to run. Redis caches database query results, PHP objects, transients, and the options table so that individual queries resolve from memory instead of hitting MariaDB.
 
-**Layer 4: OPcache + JIT.** PHP itself is cached. OPcache stores compiled bytecode so PHP files are parsed once and reused on every subsequent request. JIT compiles hot code paths to machine code.
+**Layer 4: [OPcache](/glossary/opcache/) + JIT.** PHP itself is cached. OPcache stores compiled bytecode so PHP files are parsed once and reused on every subsequent request. JIT compiles hot code paths to machine code.
 
 For an anonymous visitor loading a blog post, the request hits Cloudflare (layer 1), which passes it to the origin server. Nginx checks its page cache (layer 2), finds a HIT, and returns the stored HTML. PHP never runs. Redis never gets queried. The database is untouched. Total time: under 50ms including network latency.
 

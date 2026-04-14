@@ -11,6 +11,8 @@ relatedTerms:
   - "php-fpm"
   - "opcache"
   - "fastcgi-cache"
+  - "redis-object-cache"
+  - "fail2ban"
   - "vps"
 status: published
 date: 2026-04-09
@@ -24,7 +26,7 @@ It's the foundation I use across all my Hetzner VPS servers for WordPress and Wo
 
 **Linux** is the operating system. It manages hardware resources, processes, networking, and file permissions. For WordPress hosting, Debian is a solid choice — stable, well-documented, and conservative with package updates. Linux isn't just the bottom layer; it's where most performance tuning actually happens: kernel TCP settings, file descriptor limits, memory overcommit behavior.
 
-**Nginx** (the "E" comes from the pronunciation) is the web server. It listens on ports 80 and 443, handles TLS termination, serves static files directly from disk, and forwards PHP requests to PHP-FPM. Nginx is event-driven and non-blocking — it can handle thousands of concurrent connections with minimal memory. This matters a lot for WordPress under real traffic.
+**Nginx** (the "E" comes from the pronunciation) is the web server. It listens on ports 80 and 443, handles TLS termination, serves static files directly from disk, and forwards PHP requests to [PHP-FPM](/glossary/php-fpm/). Nginx is event-driven and non-blocking — it can handle thousands of concurrent connections with minimal memory. This matters a lot for WordPress under real traffic.
 
 **MariaDB** is the relational database. WordPress stores all content, settings, user data, and plugin configuration in MariaDB. Technically you can use MySQL instead — they share the same query syntax and wire protocol — but MariaDB has moved faster on performance improvements for InnoDB workloads and is the default in most modern Linux repositories. The database is usually the bottleneck in WordPress performance, which is why tuning InnoDB buffer pool size and query cache behavior matters.
 
@@ -36,7 +38,7 @@ Apache was the dominant web server for decades and is still widely used. But Apa
 
 Nginx handles concurrency differently. Its worker processes use non-blocking I/O and can each handle thousands of simultaneous connections. For WordPress specifically, this means fewer memory spikes under load and more predictable behavior when traffic bursts.
 
-The other reason I use Nginx: FastCGI cache. Nginx has a native page caching mechanism that stores complete PHP responses as static files and serves them without invoking PHP at all. This is one of the biggest single performance levers for WordPress, and it's built into Nginx rather than bolted on via a plugin.
+The other reason I use Nginx: [FastCGI cache](/glossary/fastcgi-cache/). Nginx has a native page caching mechanism that stores complete PHP responses as static files and serves them without invoking PHP at all. This is one of the biggest single performance levers for WordPress, and it's built into Nginx rather than bolted on via a plugin. For finer-grained caching of database query results, the LEMP stack is typically extended with [Redis as an object cache](/glossary/redis-object-cache/).
 
 ## How the Components Interact
 
@@ -66,6 +68,6 @@ It's not appropriate if you have no tolerance for server administration, need SL
 
 ## Typical Deployment
 
-On a Hetzner CX22 (2 vCPU, 4 GB RAM), a properly configured LEMP stack can serve a WordPress site with moderate traffic without breaking a sweat. The key is configuration — the defaults for every component in this stack are designed for maximum compatibility across all hardware, not for WordPress specifically. Getting the most out of LEMP means tuning PHP-FPM worker counts, OPcache memory allocation, MariaDB InnoDB buffer pool, and Nginx worker connections to match the actual hardware and workload.
+On a Hetzner CX22 (2 vCPU, 4 GB RAM), a properly configured LEMP stack can serve a WordPress site with moderate traffic without breaking a sweat. The key is configuration — the defaults for every component in this stack are designed for maximum compatibility across all hardware, not for WordPress specifically. Getting the most out of LEMP means tuning [PHP-FPM](/glossary/php-fpm/) worker counts, [OPcache](/glossary/opcache/) memory allocation, MariaDB InnoDB buffer pool, and Nginx worker connections to match the actual hardware and workload. On the security side, [Fail2ban](/glossary/fail2ban/) handles automated intrusion prevention against the brute-force traffic any public LEMP server attracts.
 
 I document that tuning process in detail in the [WordPress Infrastructure series](/blog/wp-infra-02-building-the-lemp-stack).

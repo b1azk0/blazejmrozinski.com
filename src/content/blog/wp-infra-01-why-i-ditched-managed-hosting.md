@@ -30,7 +30,7 @@ I started wondering what it would take to build the infrastructure myself. I'm a
 
 ## The Real Cost of Managed WordPress Hosting
 
-Managed WordPress hosting sells you convenience. The actual product is a pre-configured LEMP stack (Linux, Nginx or Apache, MySQL/MariaDB, PHP) with a control panel on top. You get automated backups, one-click SSL, maybe a CDN integration. For a simple blog, this is perfectly adequate.
+Managed WordPress hosting sells you convenience. The actual product is a pre-configured [LEMP stack](/glossary/lemp-stack/) (Linux, Nginx or Apache, MySQL/MariaDB, PHP) with a control panel on top. You get automated backups, one-click SSL, maybe a CDN integration. For a simple blog, this is perfectly adequate.
 
 The problems start when your sites are doing real work.
 
@@ -209,7 +209,7 @@ A note on Hetzner's cloud firewall: Hetzner also offers a network-level firewall
 
 ### Install and Configure Fail2ban
 
-UFW blocks unauthorized ports. Fail2ban blocks unauthorized behavior on permitted ports. Specifically, it monitors log files for patterns that indicate abuse (like repeated failed SSH login attempts) and automatically bans the offending IP at the firewall level.
+UFW blocks unauthorized ports. [Fail2ban](/glossary/fail2ban/) blocks unauthorized behavior on permitted ports. Specifically, it monitors log files for patterns that indicate abuse (like repeated failed SSH login attempts) and automatically bans the offending IP at the firewall level.
 
 Fail2ban was installed in the essentials step earlier. Enable and start it:
 

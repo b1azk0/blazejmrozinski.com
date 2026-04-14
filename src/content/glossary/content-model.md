@@ -9,6 +9,9 @@ relatedContent:
 relatedTerms:
   - "static-site-generator"
   - "structured-data-json-ld"
+  - "e-e-a-t"
+  - "internal-linking"
+  - "indexnow"
 status: published
 date: 2026-04-09
 ---
@@ -51,4 +54,4 @@ The content model is worth documenting explicitly, not just implementing in code
 
 For a site that generates structured data, the content model is especially consequential. The fields in your content model map directly to the properties in your Schema.org markup. If you've modeled a Person entity with `alumniOf`, `worksFor`, and `sameAs` fields, you can generate rich Person structured data automatically from that model. If those fields don't exist in the model, you can't.
 
-A well-designed content model is infrastructure. It's not visible to site visitors, but it determines the ceiling on what the site can express, how consistently it expresses it, and how maintainable it is as the content grows.
+A well-designed content model is infrastructure. It's not visible to site visitors, but it determines the ceiling on what the site can express, how consistently it expresses it, and how maintainable it is as the content grows. It is also what makes a serious [internal linking](/glossary/internal-linking/) strategy possible — typed relationships between entities are exactly what you need to build dense topical clusters — and the structural backbone behind any meaningful [E-E-A-T](/glossary/e-e-a-t/) signal, since author, publisher, and credential data have to live somewhere before they can be exposed to crawlers. On the publishing side, a clean content model makes [IndexNow](/glossary/indexnow/) submission trivial: every entity already has a canonical URL.

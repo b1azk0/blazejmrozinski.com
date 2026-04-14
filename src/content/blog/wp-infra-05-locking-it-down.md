@@ -37,9 +37,9 @@ In Part 1, we covered the foundation: SSH key-only authentication, root login di
 
 The architecture is simple and worth understanding before we dive into configuration.
 
-**Layer 1: Nginx.** Nginx sits in front of PHP-FPM and inspects every incoming request before PHP sees it. For requests that match known attack patterns, Nginx drops them immediately. No PHP execution, no database queries, no WordPress code runs at all. This is the cheapest possible rejection: a web server returning a status code or silently closing the connection.
+**Layer 1: Nginx.** Nginx sits in front of [PHP-FPM](/glossary/php-fpm/) and inspects every incoming request before PHP sees it. For requests that match known attack patterns, Nginx drops them immediately. No PHP execution, no database queries, no WordPress code runs at all. This is the cheapest possible rejection: a web server returning a status code or silently closing the connection.
 
-**Layer 2: Fail2ban.** Fail2ban monitors Nginx log files for patterns that indicate abuse. When an IP crosses a threshold, fail2ban adds it to an iptables rule that drops all traffic from that IP at the kernel level. Subsequent requests from that IP never reach Nginx, let alone PHP.
+**Layer 2: [Fail2ban](/glossary/fail2ban/).** Fail2ban monitors Nginx log files for patterns that indicate abuse. When an IP crosses a threshold, fail2ban adds it to an iptables rule that drops all traffic from that IP at the kernel level. Subsequent requests from that IP never reach Nginx, let alone PHP.
 
 The layering is what makes this effective. Nginx handles the per-request filtering: is this specific request something we should allow? Fail2ban handles the behavioral pattern: is this IP doing something suspicious across multiple requests? Together, they mean that most attack traffic costs your server essentially zero PHP resources.
 

@@ -169,7 +169,7 @@ fastcgi_buffers 16 16k;
 fastcgi_busy_buffers_size 32k;
 ```
 
-These control how Nginx buffers responses from PHP-FPM. `fastcgi_buffer_size 32k` handles the response headers. WordPress generates large headers, especially with plugins adding cookies and custom headers. The default 4k or 8k frequently causes "upstream sent too big header" warnings in the error log.
+These control how Nginx buffers responses from [PHP-FPM](/glossary/php-fpm/). `fastcgi_buffer_size 32k` handles the response headers. WordPress generates large headers, especially with plugins adding cookies and custom headers. The default 4k or 8k frequently causes "upstream sent too big header" warnings in the error log.
 
 `fastcgi_buffers 16 16k` allocates 16 buffers of 16 KB each (256 KB total) for the response body. WordPress pages with lots of content, WooCommerce product listings, or admin dashboard pages regularly exceed the default buffer size. When the buffer overflows, Nginx spills to disk, which is slow. 256 KB keeps most WordPress responses entirely in memory.
 
@@ -184,7 +184,7 @@ fastcgi_cache_path /var/cache/nginx/fastcgi_cache
 fastcgi_cache_key "$scheme$request_method$host$request_uri";
 ```
 
-I'm defining this now even though we won't wire it into vhosts until Post 4. The `fastcgi_cache_path` directive must live in the `http{}` block. It defines a shared memory zone called `WP` with 200 MB for cache keys, a maximum disk footprint of 2 GB, and a 120-minute inactivity timeout. The `fastcgi_cache_key` is also defined here at the `http{}` level. This is critical. If you define the cache key in a `location` block inside a vhost, Nginx will silently use the wrong key, and every URL will serve the same cached page. I learned this one the hard way. All pages returning the homepage content. Took longer than I'd like to admit to trace it back to a duplicate `fastcgi_cache_key` directive in a vhost file.
+I'm defining the [FastCGI cache](/glossary/fastcgi-cache/) zone now even though we won't wire it into vhosts until Post 4. The `fastcgi_cache_path` directive must live in the `http{}` block. It defines a shared memory zone called `WP` with 200 MB for cache keys, a maximum disk footprint of 2 GB, and a 120-minute inactivity timeout. The `fastcgi_cache_key` is also defined here at the `http{}` level. This is critical. If you define the cache key in a `location` block inside a vhost, Nginx will silently use the wrong key, and every URL will serve the same cached page. I learned this one the hard way. All pages returning the homepage content. Took longer than I'd like to admit to trace it back to a duplicate `fastcgi_cache_key` directive in a vhost file.
 
 Create the cache directory now:
 
@@ -382,7 +382,7 @@ wp --info
 
 ## PHP OPcache and JIT Compilation Settings
 
-OPcache is PHP's built-in opcode cache. Without it, every PHP request means parsing every PHP file from source, compiling it to opcodes, executing the opcodes, then throwing the compiled result away. WordPress loads hundreds of PHP files per request across core, theme, and plugins. OPcache compiles each file once and stores the result in shared memory. Subsequent requests use the cached opcodes directly.
+[OPcache](/glossary/opcache/) is PHP's built-in opcode cache. Without it, every PHP request means parsing every PHP file from source, compiling it to opcodes, executing the opcodes, then throwing the compiled result away. WordPress loads hundreds of PHP files per request across core, theme, and plugins. OPcache compiles each file once and stores the result in shared memory. Subsequent requests use the cached opcodes directly.
 
 Edit `/etc/php/8.4/fpm/conf.d/10-opcache.ini`:
 

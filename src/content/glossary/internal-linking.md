@@ -10,6 +10,8 @@ relatedContent:
 relatedTerms:
   - "structured-data-json-ld"
   - "e-e-a-t"
+  - "indexnow"
+  - "content-model"
 status: published
 date: 2026-04-09
 ---
@@ -22,7 +24,7 @@ Every page on a site starts with some amount of link equity — authority derive
 
 The practical implication: an orphan page — one with no internal links pointing to it — is nearly invisible to search engines even if its content is strong. It has no authority flowing in, and crawlers may not even discover it reliably. Internal links are both a crawl mechanism and an authority distribution mechanism simultaneously.
 
-Beyond authority, internal links communicate topical relationships. A page that links to ten other pages about the same subject signals to Google that it belongs to a topical cluster. Google uses link graphs to understand content structure, not just individual pages in isolation.
+Beyond authority, internal links communicate topical relationships. A page that links to ten other pages about the same subject signals to Google that it belongs to a topical cluster. Google uses link graphs to understand content structure, not just individual pages in isolation. The same graph also feeds into [E-E-A-T](/glossary/e-e-a-t/) signals — well-organized topical neighborhoods are one of the more legible markers of expertise in a content domain.
 
 ## Types of Internal Links
 
@@ -42,7 +44,7 @@ The most effective internal linking strategies are architectural, not ad hoc.
 
 **Topic clusters:** An extension of hub-and-spoke at larger scale. Multiple clusters, each with its own hub, plus cross-cluster linking between related concepts. A well-executed topic cluster strategy makes Google understand your site as authoritative on a specific subject domain, not just a collection of individual articles.
 
-This glossary is itself a structural internal linking play. Each definition links to related terms and to blog posts where those concepts are applied in practice. The blog posts link back to glossary entries when they introduce technical terms. The result is a dense link graph around specific knowledge domains — exactly the kind of structure that signals topical authority.
+This glossary is itself a structural internal linking play. Each definition links to related terms and to blog posts where those concepts are applied in practice. The blog posts link back to glossary entries when they introduce technical terms. Underlying it all is a deliberate [content model](/glossary/content-model/) — typed content collections with explicit relationships rather than ad-hoc pages — and on the publishing side, an [IndexNow](/glossary/indexnow/) ping notifies search engines whenever a new edge appears in the graph. The result is a dense link graph around specific knowledge domains — exactly the kind of structure that signals topical authority.
 
 ## Anchor Text Best Practices
 

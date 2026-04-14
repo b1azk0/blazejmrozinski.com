@@ -10,6 +10,8 @@ relatedContent:
 relatedTerms:
   - "classical-test-theory"
   - "psychometric-assessment"
+  - "construct-validity"
+  - "confirmatory-factor-analysis"
 status: published
 date: 2026-04-09
 ---

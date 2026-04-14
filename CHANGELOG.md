@@ -2,6 +2,28 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.0] — 2026-04-15 — SEO Audit Implementation: Glossary Cluster Linking
+
+### Added
+- Inline cross-glossary links across the four topical clusters from the 2026-04-15 Ahrefs audit:
+  - Psychometrics: `construct-validity` ↔ `confirmatory-factor-analysis` ↔ `classical-test-theory` ↔ `item-response-theory` ↔ `psychometric-assessment`
+  - WordPress infrastructure: `lemp-stack` ↔ `php-fpm` ↔ `opcache` ↔ `fastcgi-cache` ↔ `redis-object-cache` ↔ `fail2ban`
+  - SEO/product: `e-e-a-t` ↔ `internal-linking` ↔ `indexnow` ↔ `content-model`
+- Inline glossary links inside the wp-infra blog series (parts 1–5) and the SEO/AI essays (`seo-architecture-before-first-visitor`, `personal-site-as-product`, `building-a-brain-for-your-ai-cto`, `how-i-taught-ai-to-work-like-a-colleague`).
+- Glossary references on `projects/hse-career-quiz`, `projects/contentforge`, `companies/gyfted`, and `companies/swps-university` linking technical terms to their canonical definitions.
+- "How I Validate Psychometric Assessments" section and a soft consulting CTA on `glossary/psychometric-assessment` pointing to `/contact`.
+- "Available for selective consulting engagements" line at the top of the CV page with a contact link.
+- Expanded `relatedTerms` arrays across the cluster glossary entries so the on-page "See also" rail reflects the full topical neighborhood.
+
+### Changed
+- `glossary/fail2ban` description rewritten to lead with general intrusion prevention rather than WordPress-specific framing, matching the actual search intent for "fail2ban".
+- `/contact` page title updated from "Contact" to "Contact: Psychometric Consulting, Product Strategy, and SEO" to capture commercial-intent service phrases.
+- `glossary/fail2ban` opening paragraph reframed to make explicit that Fail2ban is general-purpose Linux intrusion prevention, with WordPress and SSH as illustrative examples rather than the only use cases.
+
+### Notes
+- Source: `~/GitHub/contentforge/seo/2026-04-15-landing-pages-audit.md` (Ahrefs research from 2026-04-15).
+- Glossary body lengths were already 700–1100 words per entry, so the audit's "expand body content" recommendation was already satisfied. The implementation focused on the connective tissue (cross-linking) and surgical content edits (description, CTA, title) rather than long-form rewrites.
+
 ## [0.8.0] — 2026-04-13 — Polish Translation (i18n) Machinery
 
 ### Added

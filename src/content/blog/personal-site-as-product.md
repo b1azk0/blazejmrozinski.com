@@ -51,7 +51,7 @@ The spec I wrote before building anything covered content types, their fields, t
 
 ## Content as a Data Model
 
-The core insight was treating every piece of content as a typed entity with defined fields and explicit relationships to other entities.
+The core insight was treating every piece of content as a typed entity with defined fields and explicit relationships to other entities — in other words, building an explicit [content model](/glossary/content-model/).
 
 A Person entity has professional summaries, expertise areas, and links to Company entities. A Company entity has a description, a role field, a time period, and links to Project entities. A Project entity has a status, a technology stack summary, a description, and links to Blog Post entities and Publication entities. Publications have co-authors, journals, years, and citation data.
 
@@ -85,7 +85,7 @@ Every one of these decisions came from asking the product question: what does th
 
 The contact page integrates a calendar booking system instead of just listing an email address, because the job of the contact page is to reduce the friction between "I want to talk to this person" and actually scheduling a conversation.
 
-Breadcrumbs with JSON-LD schema on every page, section navigation dots for long pages, multi-sitemap architecture, Google Consent Mode v2 integration, IndexNow for instant search engine notification on publish. None of these features are exciting individually. Together, they represent what a personal site looks like when you treat every surface as a product surface with a job to do.
+Breadcrumbs with [JSON-LD schema](/glossary/structured-data-json-ld/) on every page, section navigation dots for long pages, multi-sitemap architecture, Google Consent Mode v2 integration, [IndexNow](/glossary/indexnow/) for instant search engine notification on publish. None of these features are exciting individually. Together, they represent what a personal site looks like when you treat every surface as a product surface with a job to do.
 
 ## Five Days, Seventy Commits, One Non-Developer
 

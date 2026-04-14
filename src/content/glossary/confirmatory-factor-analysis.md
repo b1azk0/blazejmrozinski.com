@@ -11,6 +11,8 @@ relatedTerms:
   - "structural-equation-modeling"
   - "construct-validity"
   - "psychometric-assessment"
+  - "classical-test-theory"
+  - "item-response-theory"
 status: published
 date: 2026-04-09
 ---
@@ -63,17 +65,17 @@ The defensible approach: only free a parameter if you have a theoretical reason 
 
 ## Practical Use in Assessment Development
 
-CFA is the standard validation tool for new psychological instruments. In the assessments I've built at Gyfted, the typical validation sequence runs:
+CFA is the standard validation tool for new psychological instruments. In the [psychometric assessments](/glossary/psychometric-assessment/) I've built at [Gyfted](/work/gyfted/), the typical validation sequence runs:
 
 1. Literature review and item generation informed by a theoretical model
 2. Pilot data collection (minimum 100–200 respondents)
-3. Item screening via Classical Test Theory statistics
+3. Item screening via [Classical Test Theory](/glossary/classical-test-theory/) statistics
 4. EFA on pilot data to check whether the structure holds empirically
 5. New data collection for CFA
 6. CFA to formally test the hypothesized structure
 7. Multigroup CFA to test measurement invariance across relevant subgroups
 
-Step 6 is where the model is accepted or rejected. If the hypothesized factor structure fits the CFA data well, you have evidence that your items are measuring what you intended them to measure. That's structural validity — one component of the broader construct validity argument.
+Step 6 is where the model is accepted or rejected. If the hypothesized factor structure fits the CFA data well, you have evidence that your items are measuring what you intended them to measure. That's structural validity — one component of the broader [construct validity](/glossary/construct-validity/) argument. For ability-style instruments, [item response theory](/glossary/item-response-theory/) is a complementary framework that models item-level behavior rather than the factor structure of the whole scale.
 
 ## Common Mistakes
 

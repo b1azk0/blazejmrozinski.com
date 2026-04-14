@@ -11,7 +11,7 @@ source_queue: null
 label: ai-automation
 ---
 
-I recently wrote about building a knowledge base that gives AI full context across multiple projects. Several people asked a follow-up question I'd skipped: how do you actually get the AI to use that context well? How do you go from "capable tool with good reference material" to something that knows your working style, respects your boundaries, and improves over time?
+I recently wrote about building a [knowledge base for AI](/glossary/knowledge-base-ai/) that gives AI full context across multiple projects. Several people asked a follow-up question I'd skipped: how do you actually get the AI to use that context well? How do you go from "capable tool with good reference material" to something that knows your working style, respects your boundaries, and improves over time?
 
 The answer was less about the knowledge base and more about the process of working together. I didn't write a perfect configuration one weekend. I started with a rough identity document, worked alongside the AI for a few weeks, and shaped its behavior through corrections, incidents, and accumulated feedback. The configuration I have today emerged from that process. It's still evolving.
 

@@ -11,11 +11,13 @@ relatedTerms:
   - "redis-object-cache"
   - "opcache"
   - "php-fpm"
+  - "lemp-stack"
+  - "fail2ban"
 status: published
 date: 2026-04-09
 ---
 
-FastCGI cache is Nginx's built-in page caching mechanism. When enabled, Nginx stores the complete HTML response from a PHP request as a static file on disk. The next request for that same URL gets the cached file served directly — no PHP execution, no database queries, no PHP-FPM involvement at all.
+FastCGI cache is Nginx's built-in page caching mechanism. When enabled, Nginx stores the complete HTML response from a PHP request as a static file on disk. The next request for that same URL gets the cached file served directly — no PHP execution, no database queries, no [PHP-FPM](/glossary/php-fpm/) involvement at all.
 
 It's the single highest-impact caching layer for WordPress. A cached page can be served in under a millisecond. An uncached WordPress page might take 200–800ms depending on the server and plugin load. The difference is visible.
 
@@ -30,7 +32,7 @@ The basic mechanism:
 5. Nginx writes the response to its cache directory and serves it to the client
 6. Every subsequent request for the same URL hits the cache until it expires or is purged
 
-The cache lives on disk (not in RAM like Redis), typically in `/tmp/nginx-cache/` or a dedicated partition. Even disk-cached pages are fast because the OS page cache keeps frequently accessed files in memory anyway.
+The cache lives on disk (not in RAM like the [Redis object cache](/glossary/redis-object-cache/)), typically in `/tmp/nginx-cache/` or a dedicated partition. Even disk-cached pages are fast because the OS page cache keeps frequently accessed files in memory anyway. FastCGI cache, [OPcache](/glossary/opcache/), and Redis sit at different layers of the same caching strategy in a [LEMP stack](/glossary/lemp-stack/).
 
 ## Cache Key Configuration
 

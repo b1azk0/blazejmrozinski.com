@@ -9,13 +9,16 @@ relatedContent:
 relatedTerms:
   - "fastcgi-cache"
   - "lemp-stack"
+  - "php-fpm"
+  - "opcache"
+  - "fail2ban"
 status: published
 date: 2026-04-09
 ---
 
 Redis is an in-memory key-value store. In the context of WordPress, it functions as a persistent object cache — holding the results of database queries in RAM so WordPress doesn't have to re-run those queries on the next request.
 
-FastCGI cache eliminates PHP and database work for entire pages. Redis object cache works at a finer granularity, reducing database load for requests that can't be fully cached — logged-in users, WooCommerce sessions, AJAX requests, and admin operations.
+[FastCGI cache](/glossary/fastcgi-cache/) eliminates PHP and database work for entire pages. Redis object cache works at a finer granularity, reducing database load for requests that can't be fully cached — logged-in users, WooCommerce sessions, AJAX requests, and admin operations. Together with [OPcache](/glossary/opcache/) (which caches compiled PHP) and [PHP-FPM](/glossary/php-fpm/) tuning, Redis rounds out the four-layer caching strategy on a tuned [LEMP stack](/glossary/lemp-stack/).
 
 ## What Redis Is
 

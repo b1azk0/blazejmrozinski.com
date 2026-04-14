@@ -10,6 +10,8 @@ relatedTerms:
   - "php-fpm"
   - "lemp-stack"
   - "fastcgi-cache"
+  - "redis-object-cache"
+  - "fail2ban"
 status: published
 date: 2026-04-09
 ---
@@ -28,7 +30,7 @@ PHP is an interpreted language, which means it goes through several steps before
 
 Without OPcache, steps 1 and 2 happen on every single request, for every PHP file loaded. A typical WordPress page request loads `wp-load.php`, the active theme, and potentially 30–50 plugin files. Parse and compile those on every pageview and you're burning CPU cycles on work that produces the same result every time.
 
-OPcache eliminates steps 1 and 2 for all scripts that haven't changed. The compiled opcodes are stored in shared memory accessible by all PHP-FPM worker processes. Worker A compiles `wp-settings.php` once; every other worker reads the cached opcodes directly.
+OPcache eliminates steps 1 and 2 for all scripts that haven't changed. The compiled opcodes are stored in shared memory accessible by all [PHP-FPM](/glossary/php-fpm/) worker processes. Worker A compiles `wp-settings.php` once; every other worker reads the cached opcodes directly.
 
 ## Key Configuration Settings
 
@@ -73,8 +75,8 @@ You can't have JIT without OPcache. You can have OPcache without JIT — and tha
 
 ## Impact on WordPress
 
-A properly configured OPcache typically cuts PHP execution time by 30–50% on a fresh server compared to no caching. The gain is most visible on first-request-per-worker-process startup and on admin pages where FastCGI cache doesn't apply (logged-in users bypass FastCGI cache by design).
+A properly configured OPcache typically cuts PHP execution time by 30–50% on a fresh server compared to no caching. The gain is most visible on first-request-per-worker-process startup and on admin pages where [FastCGI cache](/glossary/fastcgi-cache/) doesn't apply (logged-in users bypass FastCGI cache by design).
 
-For front-end visitors hitting a warm FastCGI cache, OPcache's contribution is secondary — PHP might not run at all. But for cache misses, admin users, WooCommerce checkout, and AJAX requests, OPcache is directly in the critical path.
+For front-end visitors hitting a warm FastCGI cache, OPcache's contribution is secondary — PHP might not run at all. But for cache misses, admin users, WooCommerce checkout, and AJAX requests, OPcache is directly in the critical path. It works well alongside [Redis object cache](/glossary/redis-object-cache/), which handles the database-query side of the same problem.
 
 Full OPcache and JIT configuration for my Hetzner WordPress setup is in [Part 2 of the WordPress Infrastructure series](/blog/wp-infra-02-building-the-lemp-stack).
