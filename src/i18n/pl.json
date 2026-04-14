@@ -1,40 +1,40 @@
 {
   "nav": {
-    "work": "",
-    "projects": "",
-    "blog": "",
-    "publications": "",
-    "about": "",
-    "cv": "",
-    "contact": ""
+    "work": "Praca",
+    "projects": "Projekty",
+    "blog": "Blog",
+    "publications": "Publikacje",
+    "about": "O mnie",
+    "cv": "CV",
+    "contact": "Kontakt"
   },
   "footer": {
-    "section_pages": "",
-    "section_connect": "",
-    "section_get_in_touch": "",
-    "tagline": "",
-    "interested": "",
-    "contact_me": "",
-    "view_changelog": "",
-    "rights": ""
+    "section_pages": "Strony",
+    "section_connect": "Znajdź mnie",
+    "section_get_in_touch": "Napisz do mnie",
+    "tagline": "Psycholog, psychometra, product builder. Buduję na styku nauk kognitywnych, AI i inżynierii wzrostu.",
+    "interested": "Chcesz porozmawiać o współpracy?",
+    "contact_me": "Napisz do mnie",
+    "view_changelog": "zobacz zmiany",
+    "rights": "Wszelkie prawa zastrzeżone"
   },
   "base": {
-    "skip_to_content": ""
+    "skip_to_content": "Przejdź do treści"
   },
   "lang_switcher": {
-    "switch_to_pl": "",
-    "switch_to_en": ""
+    "switch_to_pl": "Przełącz na polski",
+    "switch_to_en": "Switch to English"
   },
   "404": {
-    "title": "",
-    "body": "",
-    "back_home": ""
+    "title": "Strona nie znaleziona",
+    "body": "Strona, której szukasz, nie istnieje.",
+    "back_home": "Wróć na stronę główną"
   },
   "header": {
-    "home_title": "",
-    "main_nav": "",
-    "mobile_nav": "",
-    "toggle_menu": "",
-    "close_menu": ""
+    "home_title": "Blazej Mrozinski — Strona główna",
+    "main_nav": "Nawigacja główna",
+    "mobile_nav": "Nawigacja mobilna",
+    "toggle_menu": "Przełącz menu nawigacji",
+    "close_menu": "Zamknij menu"
   }
 }
