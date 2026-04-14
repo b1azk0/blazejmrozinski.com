@@ -12,10 +12,7 @@
     "build": "astro build",
     "postbuild": "node --import tsx scripts/indexnow.ts",
     "preview": "astro preview",
-    "astro": "astro",
-    "translate:check": "node scripts/translate-check.mjs",
-    "translate:check:test": "node --test scripts/translate-check.test.mjs",
-    "install-hooks": "node scripts/install-hooks.mjs"
+    "astro": "astro"
   },
   "dependencies": {
     "@astrojs/rss": "^4.0.18",

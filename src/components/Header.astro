@@ -1,34 +1,19 @@
 ---
 import ThemeToggle from './ThemeToggle.astro';
-import LanguageSwitcher from './LanguageSwitcher.astro';
 import { Image } from 'astro:assets';
 import logoLight from '@/assets/logo-light.png';
 import logoDark from '@/assets/logo-dark.png';
-import routes from '@/i18n/routes.json';
-import { t } from '@/i18n/t';
-import type { Locale } from '@/i18n/locale';
-
-interface Props {
-  locale?: Locale;
-  alternateUrl?: string;
-}
-
-const { locale = 'en', alternateUrl } = Astro.props;
-
-const prefix = locale === 'pl' ? '/pl' : '';
-const r = routes[locale];
 
 const navItems = [
-  { href: `${prefix}/${r.work}`,    label: t('nav.work', locale) },
-  { href: `${prefix}/${r.projects}`, label: t('nav.projects', locale) },
-  { href: `${prefix}/blog`,         label: t('nav.blog', locale) },
-  { href: `${prefix}/publications`, label: t('nav.publications', locale) },
-  { href: `${prefix}/${r.about}`,   label: t('nav.about', locale) },
-  { href: `${prefix}/${r.cv}`,      label: t('nav.cv', locale) },
-  { href: `${prefix}/${r.contact}`, label: t('nav.contact', locale) },
+  { href: '/work', label: 'Work' },
+  { href: '/projects', label: 'Case Studies' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/publications', label: 'Publications' },
+  { href: '/about', label: 'About' },
+  { href: '/cv', label: 'CV' },
+  { href: '/contact', label: 'Contact' },
 ];
 
-const homeHref = locale === 'pl' ? '/pl/' : '/';
 const currentPath = Astro.url.pathname;
 ---
 
@@ -36,7 +21,8 @@ const currentPath = Astro.url.pathname;
   class="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"
 >
   <div class="container max-w-5xl mx-auto px-4 sm:px-6 flex h-14 items-center justify-between">
-    <a href={homeHref} title={t('header.home_title', locale)} class="hover:opacity-80 transition-opacity shrink-0">
+    <!-- Wordmark -->
+    <a href="/" title="Blazej Mrozinski — Home" class="hover:opacity-80 transition-opacity shrink-0">
       <Image
         src={logoLight}
         alt="Blazej Mrozinski"
@@ -53,7 +39,8 @@ const currentPath = Astro.url.pathname;
       />
     </a>
 
-    <nav class="hidden md:flex items-center gap-6 text-sm" aria-label={t('header.main_nav', locale)}>
+    <!-- Desktop Navigation -->
+    <nav class="hidden md:flex items-center gap-6 text-sm" aria-label="Main navigation">
       {navItems.map((item) => {
         const isActive = item.href === '/'
           ? currentPath === '/'
@@ -76,19 +63,19 @@ const currentPath = Astro.url.pathname;
       })}
     </nav>
 
+    <!-- Desktop Actions -->
     <div class="hidden md:flex items-center space-x-2">
-      <LanguageSwitcher currentLocale={locale} alternateUrl={alternateUrl} />
       <ThemeToggle />
     </div>
 
+    <!-- Mobile Actions -->
     <div class="flex md:hidden items-center space-x-2">
-      <LanguageSwitcher currentLocale={locale} alternateUrl={alternateUrl} />
       <ThemeToggle />
       <button
         id="mobile-menu-button"
         class="inline-flex items-center justify-center rounded-md p-2 hover:bg-accent hover:text-accent-foreground focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary"
         aria-expanded="false"
-        aria-label={t('header.toggle_menu', locale)}
+        aria-label="Toggle navigation menu"
       >
         <div class="w-6 h-6 relative flex flex-col justify-center items-center">
           <span id="hamburger-top" class="block w-5 h-0.5 bg-current transform transition-all duration-300 absolute -translate-y-1.5"></span>
@@ -99,7 +86,8 @@ const currentPath = Astro.url.pathname;
     </div>
   </div>
 
-  <nav id="mobile-menu" class="hidden md:hidden border-t bg-background" aria-label={t('header.mobile_nav', locale)}>
+  <!-- Mobile Menu -->
+  <nav id="mobile-menu" class="hidden md:hidden border-t bg-background" aria-label="Mobile navigation">
     <div class="container max-w-5xl mx-auto px-4 py-4 space-y-1">
       {navItems.map((item) => {
         const isActive = item.href === '/'
@@ -125,7 +113,7 @@ const currentPath = Astro.url.pathname;
         id="mobile-menu-close"
         class="block w-full text-center px-3 py-2 mt-2 rounded-md text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors border"
       >
-        {t('header.close_menu', locale)}
+        Close menu
       </button>
     </div>
   </nav>

@@ -8,12 +8,10 @@ import { getCollection, render } from 'astro:content';
 
 export async function getStaticPaths() {
   const companies = await getCollection('companies');
-  return companies
-    .filter((entry) => entry.data.lang === 'en')
-    .map((entry) => ({
-      params: { slug: entry.id },
-      props: { entry },
-    }));
+  return companies.map((entry) => ({
+    params: { slug: entry.id },
+    props: { entry },
+  }));
 }
 
 const { entry } = Astro.props;
@@ -38,7 +36,7 @@ const orgJsonLd = {
 };
 ---
 
-<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description} locale="en" alternateUrl={`/pl/praca/${entry.id}`}>
+<Base title={entry.data.metaTitle || entry.data.name} description={entry.data.description}>
   <JsonLd data={orgJsonLd} />
   <SectionDots headings={headings} />
 

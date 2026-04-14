@@ -17,11 +17,9 @@ const posts = allPosts
   .slice(0, 3);
 
 const companies = (await getCollection('companies'))
-  .filter((c) => c.data.lang === 'en')
   .sort((a, b) => a.data.order - b.data.order);
 
-const allProjects = (await getCollection('projects'))
-  .filter((p) => p.data.lang === 'en');
+const allProjects = await getCollection('projects');
 const caseStudies = allProjects
   .filter((p) => p.data.challenge || p.data.results)
   .sort((a, b) => a.data.order - b.data.order);
@@ -74,7 +72,7 @@ const services = [
 ];
 ---
 
-<Base title="Psychologist, Psychometrician, Product Builder" description="Blazej Mrozinski, PhD — psychometrician and product leader. I design validated assessments, build SEO growth systems, and consult where behavioral science meets product." locale="en" alternateUrl="/pl/" fullWidth>
+<Base title="Psychologist, Psychometrician, Product Builder" description="Blazej Mrozinski, PhD — psychometrician and product leader. I design validated assessments, build SEO growth systems, and consult where behavioral science meets product." fullWidth>
   <JsonLd data={websiteJsonLd} />
   <JsonLd data={personJsonLd} />
   <SectionDots headings={[

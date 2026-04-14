@@ -24,19 +24,6 @@ All notable changes to blazejmrozinski.com are documented here.
 - Source: `~/GitHub/contentforge/seo/2026-04-15-landing-pages-audit.md` (Ahrefs research from 2026-04-15).
 - Glossary body lengths were already 700–1100 words per entry, so the audit's "expand body content" recommendation was already satisfied. The implementation focused on the connective tissue (cross-linking) and surgical content edits (description, CTA, title) rather than long-form rewrites.
 
-## [0.8.0] — 2026-04-13 — Polish Translation (i18n) Machinery
-
-### Added
-- Locale-aware shared components: `Header`, `Footer`, `Base`, `SEO`, and `LangSwitcher` now accept a `locale` prop and emit locale-aware URLs, nav labels, and hreflang annotations.
-- `t()` helper with `src/i18n/en.json` and `src/i18n/pl.json` UI dictionaries.
-- `src/i18n/routes.json` — canonical EN↔PL route map covering homepage, about, cv, contact, work (companies), projects (case studies), and 404.
-- Polish routing under `/pl/*`: `/pl/`, `/pl/o-mnie`, `/pl/cv`, `/pl/kontakt`, `/pl/praca`, `/pl/praca/[slug]`, `/pl/projekty`, `/pl/projekty/[slug]`, `/pl/404`.
-- Subdirectory layout for Polish content at `src/content/<collection>/pl/` (companies, projects, pages). Polish bodies are placeholders pending Claude translation session.
-- `scripts/translate-check.mjs` — drift detection script comparing source-hashes of EN and PL content plus UI dictionary key coverage. Exposed as `npm run translate:check`.
-- `scripts/translate-check.test.mjs` — 11 unit tests covering hashing stability and drift/dictionary reporting. Exposed as `npm run translate:check:test`.
-- Hreflang alternate annotations in `sitemap-pages.xml` and `sitemap-work.xml` for translated routes.
-- Optional post-commit git hook reminding to run `npm run translate:check` when EN source content changes.
-
 ## [0.7.2] — 2026-04-12 — Blog: WP Infrastructure Part 4
 
 ### Added

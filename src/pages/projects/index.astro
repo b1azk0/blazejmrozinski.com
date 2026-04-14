@@ -4,14 +4,13 @@ import ProjectCard from '@/components/ProjectCard.astro';
 import { getCollection } from 'astro:content';
 
 const projects = (await getCollection('projects'))
-  .filter((p) => p.data.lang === 'en')
   .sort((a, b) => a.data.order - b.data.order);
 
 const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);
 const otherProjects = projects.filter((p) => !p.data.challenge && !p.data.results);
 ---
 
-<Base title="Case Studies" description="Case studies and projects by Blazej Mrozinski — psychometrics, SEO growth, content automation, and AI." locale="en" alternateUrl="/pl/projekty">
+<Base title="Case Studies" description="Case studies and projects by Blazej Mrozinski — psychometrics, SEO growth, content automation, and AI.">
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-2" data-animate>Case Studies</h1>
     <p class="text-muted-foreground mb-8" data-animate>How I approach problems — the methodology, the results, and what I learned.</p>
