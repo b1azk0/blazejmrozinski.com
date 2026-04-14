@@ -1,76 +1,363 @@
 ---
 import Base from '@/layouts/Base.astro';
+import PostCard from '@/components/PostCard.astro';
+import ProjectCard from '@/components/ProjectCard.astro';
+import CompanyCard from '@/components/CompanyCard.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import SectionDots from '@/components/SectionDots.astro';
 import { Image } from 'astro:assets';
 import headshot from '@/assets/headshot.png';
 import { getCollection } from 'astro:content';
-import CompanyCard from '@/components/CompanyCard.astro';
-import ProjectCard from '@/components/ProjectCard.astro';
-import { t } from '@/i18n/t';
-import routes from '@/i18n/routes.json';
+
+const now = new Date();
+const allPosts = await getCollection('blog', ({ data }) => data.status === 'published' && data.date <= now);
+const posts = allPosts
+  .sort((a, b) => b.data.date.getTime() - a.data.date.getTime())
+  .slice(0, 3);
 
 const companies = (await getCollection('companies'))
   .filter((c) => c.data.lang === 'pl')
   .sort((a, b) => a.data.order - b.data.order);
 
-const projects = (await getCollection('projects'))
-  .filter((p) => p.data.lang === 'pl')
+const allProjects = (await getCollection('projects'))
+  .filter((p) => p.data.lang === 'pl');
+const caseStudies = allProjects
+  .filter((p) => p.data.challenge || p.data.results)
   .sort((a, b) => a.data.order - b.data.order);
 
-const caseStudies = projects.filter((p) => p.data.challenge || p.data.results);
+const websiteJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'WebSite',
+  '@language': 'pl',
+  name: 'Blazej Mrozinski',
+  url: 'https://www.blazejmrozinski.com/pl/',
+  inLanguage: 'pl',
+};
+
+const personJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  '@language': 'pl',
+  name: 'Blazej Mrozinski',
+  url: 'https://www.blazejmrozinski.com/pl/',
+  jobTitle: 'Psycholog, psychometra, product leader, data scientist',
+  worksFor: companies.map((c) => ({
+    '@type': 'Organization',
+    name: c.data.name,
+    ...(c.data.url ? { url: c.data.url } : {}),
+  })),
+};
+
+const services = [
+  {
+    title: 'Ocena psychometryczna i systemy dopasowań',
+    description: 'Testy zainteresowań zawodowych, baterie kompetencyjne, kwestionariusze osobowości, testy zdolności poznawczych — projektowane z użyciem IRT i CTT, walidowane przed wdrożeniem. Plus logika scoringu i dopasowań, która sprawia, że wyniki są realnie użyteczne. Używane przez LSEG, EPAM i HSE Ireland.',
+    link: '/pl/praca/gyfted',
+    linkText: 'Zobacz Gyfted',
+  },
+  {
+    title: 'Growth engineering i SEO',
+    description: 'Programmatic SEO na skalę (1200+ stron dla Prawomatu, 1,2 mln użytkowników dla Gyfted), optymalizacja pod AI/LLM w ChatGPT i Google AI Overviews oraz systemy product-led growth. Zero wydatków płatnych — wszystko organiczne, wszystko narastające.',
+    link: '/pl/praca/digital-savages',
+    linkText: 'Zobacz Digital Savages',
+  },
+  {
+    title: 'Konsulting produktowy',
+    description: 'Od koncepcji do produkcji — scoping, specyfikacja i kierunek produktu dla platform oceny, systemów rozwoju kadr, narzędzi redakcyjnych wspieranych przez AI i legal tech. Prowadzę produkt, zespoły inżynierskie piszą kod.',
+    link: '/pl/praca',
+    linkText: 'Zobacz moją pracę',
+  },
+  {
+    title: 'Modelowanie statystyczne i badania',
+    description: 'SEM, modelowanie wielopoziomowe, analiza klas ukrytych dla złożonych badań. Publikowane m.in. w JPSP, Self and Identity i Frontiers in Psychology. Uczę statystyki i metod badawczych na Uniwersytecie SWPS od 2006 roku.',
+    link: '/pl/praca/swps-university',
+    linkText: 'Zobacz SWPS',
+  },
+];
 ---
 
 <Base
-  title="Blazej Mrozinski"
-  description="Psycholog, psychometra, product builder."
+  title="Psycholog, psychometra, product builder"
+  description="Blazej Mrozinski, PhD — psychometra i product leader. Projektuję zwalidowane testy, buduję systemy growth SEO i konsultuję tam, gdzie nauki behawioralne spotykają produkt."
   locale="pl"
   alternateUrl="/"
+  fullWidth
 >
-  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
-    <div class="flex items-center gap-6 mb-8" data-animate>
+  <JsonLd data={websiteJsonLd} />
+  <JsonLd data={personJsonLd} />
+  <SectionDots headings={[
+    { depth: 2, slug: 'services', text: 'W czym mogę pomóc' },
+    { depth: 2, slug: 'case-studies', text: 'Studia przypadków' },
+    { depth: 2, slug: 'companies', text: 'Firmy' },
+    { depth: 2, slug: 'writing', text: 'Pisanie' },
+    { depth: 2, slug: 'book', text: 'Porozmawiajmy' },
+  ]} />
+
+  <!-- Hero -->
+  <section class="py-20 md:py-28" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6 text-center">
       <Image
         src={headshot}
         alt="Blazej Mrozinski"
-        width={160}
-        height={160}
-        class="rounded-full shrink-0 opacity-90"
+        width={80}
+        height={80}
+        class="rounded-full mx-auto mb-6 opacity-90"
       />
-      <div>
-        <h1 class="text-4xl font-bold tracking-tight">Blazej Mrozinski</h1>
-        <p class="text-muted-foreground mt-2">Psycholog, psychometra, product builder.</p>
+      <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-2">
+        Blazej Mrozinski, PhD
+      </h1>
+      <p class="text-lg md:text-xl italic text-muted-foreground max-w-2xl mx-auto mb-4">
+        Nauka daje nam jasność, ale praca produktowa nadaje jej cel.
+      </p>
+      <p class="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-4">
+        Psycholog · Psychometra · Product Leader · Data Scientist
+      </p>
+      <p class="text-base text-muted-foreground max-w-2xl mx-auto mb-8 leading-relaxed">
+        Jestem psychometrą i product designerem z doktoratem z poznania społecznego. Spędziłem dwadzieścia lat w laboratorium, badając, jak ludzie myślą — a potem zacząłem budować produkty, które używają tej nauki. Pomyśl o mnie jak o ludzkim tłumaczu między nauką a produktem. Ciekawy z natury, nigdy w pełni nie zadowolony z łatwych odpowiedzi.
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap">
+        <a
+          href="#book"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors"
+        >
+          Umów rozmowę
+        </a>
+        <a
+          href="#services"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Czym się zajmuję
+        </a>
       </div>
     </div>
+  </section>
 
-    <section class="mb-12" data-animate>
-      <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t('nav.work', 'pl')}</h2>
-      <div class="grid gap-4">
-        {companies.map((company) => (
-          <CompanyCard
-            name={company.data.name}
-            domain={company.data.domain}
-            role={company.data.role}
-            slug={company.id.replace(/^pl\//, '')}
-            locale="pl"
-          />
+  <!-- What I Do For You -->
+  <section id="services" class="section-muted py-16">
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10" data-animate>
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">W czym mogę pomóc</h2>
+        <p class="text-muted-foreground mt-2">Problemy, które rozwiązuję — jako niezależny konsultant albo przez moje firmy</p>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {services.map((service, i) => (
+          <div class="rounded-lg border bg-card text-card-foreground p-6" data-animate data-delay={String(Math.min(i + 1, 4))}>
+            <h3 class="font-semibold text-lg mb-2">{service.title}</h3>
+            <p class="text-sm text-muted-foreground leading-relaxed mb-4">{service.description}</p>
+            <a href={service.link} class="text-sm font-medium text-foreground hover:text-primary/80 transition-colors inline-flex items-center gap-1">
+              {service.linkText}
+              <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
         ))}
       </div>
-    </section>
+    </div>
+  </section>
 
-    {caseStudies.length > 0 && (
-      <section data-animate>
-        <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">{t('nav.projects', 'pl')}</h2>
-        <div class="grid gap-4">
-          {caseStudies.map((project) => (
-            <ProjectCard
-              name={project.data.name}
-              description={project.data.description}
-              domain={project.data.domain}
-              slug={project.id.replace(/^pl\//, '')}
-              isCaseStudy={true}
-              locale="pl"
-            />
+  <!-- Why These Worlds Belong Together -->
+  <section class="py-16 border-t" data-animate="fade">
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Dlaczego te światy łączą się w jedno</h2>
+      <p class="text-xl md:text-2xl text-muted-foreground leading-relaxed">
+        Psychometria, konsulting produktowy, growth engineering i modelowanie statystyczne siedzą na jednej stronie, bo pracują na tym samym silniku: pomiar, myślenie systemowe i zamienianie nieostrych ludzkich problemów w testowalną logikę produktu. Luka między „wydaje nam się, że to działa” a „zmierzyliśmy, że to działa” to miejsce, w którym padają niemal wszystkie produkty — i w którym żyje cała ta praca.
+      </p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="section-muted py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">15</p>
+          <p class="text-sm text-muted-foreground mt-1">Recenzowane publikacje</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">{companies.length}</p>
+          <p class="text-sm text-muted-foreground mt-1">Współzałożone firmy</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">{allProjects.length}+</p>
+          <p class="text-sm text-muted-foreground mt-1">Wdrożone produkty</p>
+        </div>
+        <div>
+          <p class="text-3xl md:text-4xl font-bold">20+</p>
+          <p class="text-sm text-muted-foreground mt-1">Lat w akademii</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Selected Clients & Partners -->
+  <section class="section-muted py-12" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <p class="text-center text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-5">Wybrani klienci i partnerzy</p>
+      <div class="flex flex-wrap justify-center gap-x-10 gap-y-3 text-base font-medium text-foreground/60">
+        <span>LSEG</span>
+        <span>EPAM</span>
+        <span>gr8.tech</span>
+        <span>Relativity</span>
+        <span>HSE Ireland</span>
+        <span>UCL</span>
+        <span>esportsLABgg</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Case Studies -->
+  {caseStudies.length > 0 && (
+    <section id="case-studies" class="py-16">
+      <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+        <div class="text-center mb-10" data-animate>
+          <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Studia przypadków</h2>
+          <p class="text-muted-foreground mt-2">Jak podchodzę do problemów — metodologia, wyniki i wnioski</p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto">
+          {caseStudies.map((project, i) => (
+            <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+              <ProjectCard
+                name={project.data.name}
+                description={project.data.description}
+                domain={project.data.domain}
+                slug={project.id.replace(/^pl\//, '')}
+                isCaseStudy={true}
+                locale="pl"
+              />
+            </div>
           ))}
         </div>
-      </section>
-    )}
-  </div>
+        <div class="text-center mt-6">
+          <a href="/pl/projekty" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+            Wszystkie studia przypadków &rarr;
+          </a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Conviction 2 -->
+  <section class="py-12" data-animate="fade">
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <blockquote class="text-xl md:text-2xl italic text-muted-foreground leading-relaxed">
+        „Nie jestem developerem. Jestem psychologiem, który buduje produkty. Nauka znika w produkcie — i o to właśnie chodzi.”
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- Companies -->
+  <section id="companies" class="section-muted py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Firmy</h2>
+        <p class="text-muted-foreground mt-2">Rzeczy, które założyłem, prowadzę albo pomogłem zbudować od podstaw</p>
+      </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {companies.map((company, i) => (
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+            <CompanyCard
+              name={company.data.name}
+              domain={company.data.domain}
+              role={company.data.role}
+              slug={company.id.replace(/^pl\//, '')}
+              locale="pl"
+            />
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Writing -->
+  <section id="writing" class="py-16" data-animate>
+    <div class="container max-w-5xl mx-auto px-4 sm:px-6">
+      <div class="text-center mb-10">
+        <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Pisanie</h2>
+        <p class="text-muted-foreground mt-2">AI jako CTO · infrastruktura od zera · psychometria w produkcji · systemy wzrostu · rygorystyczna eksperymentacja</p>
+        <p class="text-xs text-muted-foreground/70 mt-3 italic">Wpisy na blogu są w języku angielskim.</p>
+      </div>
+
+      {posts.length > 0 ? (
+        <div class="grid gap-4 max-w-3xl mx-auto">
+          {posts.map((post, i) => (
+            <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+              <PostCard
+                title={post.data.title}
+                description={post.data.description}
+                date={post.data.date}
+                tags={post.data.tags}
+                slug={post.id}
+                featured={i === 0}
+              />
+            </div>
+          ))}
+          <div class="text-center mt-4">
+            <a href="/blog" class="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors">
+              Wszystkie wpisy &rarr;
+            </a>
+          </div>
+        </div>
+      ) : (
+        <p class="text-center text-muted-foreground">Brak wpisów. Zajrzyj wkrótce.</p>
+      )}
+    </div>
+  </section>
+
+  <!-- Not Ready to Talk Yet? -->
+  <section class="section-muted py-12" data-animate>
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <p class="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Jeszcze nie chcesz rozmawiać? Zacznij tutaj.</p>
+      <div class="flex gap-3 justify-center flex-wrap">
+        <a href="/pl/o-mnie" class="text-sm font-medium px-4 py-2 rounded-full bg-secondary text-secondary-foreground hover:bg-accent transition-colors inline-flex items-center gap-1.5">
+          Jak pracuję
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="/pl/praca" class="text-sm font-medium px-4 py-2 rounded-full bg-secondary text-secondary-foreground hover:bg-accent transition-colors inline-flex items-center gap-1.5">
+          Wybrane projekty
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+        <a href="/blog" class="text-sm font-medium px-4 py-2 rounded-full bg-secondary text-secondary-foreground hover:bg-accent transition-colors inline-flex items-center gap-1.5">
+          Blog (EN)
+          <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Book a Call -->
+  <section id="book" class="section-inverted py-16" data-animate>
+    <div class="container max-w-3xl mx-auto px-4 sm:px-6 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-3">Porozmawiajmy</h2>
+      <p class="text-muted-foreground mb-8 max-w-lg mx-auto leading-relaxed">
+        Jeżeli cokolwiek z tego pasuje do problemu, nad którym pracujesz — wybierz 30-minutowy slot. Bez pitchu, bez prezentacji. Po prostu rozmowa o tym, co próbujesz rozwiązać.
+      </p>
+      <div class="flex gap-4 justify-center flex-wrap mb-8">
+        <a
+          href="https://app.reclaim.ai/m/blazej/virtual-coffee"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors gap-2"
+        >
+          <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+          </svg>
+          Umów 30 minut
+        </a>
+        <a
+          href="/pl/kontakt"
+          class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 border border-input hover:bg-accent hover:text-accent-foreground transition-colors"
+        >
+          Albo napisz wiadomość
+        </a>
+      </div>
+      <p class="text-xs text-muted-foreground">Wolisz email? Przejdź do <a href="/pl/kontakt" class="underline hover:text-foreground">formularza kontaktowego</a> — czytam wszystko.</p>
+    </div>
+  </section>
 </Base>

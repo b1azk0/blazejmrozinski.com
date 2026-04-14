@@ -13,6 +13,7 @@ All notable changes to blazejmrozinski.com are documented here.
 
 ### Changed
 - Polished inline Polish strings on route shells: `/pl/kontakt` intro copy and form labels (with proper diacritics), `/pl/projekty` description, and breadcrumb labels on `/pl/praca/[slug]` and `/pl/projekty/[slug]`.
+- `/pl/` homepage brought to full parity with the EN homepage: hero with italic tagline and job-title row, services grid (4 cards), "dlaczego te światy łączą się w jedno" callout, stats row, clients strip, case studies grid, conviction quote, companies grid, writing section (linking to the EN blog with a Polish note), "not ready to talk" shortcut pills, and book-a-call section. JSON-LD declared as `@language: pl` with a Polish `jobTitle`.
 
 ## [0.8.0] — 2026-04-13 — Polish Translation (i18n) Machinery
 
