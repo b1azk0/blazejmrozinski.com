@@ -2,6 +2,18 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.0] — 2026-04-14 — Polish Translation Content
+
+### Added
+- Full Polish translation of `src/i18n/pl.json` (40 UI dictionary keys across nav, footer, base, lang_switcher, 404, header).
+- Full Polish translation of `src/content/pages/pl/{about,cv,work}.md` — long-form page content with internal links remapped to `/pl/*` routes.
+- Full Polish translation of `src/content/companies/pl/*.md` (gyfted, nerds-family, digital-savages, swps-university).
+- Full Polish translation of `src/content/projects/pl/*.md` (prawomat, hse-career-quiz, contentforge, ssm, kryptotracker, new-aggregator) including case-study frontmatter fields.
+- `source_hash` fields on every PL content file so `npm run translate:check` reports zero drift against current EN sources.
+
+### Changed
+- Polished inline Polish strings on route shells: `/pl/kontakt` intro copy and form labels (with proper diacritics), `/pl/projekty` description, and breadcrumb labels on `/pl/praca/[slug]` and `/pl/projekty/[slug]`.
+
 ## [0.8.0] — 2026-04-13 — Polish Translation (i18n) Machinery
 
 ### Added

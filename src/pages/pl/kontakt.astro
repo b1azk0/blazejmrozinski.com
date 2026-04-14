@@ -4,7 +4,7 @@ import Base from '@/layouts/Base.astro';
 
 <Base
   title="Kontakt"
-  description="Skontaktuj sie ze mna."
+  description="Napisz do mnie — konsulting psychometryczny, strategia produktowa, growth SEO, współpraca badawcza."
   locale="pl"
   alternateUrl="/contact"
 >
@@ -12,7 +12,7 @@ import Base from '@/layouts/Base.astro';
     <h1 class="text-4xl font-bold tracking-tight mb-4" data-animate>Kontakt</h1>
 
     <p class="text-muted-foreground mb-8 max-w-xl leading-relaxed" data-animate>
-      (Polish placeholder — to be filled.)
+      Jeżeli cokolwiek z tego pasuje do problemu, nad którym pracujesz — wybierz 30-minutowy slot. Bez pitchu, bez prezentacji. Po prostu rozmowa o tym, co próbujesz rozwiązać.
     </p>
 
     <div class="mb-12" data-animate>
@@ -22,14 +22,14 @@ import Base from '@/layouts/Base.astro';
         rel="noopener noreferrer"
         class="inline-flex items-center justify-center rounded-md text-sm font-medium h-11 px-8 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors gap-2"
       >
-        Umow rozmowe
+        Umów rozmowę
       </a>
     </div>
 
     <form name="contact-pl" method="POST" data-netlify="true" class="space-y-4 max-w-xl">
       <input type="hidden" name="form-name" value="contact-pl" />
       <div>
-        <label for="pl-name" class="block text-sm font-medium mb-2">Imie</label>
+        <label for="pl-name" class="block text-sm font-medium mb-2">Imię</label>
         <input type="text" id="pl-name" name="name" required class="w-full h-10 px-3 text-sm rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background" />
       </div>
       <div>
@@ -37,11 +37,11 @@ import Base from '@/layouts/Base.astro';
         <input type="email" id="pl-email" name="email" required class="w-full h-10 px-3 text-sm rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background" />
       </div>
       <div>
-        <label for="pl-message" class="block text-sm font-medium mb-2">Wiadomosc</label>
+        <label for="pl-message" class="block text-sm font-medium mb-2">Wiadomość</label>
         <textarea id="pl-message" name="message" required rows={5} class="w-full px-3 py-2 text-sm rounded-md border bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 focus:ring-offset-background"></textarea>
       </div>
       <button type="submit" class="inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-6 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors">
-        Wyslij
+        Wyślij
       </button>
     </form>
   </div>
