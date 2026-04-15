@@ -24,6 +24,18 @@ Personal brand site for Blazej Mrozinski. Astro static site deployed on Netlify.
 | [ClaudioBrain](https://github.com/b1azk0/ClaudioBrain) | Knowledge base, design spec, implementation plan |
 | [contentforge](https://github.com/b1azk0/contentforge) | Blog content source — pushes posts here |
 
+## Ahrefs budget
+
+This repo is for **post-publish execution**, not keyword research. ContentForge (`~/GitHub/contentforge`) owns all Ahrefs calls and the research budget. The workflow is: ContentForge runs keyword research, writes an audit file to `contentforge/seo/`, and this repo consumes that file to apply edits, build, and deploy. Credits are spent once, in ContentForge.
+
+**Default rule:** the blog repo does not call Ahrefs MCP tools. If a task here seems to need Ahrefs data (rank check, new audit, competitive look, SERP verification), ask first and prefer running the research from ContentForge instead — save the output to `contentforge/seo/`, then come back here to execute.
+
+**Narrow exceptions** (still confirm before calling):
+- `site-audit-issues` — technical SEO issues on the live site (broken links, missing canonicals, 404s). Site-level, cheap, no overlap with ContentForge's content work.
+- `rank-tracker-overview` — read-only check against an already-configured rank tracker list, when explicitly requested.
+
+Everything else — `keywords-explorer-*`, `site-explorer-*`, `serp-overview`, `matching-terms`, `related-terms`, backlink/refdomain tools — belongs in ContentForge.
+
 ## Blog post images
 
 Inline images in blog posts must use Astro's image pipeline so they get optimized (WebP, lazy loading, srcset, hashed filenames). Convention:

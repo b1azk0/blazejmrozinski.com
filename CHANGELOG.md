@@ -2,6 +2,14 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.4] — 2026-04-15 — CLAUDE.md: Ahrefs Budget Rule
+
+### Added
+- `## Ahrefs budget` section in `CLAUDE.md` establishing the blog repo as post-publish execution only. All keyword research, SERP analysis, and matching-terms lookups belong in ContentForge (which already owns the research budget). Two narrow exceptions carved out: `site-audit-issues` (technical SEO on the live site) and `rank-tracker-overview` (read-only, explicit request only).
+
+### Notes
+- Goal: prevent duplicate Ahrefs credit spend between ContentForge and the blog repo. The natural workflow is ContentForge writes audit files to `seo/`, blog repo consumes them.
+
 ## [0.9.3] — 2026-04-15 — Blog Image Pipeline: Move Inline Images to Astro Optimization
 
 ### Changed
