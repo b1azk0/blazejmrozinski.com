@@ -2,6 +2,15 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.2] — 2026-04-15 — Add Psychometric Analysis of University Exams
+
+### Added
+- New blog post `psychometric-analysis-university-exams` ("What Psychometric Analysis Reveals About University Exams (Real CTT and IRT Findings)") with `label: academic-work`. A real-data CTT + IRT walkthrough of university exams covering item discrimination, distractor adjacency, the Wright map, the test information function, 3PL fallback to 2PL, dead distractors, unidimensionality checks, and SEM-aware pass/fail.
+- 9 chart PNGs under `public/images/blog/psychometric-analysis-university-exams/` (CTT item map, negatively discriminating item, Wright map, TIF, 3PL ICC comparison, dead distractors, scree plot, SEM pass/fail histogram, item classification buckets).
+
+### Notes
+- SEO research saved in `~/GitHub/contentforge/published/seo/2026-04-14-psychometric-analysis-university-exams.md`. Primary target: "psychometric analysis" (vol 250, KD 16, TP 3,100). Secondaries: "item response theory" (vol 800, KD 5), "classical test theory" (vol 400, KD 1).
+
 ## [0.9.1] — 2026-04-15 — SEO Audit Implementation: Published Blog Posts
 
 ### Changed
