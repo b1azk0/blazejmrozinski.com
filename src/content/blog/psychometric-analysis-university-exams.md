@@ -46,7 +46,7 @@ CTT is easy to compute and easy to interpret. IRT is harder to fit and requires 
 
 The single most compact way to read an exam is to plot every item as a point in (p, r) space: difficulty on the x-axis, item-total correlation on the y-axis. The "good zone" is a rectangle: items that fall inside 0.30 < p < 0.85 with r > 0.20 are doing their job. Items outside that rectangle have something to explain.
 
-![CTT item analysis scatter plot showing item difficulty and item discrimination: items plotted by p-value and item-total correlation, colored by quality bucket, with a green "good zone" rectangle at 0.30 < p < 0.85 and r > 0.20. Most items cluster to the right of the good zone at high p with moderate r. One item sits below r = 0.](/images/blog/psychometric-analysis-university-exams/ctt-item-map.png)
+![CTT item analysis scatter plot showing item difficulty and item discrimination: items plotted by p-value and item-total correlation, colored by quality bucket, with a green "good zone" rectangle at 0.30 < p < 0.85 and r > 0.20. Most items cluster to the right of the good zone at high p with moderate r. One item sits below r = 0.](../../assets/blog/psychometric-analysis-university-exams/ctt-item-map.png)
 
 The chart above is from one exam in the pipeline. Each point is one canonical item. Five buckets:
 
@@ -87,7 +87,7 @@ A negatively discriminating item is one where stronger students are *less* likel
 2. The correct answer is technically right, but the item has two defensible readings, and stronger students are more likely to read it the "wrong" way.
 3. The question is testing a common misconception, and students who studied enough to absorb the misconception are getting it wrong while students who guessed blindly are getting it right.
 
-![Item discrimination chart by ability quintile: line chart titled 'The one chart every exam author should see'. Three curves plotted across five student-ability quintiles from bottom 20 percent to top 20 percent: a healthy item rising from about 40 percent correct to 75 percent, a non-discriminating item roughly flat around 50 percent with a small wobble, and a dashed red reference line illustrating what a negatively discriminating item would look like, descending from 70 percent to 40 percent.](/images/blog/psychometric-analysis-university-exams/negatively-discriminating-item.png)
+![Item discrimination chart by ability quintile: line chart titled 'The one chart every exam author should see'. Three curves plotted across five student-ability quintiles from bottom 20 percent to top 20 percent: a healthy item rising from about 40 percent correct to 75 percent, a non-discriminating item roughly flat around 50 percent with a small wobble, and a dashed red reference line illustrating what a negatively discriminating item would look like, descending from 70 percent to 40 percent.](../../assets/blog/psychometric-analysis-university-exams/negatively-discriminating-item.png)
 
 The chart above is the simplest version of the idea. Split the cohort into five ability groups by total score, and for any single item, plot the proportion of students in each group who got it right. A healthy item's curve rises left to right. A flat line means the item is noise. It doesn't distinguish anyone. A descending line is the negatively discriminating case, and the dashed red reference shows what it looks like when an item is sharply inverted.
 
@@ -97,7 +97,7 @@ In a well-run item bank, a negatively discriminating item is the single most act
 
 The Wright map is a two-panel plot on a shared θ axis. The top panel is a histogram of student ability estimates from the IRT model. The bottom panel is a strip plot of item difficulties at their estimated b values. The whole story is in the alignment between the two panels.
 
-![Wright map of an IRT-calibrated university exam: student ability histogram above item difficulty strip plot, sharing a θ axis from −4 to +3. Students centered near 0; every calibrated item sits to the left of 0.](/images/blog/psychometric-analysis-university-exams/wright-map-cognitive-psych.png)
+![Wright map of an IRT-calibrated university exam: student ability histogram above item difficulty strip plot, sharing a θ axis from −4 to +3. Students centered near 0; every calibrated item sits to the left of 0.](../../assets/blog/psychometric-analysis-university-exams/wright-map-cognitive-psych.png)
 
 The top panel shows the student ability distribution, standardized by construction to mean 0. The bottom panel shows the items that survived CTT exclusion and were calibrated under the 2PL model. The item difficulty mean is around −1.9, with a tail stretching further left. One extreme outlier is clipped at −4 for readability.
 
@@ -111,7 +111,7 @@ The related finding is counterintuitive: a test that is uniformly too easy produ
 
 The Wright map shows *what* the test is measuring. The Test Information Function shows *how precisely* it measures at each level of ability. For a 2PL model, item information is `I(θ) = a² · P(θ) · (1 − P(θ))`, and test information is the sum across items. Precision and information are reciprocal: SEM(θ) = 1 / √I(θ). Wherever information is high, the ability estimate is tight. Wherever information collapses, the estimate is essentially a guess.
 
-![Test information function (TIF) for a 2PL IRT model: asymmetric curve peaking sharply below θ = 0 and decaying toward θ = +2, with the average student marked at θ = 0 and peak information marked near θ = −1.6.](/images/blog/psychometric-analysis-university-exams/test-information-function.png)
+![Test information function (TIF) for a 2PL IRT model: asymmetric curve peaking sharply below θ = 0 and decaying toward θ = +2, with the average student marked at θ = 0 and peak information marked near θ = −1.6.](../../assets/blog/psychometric-analysis-university-exams/test-information-function.png)
 
 The chart shows the TIF for the same exam as the Wright map. The curve peaks at θ ≈ −1.6, well below the average student, and decays rapidly toward the upper half of the ability distribution. By θ = +1 the information has dropped to about a third of its peak, which on the raw score scale means the standard error of the ability estimate is nearly double what it is for a weak student.
 
@@ -121,7 +121,7 @@ This is the same "test too easy" finding as the Wright map, but expressed in a w
 
 One of the quieter findings in the analysis happens at the level of model selection. On a four-option multiple choice test, the 3PL model estimates a "guessing" parameter `c` per item. A reasonable value is around 0.25, matching the random-guessing floor on four options. Across the exams I analyzed, the 3PL fit kept producing `c` values that were clearly too high, in one case a maximum of 0.92. The pipeline rejects 3PL and falls back to 2PL whenever `max(c) > 0.35`.
 
-![3PL vs 2PL item response theory ICC comparison: chart titled 'When the 3PL refuses to cooperate'. Two item characteristic curves plotted against ability theta from -4 to +4. The 2PL curve rises sigmoidally from near zero at theta = -4 to near 100 percent at theta = +2. The 3PL curve is clamped above a horizontal floor at 92 percent probability correct, with a dotted reference line at the 25 percent random-guessing floor and another dotted reference line at the 92 percent parked floor.](/images/blog/psychometric-analysis-university-exams/3pl-refuses-to-cooperate.png)
+![3PL vs 2PL item response theory ICC comparison: chart titled 'When the 3PL refuses to cooperate'. Two item characteristic curves plotted against ability theta from -4 to +4. The 2PL curve rises sigmoidally from near zero at theta = -4 to near 100 percent at theta = +2. The 3PL curve is clamped above a horizontal floor at 92 percent probability correct, with a dotted reference line at the 25 percent random-guessing floor and another dotted reference line at the 92 percent parked floor.](../../assets/blog/psychometric-analysis-university-exams/3pl-refuses-to-cooperate.png)
 
 The chart above shows what this looks like on a single item. Green is a well-behaved 2PL fit: students at very low ability have almost no chance of getting the item right, and the probability climbs smoothly as ability increases. Red is what the 3PL tries to do with the same item. Instead of modeling a real guessing floor near 25%, it parks the floor at 92%, essentially saying "I cannot locate a low-ability region for this item, so I'll assume almost everyone gets it right."
 
@@ -133,7 +133,7 @@ I kept this finding in the technical report because it matters to psychometricia
 
 A "dead distractor" is a wrong-answer option chosen by fewer than 2% of test-takers. It's dead in the sense that it's not doing any work. For every dead distractor on a four-option question, the test is effectively a three-option question for most practical purposes, which raises the floor probability of a correct guess from 25% to 33%.
 
-![Distractor analysis: sorted pick rates of every wrong-answer option in the item bank, ordered from least picked to most picked. A red horizontal dashed line marks the 2 percent dead-distractor threshold. A red tail of bars sits below the line on the left side of the chart, shading the zone where options are picked by almost nobody. The rest of the distribution rises smoothly toward 50 percent.](/images/blog/psychometric-analysis-university-exams/dead-distractors.png)
+![Distractor analysis: sorted pick rates of every wrong-answer option in the item bank, ordered from least picked to most picked. A red horizontal dashed line marks the 2 percent dead-distractor threshold. A red tail of bars sits below the line on the left side of the chart, shading the zone where options are picked by almost nobody. The rest of the distribution rises smoothly toward 50 percent.](../../assets/blog/psychometric-analysis-university-exams/dead-distractors.png)
 
 The chart above plots every wrong-answer option in one exam's bank, sorted by how often students picked it. The shape is informative by itself: most distractors cluster between 10% and 30% of wrong picks, but there's a clear tail below the 2% line, those are the dead options. On this exam, about one in nine wrong options was dead, which meant 13 items out of 39 had at least one vestigial distractor.
 
@@ -147,7 +147,7 @@ IRT models built on a single ability parameter assume the test measures one unde
 
 The usual check is to eigendecompose a tetrachoric correlation matrix of the items and look at where the eigenvalues drop.
 
-![Scree plot of tetrachoric eigenvalues for an IRT unidimensionality check: X axis is factor number from 1 to 26, y axis is eigenvalue. The first eigenvalue sits near 5.5, the second near 2.6, and subsequent eigenvalues trail down through 1 toward about 0.1. A red double-ended arrow between the first and second eigenvalues is labeled 'ratio = 2.11'. A dotted horizontal line at eigenvalue = 1 is labeled 'Kaiser criterion'.](/images/blog/psychometric-analysis-university-exams/scree-plot.png)
+![Scree plot of tetrachoric eigenvalues for an IRT unidimensionality check: X axis is factor number from 1 to 26, y axis is eigenvalue. The first eigenvalue sits near 5.5, the second near 2.6, and subsequent eigenvalues trail down through 1 toward about 0.1. A red double-ended arrow between the first and second eigenvalues is labeled 'ratio = 2.11'. A dotted horizontal line at eigenvalue = 1 is labeled 'Kaiser criterion'.](../../assets/blog/psychometric-analysis-university-exams/scree-plot.png)
 
 The chart above shows the eigenvalues of the tetrachoric correlation matrix for one exam. The first eigenvalue is the variance explained by the single best factor, the second is what's left for the second best factor, and so on. A strongly unidimensional test has a first eigenvalue that dominates the rest by a factor of four or more. On this exam the ratio is 2.11, and the first factor explains only about 21% of the total variance. That's borderline: you can still fit a unidimensional IRT model and get interpretable parameters, but the model is making a compromise, and the residual second and third factors are pulling on certain items harder than others.
 
@@ -161,7 +161,7 @@ Every exam quality committee has the same question, eventually: "how many studen
 
 The psychometric answer is unsatisfying but honest: a raw score is an estimate of true ability, and the estimate has a standard error of measurement. For a 40-item test with KR-20 = 0.69, the SEM on the raw-score scale is about 2.7 points. Any student whose observed score is within ±1 SEM of the cutoff is in a band where a parallel version of the same test could plausibly flip them in either direction.
 
-![SEM-aware pass/fail histogram for a multiple choice exam: 40-item exam with students grouped into four buckets: clear fail, borderline fail, borderline pass, clear pass. Yellow shaded band marks the ±1 SEM window around the cutoff at 21. About 39% of students sit inside the yellow band.](/images/blog/psychometric-analysis-university-exams/sem-pass-fail-advanced-stats.png)
+![SEM-aware pass/fail histogram for a multiple choice exam: 40-item exam with students grouped into four buckets: clear fail, borderline fail, borderline pass, clear pass. Yellow shaded band marks the ±1 SEM window around the cutoff at 21. About 39% of students sit inside the yellow band.](../../assets/blog/psychometric-analysis-university-exams/sem-pass-fail-advanced-stats.png)
 
 The chart above shows the raw-score distribution for one exam. Students are binned into four groups: clear pass, borderline pass (raw score between the cutoff and cutoff + 1 SEM), borderline fail (raw score between cutoff − 1 SEM and cutoff), and clear fail. The yellow band marks the ±1 SEM window.
 
@@ -177,7 +177,7 @@ Stakeholders flagged this before any report went out. An audit-style report, rea
 
 So I rewrote the entire reporting layer around one rule: the reports describe the data, they don't diagnose the author. Every threshold names its literature baseline. Every deviation from that baseline is described as a property of the item, never as a property of the item-writer. Recommended revisions are framed as "directions to consider", not prescriptions. There's no red/yellow/green color coding. The categories have neutral names and no celebratory language. A well-calibrated item is "good item", which is descriptive. A problem item is "for revision", which is descriptive. Neither word is praise or blame.
 
-![Item classification buckets from a psychometric report: horizontal bar chart titled 'Item classification on one exam' with four buckets labeled Good item, Minor correction, For revision, and For retirement. Counts: 19 good items, 13 minor correction, 6 for revision, 1 for retirement. All bars rendered in the same neutral grey, no color coding.](/images/blog/psychometric-analysis-university-exams/classification-buckets.png)
+![Item classification buckets from a psychometric report: horizontal bar chart titled 'Item classification on one exam' with four buckets labeled Good item, Minor correction, For revision, and For retirement. Counts: 19 good items, 13 minor correction, 6 for revision, 1 for retirement. All bars rendered in the same neutral grey, no color coding.](../../assets/blog/psychometric-analysis-university-exams/classification-buckets.png)
 
 The chart above is what the category distribution looks like on one exam. Four buckets, worst-issue-wins, all in the same grey. No red bars. No green bars. No "congratulations" header on the good pile and no "warning" header on the revision pile. The chart is the design choice: every visual cue that would have encoded a judgment on the author has been stripped out, and what remains is a count of items in each descriptive category. The author can look at the chart and see how much revision work is in front of them without being told they failed at anything.
 

@@ -2,6 +2,19 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.3] — 2026-04-15 — Blog Image Pipeline: Move Inline Images to Astro Optimization
+
+### Changed
+- Migrated blog post inline images from `public/images/blog/<slug>/` to `src/assets/blog/<slug>/` so they flow through Astro's image pipeline. Result: WebP output, lazy loading, intrinsic dimensions, hashed cache-busted filenames, and 30–55% smaller payloads on the 9 charts in `psychometric-analysis-university-exams` (e.g. ctt-item-map: 101kB → 47kB).
+- Rewrote 9 markdown image references in `psychometric-analysis-university-exams.md` from absolute `/images/blog/...` paths to relative `../../assets/blog/...` paths so Astro processes them at build time.
+
+### Added
+- `## Blog post images` convention section in `CLAUDE.md` documenting the `src/assets/blog/<slug>/` pattern and explicitly forbidding `public/` for inline post images.
+
+### Notes
+- ContentForge's `publish.sh` will be updated in a sibling commit so future blog posts with images land in `src/assets/blog/<slug>/` automatically and never in `public/`.
+- Cover/social-share images are unaffected — they're handled at the layout level, not in the markdown body.
+
 ## [0.9.2] — 2026-04-15 — Add Psychometric Analysis of University Exams
 
 ### Added
