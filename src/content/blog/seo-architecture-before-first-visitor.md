@@ -1,10 +1,10 @@
 ---
-title: "SEO Architecture Before Your First Visitor"
+title: "SEO Architecture for a New Website: What to Build Before Your First Visitor"
 date: 2026-03-25
-tags: [growth-engineering]
+tags: [seo-architecture, seo-for-new-website, technical-seo, structured-data, growth-engineering]
 audience: [founders, general-professional, ai-practitioners]
 format: how-i-work
-description: "Most founders optimize for search after publishing. I built IndexNow, multi-sitemaps, JSON-LD knowledge graphs, and consent-aware analytics into my site before it had a single visitor. Here's why SEO should be architecture, not afterthought."
+description: "Most founders optimize SEO after launching. I built IndexNow, multi-sitemaps, JSON-LD structured data, and consent-aware analytics into a new website before its first visitor. A technical SEO architecture guide for a site that doesn't exist yet."
 status: published
 safety_review: false
 source_queue: queue/2026-04-09.md

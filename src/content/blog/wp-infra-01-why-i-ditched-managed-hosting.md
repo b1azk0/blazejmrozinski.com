@@ -1,7 +1,7 @@
 ---
 title: "WordPress on Hetzner VPS: Why I Left Managed Hosting and Built My Own Server"
 date: 2026-04-01
-tags: [devops-reality, wordpress, hetzner, server-backend]
+tags: [wordpress-vps, wordpress-hetzner, managed-wordpress-hosting, devops-reality, hetzner, server-backend]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
 description: "I moved my WordPress and WooCommerce sites from managed hosting to a Hetzner VPS. Full walkthrough of server provisioning, SSH hardening, and firewall setup on Debian 13."
@@ -36,7 +36,7 @@ The problems start when your sites are doing real work.
 
 WooCommerce is where managed hosting falls apart fastest. Every checkout session requires PHP to maintain state. Every cart update is a server-side operation. Every background job, whether it's processing an order, sending an email, or syncing inventory, competes for the same limited pool of PHP workers. On a managed plan, that pool is small and you can't change it. You might get 4 or 6 workers, shared with every other tenant on the same machine. During a sale or a traffic spike, you're watching your checkout page time out because some other tenant's cron jobs are eating your allocation.
 
-Caching is the other pain point. Managed hosts typically run a page cache that works well for static content. But WooCommerce pages with cart data, logged-in user states, and dynamic pricing can't be aggressively cached without breaking functionality. You need fine-grained control over what gets cached, what gets bypassed, and how cache invalidation works. Managed hosting gives you a toggle: cache on or cache off. The nuance lives in server configs you don't have access to.
+Caching is the other pain point. Managed hosts typically run a page cache that works well for static content. But WooCommerce pages with cart data, logged-in user states, and dynamic pricing can't be aggressively cached without breaking functionality. You need fine-grained control over what gets cached, what gets bypassed, and how cache invalidation works. Managed hosting gives you a toggle: cache on or cache off. The nuance lives in server configs you don't have access to — the kind of control that makes real [WordPress performance optimization](/blog/wp-infra-04-four-layers-of-caching/) possible, which I cover in Part 4 of this series.
 
 Then there's the value ratio. A decent managed WordPress plan, the kind that gives you enough resources for WooCommerce, runs somewhere in the range of 5 to 15 times what equivalent raw compute costs. Some of that premium pays for support, automated updates, and the convenience layer. Fair enough. But when the support can't solve your actual problems and the convenience layer is the thing preventing you from solving them yourself, the ratio stops making sense.
 

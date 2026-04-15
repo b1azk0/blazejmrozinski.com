@@ -1,10 +1,10 @@
 ---
-title: "Deploying WordPress the Right Way (Not the 5-Minute Install)"
+title: "Production WordPress Deployment with Redis Object Cache Pro and Nginx"
 date: 2026-04-09
-tags: [devops-reality, wordpress, hetzner, server-backend, redis, woocommerce]
+tags: [object-cache-pro, wordpress-redis, wordpress-deployment, devops-reality, wordpress, hetzner, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis with Object Cache Pro, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
+description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis Object Cache Pro setup, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
 status: published
 label: infrastructure
 safety_review: false

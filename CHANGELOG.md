@@ -2,6 +2,28 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.9.1] — 2026-04-15 — SEO Audit Implementation: Published Blog Posts
+
+### Changed
+- Retitled 4 blog posts to capture keyword-aligned phrases identified in the 2026-04-15 published-blog audit:
+  - `how-i-taught-ai-to-work-like-a-colleague`: "How to Configure Claude Code: Subagents, Skills, and Safety Protocols for a Real Workflow" (targets "claude code subagents", "claude code agents", "how to use claude code")
+  - `seo-architecture-before-first-visitor`: "SEO Architecture for a New Website: What to Build Before Your First Visitor" (targets "seo for new website" KD 6 / TP 644k, "seo architecture")
+  - `wp-infra-03-deploying-wordpress`: "Production WordPress Deployment with Redis Object Cache Pro and Nginx" (targets "object cache pro", "wordpress redis object cache")
+  - `wp-infra-04-four-layers-of-caching`: "WordPress Performance Optimization: Nginx FastCGI, Redis, OPcache, and Cloudflare (Under 50ms TTFB)" (targets "wordpress performance optimization" TP 1,500)
+- Rewrote meta descriptions on 7 posts to front-load target keywords (posts 1, 2, 4, 5, 7, 8, 9 in the audit).
+- Reworked tag arrays on all 9 published posts to reflect target keyword clusters (claude-code, seo-for-new-website, object-cache-pro, wordpress-performance-optimization, etc.).
+- URLs (slugs) were intentionally left unchanged on all posts to preserve existing inbound links and avoid redirect churn — Netlify redirect support is available in `netlify.toml` if a future rename is needed.
+
+### Added
+- Internal cross-links with keyword-aligned anchor text:
+  - `building-a-brain-for-your-ai-cto` → `how-i-taught-ai-to-work-like-a-colleague` ("configuring Claude Code subagents, skills, and safety protocols")
+  - `wp-infra-04-four-layers-of-caching` → `wp-infra-03-deploying-wordpress` ("Object Cache Pro setup")
+  - `wp-infra-01-why-i-ditched-managed-hosting` → `wp-infra-04-four-layers-of-caching` ("WordPress performance optimization")
+
+### Notes
+- Source audit: `~/GitHub/contentforge/seo/2026-04-15-published-blog-audit.md`.
+- Audit-recommended body additions for the `how-i-taught-ai-to-work-like-a-colleague` post (adding verbatim "Claude Code subagents" section heading) were NOT applied, because the body does not actually cover Claude Code's subagents/skills/hooks features as platform primitives — it covers configuration documents. The retitle keeps the frontmatter keyword signal but flags a title/body mismatch that will need either body expansion or a title softening in a follow-up pass.
+
 ## [0.9.0] — 2026-04-15 — SEO Audit Implementation: Glossary Cluster Linking
 
 ### Added

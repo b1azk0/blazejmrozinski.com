@@ -1,10 +1,10 @@
 ---
-title: "WordPress Caching with Nginx FastCGI, Redis, OPcache, and Cloudflare (Under 50ms TTFB)"
+title: "WordPress Performance Optimization: Nginx FastCGI, Redis, OPcache, and Cloudflare (Under 50ms TTFB)"
 date: 2026-04-12
-tags: [devops-reality, wordpress, hetzner, server-backend, performance, redis, nginx, woocommerce]
+tags: [wordpress-performance-optimization, wordpress-caching, object-cache-pro, devops-reality, wordpress, hetzner, redis, nginx, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Four-layer WordPress caching stack: Cloudflare CDN, Nginx FastCGI page cache, Redis Object Cache Pro, and PHP OPcache with JIT. Achieved sub-50ms TTFB with WooCommerce bypass rules."
+description: "Four-layer WordPress caching stack for performance optimization: Cloudflare CDN, Nginx FastCGI page cache, Redis Object Cache Pro, and PHP OPcache with JIT. Sub-50ms TTFB with WooCommerce bypass rules."
 status: published
 safety_review: false
 label: infrastructure
@@ -165,7 +165,7 @@ This is part of the automated daily maintenance script that I will cover in Post
 
 ## Redis Object Cache Pro: Database Query Caching
 
-FastCGI page cache eliminates PHP entirely for anonymous visitors. But for logged-in users, WooCommerce customers, and admin pages, PHP still runs. This is where Redis object caching becomes important.
+FastCGI page cache eliminates PHP entirely for anonymous visitors. But for logged-in users, WooCommerce customers, and admin pages, PHP still runs. This is where Redis object caching becomes important. I walked through the [Object Cache Pro setup](/blog/wp-infra-03-deploying-wordpress/) in Part 3 of this series; here I'll focus on why it makes such a measurable difference to the overall caching stack.
 
 Object caching is fundamentally different from page caching. Page caching stores the final rendered HTML. Object caching stores the intermediate pieces: database query results, PHP objects, WordPress transients, and the options table. When WordPress needs to look up a setting or retrieve a post's metadata, the object cache intercepts the database query and returns the result from Redis (in-memory) instead of hitting MariaDB (on disk).
 

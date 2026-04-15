@@ -4,7 +4,7 @@ date: 2026-04-06
 tags: [devops-reality, wordpress, hetzner, server-backend, nginx, mariadb, php]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Step-by-step LEMP stack setup for WordPress on Hetzner VPS. Nginx tuning, MariaDB 11.8 InnoDB configuration, PHP 8.4 FPM static pools, OPcache JIT, and kernel optimization."
+description: "Step-by-step LEMP stack setup for WordPress on a Hetzner VPS. Nginx tuning, MariaDB 11.8 InnoDB configuration, PHP 8.4 FPM static pools, OPcache JIT, and kernel optimization. A practical WordPress performance optimization guide."
 status: published
 label: infrastructure
 safety_review: false

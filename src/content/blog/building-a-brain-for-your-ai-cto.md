@@ -1,7 +1,7 @@
 ---
 title: "How I Built a Knowledge Base That Makes AI Actually Useful Across Projects"
 date: 2026-04-04
-tags: [ai-as-cto, knowledge-systems]
+tags: [ai-knowledge-base, ai-coding-assistant, ai-as-cto, knowledge-systems]
 audience: [ai-practitioners, product-leaders, founders]
 format: how-i-work
 description: "AI coding assistants work well in a single repo. They fall apart across multiple projects and companies. I built a 30-document knowledge base that gives AI full context in 30 seconds instead of 15 minutes."
@@ -106,5 +106,7 @@ If you're going to build something like this, start small:
 5. Reference these documents at the start of every session.
 
 Within two weeks, you'll have a knowledge base that makes every AI interaction materially better. Within a month, you'll wonder how you worked without it.
+
+Once the knowledge base exists, the next question is how to get the assistant to use it well — role definitions, safety protocols, feedback loops, and context management for AI assistants across projects. I wrote a follow-up on [configuring Claude Code subagents, skills, and safety protocols](/blog/how-i-taught-ai-to-work-like-a-colleague/) that covers exactly that process.
 
 The current discourse around AI productivity focuses almost entirely on model capabilities, on what the AI can do. The bigger leverage, in my experience, is in what the AI knows. And unlike model capabilities, that's entirely under your control.

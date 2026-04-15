@@ -1,10 +1,10 @@
 ---
 title: "Everyone Says SaaS Is Dead. Here's What They're Actually Observing."
 date: 2026-04-13
-tags: [operator-lessons, ai-as-cto, product-thinking]
+tags: [saas-is-dead, saas-business-model, operator-lessons, ai-as-cto]
 audience: [founders, product-leaders, general-professional]
 format: what-changed-my-mind
-description: "The 'SaaS is dead' narrative gets the diagnosis right and the prognosis wrong. AI makes code cheap. It barely touches trust, switching costs, and domain expertise. Those are the parts that actually make a SaaS business defensible."
+description: "The 'SaaS is dead' narrative gets the diagnosis right and the prognosis wrong. AI makes code cheap. It barely touches trust, switching costs, and domain expertise — the parts that actually make a SaaS business model defensible."
 status: published
 safety_review: false
 source_queue: queue/2026-04-09.md

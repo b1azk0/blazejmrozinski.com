@@ -1,10 +1,10 @@
 ---
 title: "Building a Personal Website Like a Product: What Changes When You Apply Product Thinking"
 date: 2026-03-16
-tags: [ai-as-cto, product-thinking]
+tags: [personal-website, astro, structured-data, product-thinking]
 audience: [ai-practitioners, founders, general-professional]
 format: how-i-work
-description: "Most personal websites are abandoned brochures. I built mine like a product in 5 days with 70+ commits, typed content schemas, structured data, and an automated asset pipeline. Here's what product thinking changes about a personal site."
+description: "Most personal websites are abandoned brochures. I built mine in Astro in 5 days with 70+ commits, typed content schemas, JSON-LD structured data, and an automated asset pipeline. A practitioner case study in personal website design."
 status: published
 safety_review: false
 source_queue: queue/2026-04-09.md

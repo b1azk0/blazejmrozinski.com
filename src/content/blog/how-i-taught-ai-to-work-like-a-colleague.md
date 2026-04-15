@@ -1,10 +1,10 @@
 ---
-title: "How I Taught AI to Work Like a Colleague"
+title: "How to Configure Claude Code: Subagents, Skills, and Safety Protocols for a Real Workflow"
 date: 2026-04-07
-tags: [ai-as-cto, knowledge-systems]
+tags: [claude-code, claude-code-subagents, ai-coding-assistant, ai-as-cto, knowledge-systems]
 audience: [ai-practitioners, product-leaders, founders]
 format: how-i-work
-description: "A hands-on guide to configuring AI assistants through role definitions, safety protocols, and feedback loops. How I turned Claude Code from a capable tool into a personalized technical partner over several weeks of real work."
+description: "A hands-on guide to configuring Claude Code with subagents, skills, role definitions, safety protocols, and feedback loops. How I turned a capable AI coding assistant into a personalized technical partner over weeks of real work."
 status: published
 safety_review: false
 source_queue: null
