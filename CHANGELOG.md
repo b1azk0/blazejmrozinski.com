@@ -2,6 +2,28 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.10.0] — 2026-04-15 — Migrate Hosting from Netlify to Cloudflare Pages
+
+### Changed
+- Hosting moved from Netlify to Cloudflare Pages. Netlify's edge had been failing TLS for the custom domain repeatedly despite a valid certificate in their records (most recent incident: 2026-04-15, both apex and www returning `Connection reset by peer` during the TLS Client Hello while `blazejmrozinski.netlify.app` continued to serve fine). Cloudflare Pages now terminates TLS at Cloudflare's edge using their Universal SSL. DNS was already authoritative on Cloudflare, so the cutover is a same-account record swap with zero downtime and no propagation lag.
+- Contact form handling moved from Netlify Forms to [Web3Forms](https://web3forms.com). Both forms (`src/pages/contact.astro` and `src/components/ContactForm.astro` on the homepage) now POST directly to Web3Forms, with hidden fields for the access key, subject, sender label, and a same-domain redirect to a new `/thanks` page. Honeypot via the `botcheck` hidden field instead of CAPTCHA.
+
+### Added
+- `public/_headers` ports the 3 security headers (`X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`) from `netlify.toml` to Cloudflare Pages syntax.
+- `public/_redirects` ports the single `/sitemap.xml` → `/sitemap-index.xml` 301.
+- `src/pages/thanks.astro` — short post-submit confirmation page Web3Forms redirects to.
+- `## Setup TODOs` section in `CLAUDE.md` flagging the `WEB3FORMS_ACCESS_KEY_PLACEHOLDER` token in both forms that must be replaced with a real key from web3forms.com signup before submissions work.
+
+### Removed
+- `netlify.toml` — no longer the source of truth. Cloudflare Pages reads `public/_headers` and `public/_redirects` instead.
+- Netlify deploy status badge from `README.md`.
+
+### Notes
+- ContentForge's `scripts/publish.sh` does not touch Netlify, build hooks, or webhooks (verified: `git`-only). Cloudflare Pages picks up commits identically. **No ContentForge changes required.**
+- Rollback window: the Netlify project remains built and deployable for 1 week post-cutover. If anything breaks on Cloudflare Pages, recovery is re-adding the custom domains in Netlify and removing them from Cloudflare Pages — ~2 minutes, no DNS propagation lag (same Cloudflare account).
+- Out of scope for this migration: CSP / HSTS / Permissions-Policy, JS-enhanced form UX, Cloudflare Web Analytics, cache rules, image resizing. Each is its own future task.
+- Spec: `docs/superpowers/specs/2026-04-15-cloudflare-pages-migration-design.md`. Plan: `docs/superpowers/plans/2026-04-15-cloudflare-pages-migration.md`.
+
 ## [0.9.4] — 2026-04-15 — CLAUDE.md: Ahrefs Budget Rule
 
 ### Added

@@ -27,8 +27,14 @@ import Base from '@/layouts/Base.astro';
     <div class="grid md:grid-cols-2 gap-12" data-animate>
       <!-- Form -->
       <div>
-        <form name="contact-full" method="POST" data-netlify="true" class="space-y-4">
-          <input type="hidden" name="form-name" value="contact-full" />
+        <form action="https://api.web3forms.com/submit" method="POST" class="space-y-4">
+          <!-- TODO: replace placeholder with key from web3forms.com signup -->
+          <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_PLACEHOLDER" />
+          <input type="hidden" name="subject" value="New contact form submission — blazejmrozinski.com" />
+          <input type="hidden" name="from_name" value="blazejmrozinski.com contact form" />
+          <input type="hidden" name="redirect" value="https://blazejmrozinski.com/thanks" />
+          <!-- honeypot: bots fill this, real users don't see it -->
+          <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
           <div>
             <label for="name" class="block text-sm font-medium mb-2">Name</label>

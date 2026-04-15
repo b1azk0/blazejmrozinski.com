@@ -1,13 +1,17 @@
 # blazejmrozinski.com
 
-Personal brand site for Blazej Mrozinski. Astro static site deployed on Netlify.
+Personal brand site for Blazej Mrozinski. Astro static site deployed on Cloudflare Pages.
 
 ## Key Context
 
 - **Owner:** Blazej Mrozinski — see ~/GitHub/ClaudioBrain for full profile
-- **Blog source:** ContentForge repo pushes markdown posts via GitHub Action
+- **Blog source:** ContentForge repo pushes markdown posts via plain `git push`
 - **Layout:** Newspaper grid — editorial, serif headings, dark header/footer
 - **SEO:** Full JSON-LD structured data, interlinking across person/company/project/post entities
+
+## Setup TODOs
+
+- **Web3Forms access key:** Both contact forms (`src/pages/contact.astro`, `src/components/ContactForm.astro`) use the placeholder `WEB3FORMS_ACCESS_KEY_PLACEHOLDER`. After signing up at https://web3forms.com, replace both occurrences with the real key. Run: `grep -rn WEB3FORMS_ACCESS_KEY_PLACEHOLDER src/` to find them. Until replaced, form submissions will fail.
 
 ## Content Collections
 

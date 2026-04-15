@@ -1,14 +1,12 @@
 # blazejmrozinski.com
 
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8c12de62-7e86-47a7-b671-71f5639d7acf/deploy-status)](https://app.netlify.com/projects/blazejmrozinski/deploys)
-
 Personal brand site for Blazej Mrozinski — psychologist, psychometrician, product builder, researcher.
 
 ## Stack
 
 - Astro (static site generator)
 - Tailwind CSS
-- Netlify (deployment)
+- Cloudflare Pages (deployment)
 - ContentForge (blog content source)
 
 ## Development
@@ -22,7 +20,7 @@ npm run preview # preview production build
 
 ## Content
 
-Blog posts come from [ContentForge](https://github.com/b1azk0/contentforge) via GitHub Action PRs. Static content (about, companies, projects, publications, CV) lives in `src/content/` and is edited directly.
+Blog posts come from [ContentForge](https://github.com/b1azk0/contentforge) via plain `git push` to `main` (Cloudflare Pages auto-builds on push). Static content (about, companies, projects, publications, CV) lives in `src/content/` and is edited directly.
 
 ### Collections
 
@@ -53,7 +51,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/about` | `src/pages/about.astro` | About page with Person JSON-LD, "Beyond Work" hobbies section |
 | `/publications` | `src/pages/publications.astro` | Publications grouped by year with ScholarlyArticle JSON-LD |
 | `/cv` | `src/pages/cv.astro` | CV page with PDF download button |
-| `/contact` | `src/pages/contact.astro` | Full contact form (Netlify Forms) with social links |
+| `/contact` | `src/pages/contact.astro` | Full contact form (Web3Forms) with social links |
 | `/rss.xml` | `src/pages/rss.xml.js` | RSS 2.0 feed of published blog posts |
 
 ## Components
@@ -62,7 +60,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 |-----------|-------------|
 | `PostCard` | Blog post card with title, description, date, tag pills |
 | `CompanyCard` | Company card with name, domain, role |
-| `ContactForm` | Inline Netlify Forms contact form |
+| `ContactForm` | Inline Web3Forms contact form |
 | `TagFilter` | Tag filter pills with client-side show/hide |
 | `ProjectCard` | Project card with name, domain, description, hover effect |
 | `PublicationEntry` | APA-formatted publication citation with DOI/PDF links |
@@ -136,7 +134,7 @@ git commit -m "feat: add <trip-name> photo album"
 git push
 ```
 
-Netlify builds automatically. Astro optimizes all images at build time (WebP conversion, responsive srcset, lazy loading). The album appears at `/photography/<trip-name>` and on the listing at `/photography`.
+Cloudflare Pages builds automatically. Astro optimizes all images at build time (WebP conversion, responsive srcset, lazy loading). The album appears at `/photography/<trip-name>` and on the listing at `/photography`.
 
 ### Tips
 
@@ -176,8 +174,8 @@ Cover images are generated automatically at build time from the post's title + l
 |----------|-------------|--------|
 | `PUBLIC_GA4_ID` | Google Analytics 4 measurement ID (optional) | `G-XXXXXXXXXX` |
 
-If `PUBLIC_GA4_ID` is not set, the cookie consent banner will not render. Set it via Netlify environment variables to enable GA4 tracking with user consent.
+If `PUBLIC_GA4_ID` is not set, the cookie consent banner will not render. Set it via Cloudflare Pages environment variables to enable GA4 tracking with user consent.
 
 ## Deploy
 
-Push to main → Netlify auto-deploys.
+Push to main → Cloudflare Pages auto-deploys.

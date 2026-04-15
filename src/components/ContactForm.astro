@@ -1,7 +1,12 @@
 ---
 ---
-<form name="contact" method="POST" data-netlify="true" class="flex gap-2 items-center max-w-lg">
-  <input type="hidden" name="form-name" value="contact" />
+<form action="https://api.web3forms.com/submit" method="POST" class="flex gap-2 items-center max-w-lg">
+  <!-- TODO: replace placeholder with key from web3forms.com signup -->
+  <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_PLACEHOLDER" />
+  <input type="hidden" name="subject" value="Newsletter signup — blazejmrozinski.com homepage" />
+  <input type="hidden" name="from_name" value="blazejmrozinski.com homepage form" />
+  <input type="hidden" name="redirect" value="https://blazejmrozinski.com/thanks" />
+  <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
   <label for="contact-email" class="sr-only">Email address</label>
   <input
     type="email"
