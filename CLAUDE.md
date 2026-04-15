@@ -9,10 +9,6 @@ Personal brand site for Blazej Mrozinski. Astro static site deployed on Cloudfla
 - **Layout:** Newspaper grid — editorial, serif headings, dark header/footer
 - **SEO:** Full JSON-LD structured data, interlinking across person/company/project/post entities
 
-## Setup TODOs
-
-- **Web3Forms access key:** Both contact forms (`src/pages/contact.astro`, `src/components/ContactForm.astro`) use the placeholder `WEB3FORMS_ACCESS_KEY_PLACEHOLDER`. After signing up at https://web3forms.com, replace both occurrences with the real key. Run: `grep -rn WEB3FORMS_ACCESS_KEY_PLACEHOLDER src/` to find them. Until replaced, form submissions will fail.
-
 ## Content Collections
 
 - `blog/` — markdown posts from ContentForge (don't edit directly, they'll be overwritten)
