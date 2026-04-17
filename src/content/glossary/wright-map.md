@@ -14,7 +14,7 @@ status: draft
 date: 2026-04-17
 ---
 
-A Wright map is the clearest single diagnostic available to a test author. One image, two panels, a shared vertical scale — and you can see at a glance whether your test is calibrated to the population you're testing. No table of reliability coefficients, difficulty indices, or discrimination statistics tells you as much in as little time. If you build tests and you aren't looking at Wright maps, you're flying without the one instrument that shows the whole picture.
+A Wright map is the clearest single diagnostic for person-item targeting — the question of whether a test's difficulty range matches the population it measures. One image, two panels, a shared vertical scale — and you can see at a glance whether your test is calibrated to the cohort in front of it. No table of reliability coefficients, difficulty indices, or discrimination statistics shows targeting as quickly. It's one instrument on a larger dashboard, not the whole dashboard.
 
 ## What a Wright Map Shows
 
@@ -40,9 +40,11 @@ A concrete illustration. Imagine a university midterm where 80% of the student h
 
 The mirror pattern looks similar but inverted: persons piled up below the item cluster, score distribution hugging the floor, differences between weak and moderately weak students unmeasurable.
 
-## Why This Is the Most Informative Single Diagnostic for a Test Author
+## Where Wright Maps Fit in the Diagnostic Stack
 
-[Classical test theory](/glossary/classical-test-theory/) statistics — reliability, item difficulty proportions, [item discrimination](/glossary/item-discrimination/) indices — all describe properties of the test averaged over the sample that took it. Each is useful in isolation, and none of them puts persons and items in the same visual frame. The Wright map does. It forces the question that a table of statistics lets you dodge: is this test measuring the people I'm trying to measure?
+[Classical test theory](/glossary/classical-test-theory/) statistics — reliability, item difficulty proportions, [item discrimination](/glossary/item-discrimination/) indices — describe properties of the test averaged over the sample that took it. Each is useful in isolation, and none puts persons and items in the same visual frame. A Wright map does, and it forces the targeting question a table of statistics lets you dodge: is this test measuring the people I'm trying to measure?
+
+Targeting is one diagnostic question among several. Local item misfit, differential item functioning across demographic groups, dimensionality, and option-level distractor behavior are separate questions that demand their own tools — infit and outfit statistics, DIF analyses, factor analysis, distractor plots. A Wright map won't surface any of them. It sits alongside those diagnostics, not above them.
 
 The answer is often uncomfortable. Tests calibrated for one cohort get re-administered to a different cohort and turn out to be misaligned. Item banks drift over years as the population changes. New items get added at difficulty levels where the existing bank was already well covered, ignoring gaps at the tails. A Wright map surfaces all of this in a single plot. Reliability coefficients don't.
 
