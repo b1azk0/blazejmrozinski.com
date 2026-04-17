@@ -33,7 +33,7 @@ After months of reading the analysis, watching the market data, and testing the 
 
 The diagnosis isn't wrong. Several things are genuinely happening.
 
-Per-seat pricing is becoming harder to justify. When AI agents start handling workflows that previously required human operators, charging per human seat stops mapping to the value delivered. A company that automated 40% of its support ticket handling doesn't want to pay the same per-seat rate for its helpdesk software. The pricing model needs to evolve, and companies that resist consumption-based or outcome-based pricing will lose customers to those that don't.
+Per-seat pricing is becoming harder to justify. When AI agents start handling workflows that previously required human operators, charging per human seat stops mapping to the value delivered. A company that automated 40% of its support ticket handling doesn't want to pay the same per-seat rate for its helpdesk software. The pricing model needs to evolve, and companies that resist consumption-based or [outcome-based pricing](/glossary/outcome-based-pricing/) will lose customers to those that don't.
 
 Historically high gross margins are masking real inefficiency. SaaS companies have operated for years on 70-80% gross margins, which left room for bloated teams, slow shipping cycles, and features nobody asked for. AI-native competitors are showing up with half the headcount and shipping faster. The margin compression is real, and it's exposing companies that confused high margins with healthy operations.
 
@@ -51,7 +51,7 @@ This confuses building software with running a software business. They are not t
 
 Building a functional MVP of a CRM takes less time than it used to. That's true. But running a CRM business requires HIPAA compliance, SOC 2 certification, enterprise sales cycles, data migration tooling, 24/7 support, integration with 200 other tools, a security team, a legal team, localization, accessibility, multi-tenancy, and a decade of institutional knowledge about what happens when a customer with 50,000 records tries to do a bulk import at 3am on a Friday.
 
-AI makes the code part cheaper. The code part was maybe 15% of what makes an enterprise SaaS company defensible. The other 85% is distribution, trust, compliance, switching costs, domain expertise, and the accumulated weight of being embedded in a customer's workflow. None of those got cheaper this year.
+AI makes the code part cheaper. The code part was maybe 15% of what makes an enterprise SaaS company defensible. The other 85% is distribution, trust, compliance, [switching costs](/glossary/switching-cost/), domain expertise, and the accumulated weight of being embedded in a customer's workflow. None of those got cheaper this year.
 
 The weekend-project argument is particularly revealing. Yes, someone can build a tool that replicates the core features of a SaaS product in a weekend. People have been doing this since the open-source movement began. The reason those weekend projects rarely turn into viable businesses is not that the code wasn't good enough. It's that code was never the moat.
 
