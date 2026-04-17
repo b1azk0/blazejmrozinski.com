@@ -84,16 +84,5 @@
   if (!window.__themeToggleInit) {
     window.__themeToggleInit = true;
     document.addEventListener("astro:after-swap", initThemeToggles);
-
-    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
-      if (!localStorage.getItem("theme")) {
-        if (e.matches) {
-          document.documentElement.classList.add("dark");
-        } else {
-          document.documentElement.classList.remove("dark");
-        }
-        updateAriaStates();
-      }
-    });
   }
 </script>

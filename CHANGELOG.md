@@ -2,6 +2,11 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.10.1] — 2026-04-15 — Default to Light Theme
+
+### Changed
+- Theme default is now light for all first-time visitors. Previously, with no `localStorage.theme` set, the site fell back to `prefers-color-scheme: dark` — meaning anyone on a dark-mode OS landed on the dark UI. The `ThemeScript` fallback and the `matchMedia` listener in `ThemeToggle` have been removed, so the site renders on a white background unless the user explicitly picks dark via the toggle (choice persisted in `localStorage`).
+
 ## [0.11.0] — 2026-04-17 — Glossary Expansion: 11 New Entries From Newest Posts
 
 ### Added
