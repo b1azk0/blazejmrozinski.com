@@ -34,7 +34,7 @@ So I built an automation chain that handles everything between midnight and sunr
 
 ## The Cron Chain
 
-The entire nightly operation is governed by a sequence of cron jobs that run in a specific order for specific reasons.
+The entire nightly operation is governed by a sequence of [cron](/glossary/cron/) jobs that run in a specific order for specific reasons.
 
 ```
 # /etc/cron.d/wp-backup
@@ -98,7 +98,7 @@ This is the largest script in the chain, and the one that does the most work. Wo
 
 The maintenance script attacks this problem systematically, targeting 15 categories of waste data across every site on the server.
 
-**Transient cleanup, the two-layer approach.** WP-CLI's `transient delete --expired` catches the obvious cases, but it misses a class of orphans that accumulate silently. WordPress stores transients as pairs of entries in the options table: `_transient_timeout_foo` holds the expiry timestamp, and `_transient_foo` holds the data. When WP-CLI deletes expired transients, it sometimes leaves behind orphan data entries where the timeout entry was already gone. The script runs a second pass via direct SQL, matching timeout entries against their data counterparts and cleaning up anything that was missed. It also handles site transients separately, because WordPress stores those as `_site_transient_timeout_*` with a different prefix pattern.
+**[Transient cleanup](/glossary/transient-cleanup/), the two-layer approach.** WP-CLI's `transient delete --expired` catches the obvious cases, but it misses a class of orphans that accumulate silently. WordPress stores transients as pairs of entries in the options table: `_transient_timeout_foo` holds the expiry timestamp, and `_transient_foo` holds the data. When WP-CLI deletes expired transients, it sometimes leaves behind orphan data entries where the timeout entry was already gone. The script runs a second pass via direct SQL, matching timeout entries against their data counterparts and cleaning up anything that was missed. It also handles site transients separately, because WordPress stores those as `_site_transient_timeout_*` with a different prefix pattern.
 
 **Content cleanup.** Auto-drafts (created automatically every time someone clicks "New Post" in the admin), trashed posts, spam comments, trashed comments. All of these accumulate indefinitely by default. The script removes them all, every night.
 
