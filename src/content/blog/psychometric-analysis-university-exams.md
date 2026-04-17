@@ -36,7 +36,7 @@ I built a reproducible CTT + IRT pipeline for psychology exams at my University.
 
 A short refresher, because this is where most explanations overshoot or undershoot their reader.
 
-Classical Test Theory operates on raw scores. It gives you, per item, the proportion of students who got it right (the p-value, or difficulty), and the correlation between getting that item right and the total score on the rest of the test (the item-total r, or discrimination). It gives you, per test, a reliability coefficient like KR-20, which answers "if this same group of students took a parallel version of this test, how consistent would their ranking be?". KR-20 ranges from 0 to 1. Above 0.80 is good for high-stakes tests. Below 0.60 starts to mean the test is noisy enough that small changes in score reflect measurement error more than ability.
+Classical Test Theory operates on raw scores. It gives you, per item, the proportion of students who got it right (the p-value, or difficulty), and the correlation between getting that item right and the total score on the rest of the test (the item-total r, or [discrimination](/glossary/item-discrimination/)). It gives you, per test, a reliability coefficient like KR-20, which answers "if this same group of students took a parallel version of this test, how consistent would their ranking be?". KR-20 ranges from 0 to 1. Above 0.80 is good for high-stakes tests. Below 0.60 starts to mean the test is noisy enough that small changes in score reflect measurement error more than ability.
 
 Item Response Theory models the probability of a correct answer as a function of a latent ability parameter, usually called θ. The 2PL model estimates two things per item: difficulty (b), the θ value at which a student has a 50% chance of getting it right, and discrimination (a), how sharply that probability climbs as θ increases. A 3PL model adds a guessing parameter (c), the floor probability of a correct answer for a very low-ability student. On a four-option multiple-choice test, c should sit near 0.25 if students are guessing randomly when they don't know.
 
@@ -95,7 +95,7 @@ In a well-run item bank, a negatively discriminating item is the single most act
 
 ## Where the Test Actually Sits: the Wright Map
 
-The Wright map is a two-panel plot on a shared θ axis. The top panel is a histogram of student ability estimates from the IRT model. The bottom panel is a strip plot of item difficulties at their estimated b values. The whole story is in the alignment between the two panels.
+The [Wright map](/glossary/wright-map/) is a two-panel plot on a shared θ axis. The top panel is a histogram of student ability estimates from the IRT model. The bottom panel is a strip plot of item difficulties at their estimated b values. The whole story is in the alignment between the two panels.
 
 ![Wright map of an IRT-calibrated university exam: student ability histogram above item difficulty strip plot, sharing a θ axis from −4 to +3. Students centered near 0; every calibrated item sits to the left of 0.](../../assets/blog/psychometric-analysis-university-exams/wright-map-cognitive-psych.png)
 
@@ -139,7 +139,7 @@ The chart above plots every wrong-answer option in one exam's bank, sorted by ho
 
 The mechanical implication is boring: an exam with a lot of dead distractors is slightly less informative than the raw statistics suggest. The practical implication is more interesting.
 
-Dead distractors are the cheapest possible revision. The item stem is already written. The correct answer is already validated. The three live distractors are already calibrated. All the author has to do is rewrite one wrong option, the one nobody picked, and the item improves immediately. Most item-revision work at universities happens at the level of the whole question, because that's how exam committees think. Dead-distractor analysis surfaces the minimum-viable edit, and it surfaces it automatically, with no judgment call about what to rewrite.
+Dead distractors are the cheapest possible revision. The item stem is already written. The correct answer is already validated. The three live distractors are already calibrated. All the author has to do is rewrite one wrong option, the one nobody picked, and the item improves immediately. Most item-revision work at universities happens at the level of the whole question, because that's how exam committees think. [Dead-distractor analysis](/glossary/distractor-analysis/) surfaces the minimum-viable edit, and it surfaces it automatically, with no judgment call about what to rewrite.
 
 ## Unidimensionality and the Items That Lean on Each Other
 
