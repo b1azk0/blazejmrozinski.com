@@ -1,7 +1,7 @@
 ---
 term: "Outcome-Based Pricing"
-seoTitle: "What Is Outcome-Based Pricing? The Post-Seat SaaS Pricing Model"
-description: "Outcome-based pricing charges for measurable results — deals closed, tickets resolved, dollars saved — instead of per-seat subscriptions. Learn why AI is pushing SaaS toward it."
+seoTitle: "What Is Outcome-Based Pricing? The Post-Seat SaaS Model"
+description: "Outcome-based pricing charges for measurable results — deals closed, tickets resolved, dollars saved — instead of per-seat subscriptions. Learn why AI is pushing SaaS toward it, and where it breaks."
 definition: "Outcome-based pricing is a SaaS pricing model in which customers pay based on measurable business results delivered by the product, such as transactions completed or time saved, rather than on headcount, usage volume, or feature tier."
 domain: "product"
 relatedContent:

@@ -1,7 +1,7 @@
 ---
 term: "Transient Cleanup"
 seoTitle: "What Are WordPress Transients and How to Clean Them Up"
-description: "WordPress transients are short-lived cached values stored in the options table. Learn how orphaned transients accumulate, why they slow the database, and how to clean them on a schedule."
+description: "WordPress transients are short-lived cached values stored in wp_options. Learn how orphaned transients accumulate, slow the database, and how to clean them on a schedule."
 definition: "Transient cleanup is the periodic removal of expired and orphaned WordPress transients — short-lived cached values stored in the wp_options table that persist past their expiry and bloat the database."
 domain: "infrastructure"
 relatedContent:

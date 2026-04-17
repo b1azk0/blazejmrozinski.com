@@ -1,7 +1,7 @@
 ---
 term: "Item Discrimination"
 seoTitle: "What Is Item Discrimination? Test Quality Statistic Explained"
-description: "Item discrimination measures how well a single test item separates high from low scorers. Learn the point-biserial statistic, why negative values are alarming, and how to fix bad items."
+description: "Item discrimination measures how well a single test item separates high from low scorers. A core item analysis statistic — learn point-biserial, why negative values signal broken items, and how to fix them."
 definition: "Item discrimination is a psychometric statistic describing how well a single test item separates examinees who score high on the overall test from those who score low, typically expressed as a point-biserial correlation between item response and total score."
 domain: "psychometrics"
 relatedContent:
