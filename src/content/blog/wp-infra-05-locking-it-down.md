@@ -31,7 +31,7 @@ Within minutes of a WordPress server going live, bots find it. I don't mean hour
 
 This shouldn't be surprising. Automated scanners sweep entire IP ranges continuously, looking for any machine that responds on port 80 or 443 with WordPress signatures. They don't care what your site is about. They care that WordPress powers a significant percentage of the web, that a meaningful fraction of those installations have weak credentials or unpatched plugins, and that one successful compromise can be leveraged into a spam network, a cryptominer, or a botnet node.
 
-In Part 1, we covered the foundation: SSH key-only authentication, root login disabled, UFW firewall allowing only ports 22, 80, and 443, and fail2ban watching for SSH brute force. That handled the server-level attack surface. This post is about the WordPress-specific attack surface, and the layered defense that handles it automatically so you're not reading logs at 2 AM.
+In Part 1, we covered the foundation: SSH key-only authentication, root login disabled, [UFW](/glossary/ufw/) firewall allowing only ports 22, 80, and 443, and fail2ban watching for SSH brute force. That handled the server-level attack surface. This post is about the WordPress-specific attack surface, and the layered defense that handles it automatically so you're not reading logs at 2 AM.
 
 ## The Two-Layer Defense Model
 
