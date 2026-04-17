@@ -403,7 +403,7 @@ The caching layers covered here transform WordPress from an application that reb
 
 The configurations for the FastCGI cache zone and OPcache were first placed during the server setup in Post 2. Redis was installed and Object Cache Pro configured during Post 3. This post explains the how and why of each layer in depth, and the critical debugging lessons that came from getting them to work together.
 
-Caching is great until the cache is stale. A plugin update, a PHP-FPM restart, or a server reboot clears the cache, and the next few hundred visitors all hit uncached pages. In Post 6, we build automated maintenance that includes cache warming, running through the sitemap after every maintenance window so that visitors never see a cold cache.
+Caching is great until the cache is stale. A plugin update, a PHP-FPM restart, or a server reboot clears the cache, and the next few hundred visitors all hit uncached pages. In Post 6, we build automated maintenance that includes [cache warming](/glossary/cache-warming/), running through the sitemap after every maintenance window so that visitors never see a cold cache.
 
 Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall rules, and the principle that performance means nothing if the server is compromised.
 
