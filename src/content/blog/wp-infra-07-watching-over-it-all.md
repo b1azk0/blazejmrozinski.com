@@ -35,7 +35,7 @@ The goal is specific: sleep through the night and trust that problems either fix
 
 ## Layer 1: Self-Healing Healthcheck
 
-The healthcheck script runs every 5 minutes via cron on every server. Its job is simple: check the critical services, restart anything that has died, and log what happened. If everything is fine, it logs a clean run and exits 0. If something needed fixing, it logs the fix and still exits 0 (because the fix worked). If something is genuinely broken and the script can't heal it, that's a different problem, and the Telegram bot will catch it from the outside.
+The healthcheck script runs every 5 minutes via [cron](/glossary/cron/) on every server. Its job is simple: check the critical services, restart anything that has died, and log what happened. If everything is fine, it logs a clean run and exits 0. If something needed fixing, it logs the fix and still exits 0 (because the fix worked). If something is genuinely broken and the script can't heal it, that's a different problem, and the Telegram bot will catch it from the outside.
 
 The checks run in sequence: PHP-FPM, Nginx, fail2ban, MariaDB, Redis, disk space, memory, and log sizes. Each check follows the same pattern. Is the service running? If not, restart it. Is it responding to a basic probe? If not, restart it. Log the outcome either way.
 
@@ -169,7 +169,7 @@ The safe-by-default approach matters. I can run `wp-status-fix all` anytime, on 
 
 The healthcheck runs on each server and can fix local problems. The dashboard runs on each server and gives me detailed reports. Neither of them can tell me if the entire server is unreachable.
 
-This is why the third layer runs on a different server. A Python bot lives on a separate machine and monitors all the others from the outside. It can't see process internals, but it can answer the question that matters most: can a real user reach your sites right now?
+This is [watchdog monitoring](/glossary/watchdog-monitoring/): the third layer runs on a different server. A Python bot lives on a separate machine and monitors all the others from the outside. It can't see process internals, but it can answer the question that matters most: can a real user reach your sites right now?
 
 **Architecture:**
 
