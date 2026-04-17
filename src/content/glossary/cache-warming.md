@@ -13,7 +13,7 @@ relatedTerms:
   - "opcache"
   - "transient-cleanup"
   - "cron"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

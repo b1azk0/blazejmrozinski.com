@@ -10,7 +10,7 @@ relatedTerms:
   - "item-discrimination"
   - "classical-test-theory"
   - "psychometric-assessment"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

@@ -2,6 +2,21 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.0] — 2026-04-17 — Glossary Expansion: 11 New Entries From Newest Posts
+
+### Added
+- 11 new glossary entries derived from the 10 newest blog posts:
+  - **Infrastructure (5):** `cache-warming`, `transient-cleanup`, `cron`, `ufw`, `watchdog-monitoring` — supporting the WordPress Infrastructure series (wp-infra-04 through wp-infra-07)
+  - **Psychometrics (4):** `cronbach-alpha`, `item-discrimination`, `distractor-analysis`, `wright-map` — supporting the psychometric analysis of university exams post
+  - **Product (2):** `switching-cost`, `outcome-based-pricing` — supporting the "SaaS is dead" narrative post
+- SEO metadata optimized against Ahrefs audit in `~/GitHub/contentforge/seo/glossary-audit-2026-04-17.md` (693 units). Notable revisions: `switching-cost` retargeted to plural form (parent keyword 5x larger volume), `item-discrimination` description surfaces parent topic "item analysis" (300/mo), `outcome-based-pricing` meta adds "where it breaks" hook matching draft content.
+
+### Notes
+- All entries cross-link within the batch and to existing glossary entries where relevant (e.g. `cache-warming` ↔ `transient-cleanup` ↔ `cron`; `ufw` → `fail2ban`; `item-discrimination` → `classical-test-theory` + `item-response-theory`).
+- Sitemap (`sitemap-glossary.xml`) auto-regenerates from the glossary collection — all 11 URLs pick up without manual sitemap edits.
+- Out of scope (deferred): editing the 10 parent blog posts to add inline `[term](/glossary/...)` links pointing to the new entries. Separate pass, bigger blast radius.
+- Spec: `docs/superpowers/specs/2026-04-17-glossary-expansion-batch-design.md`. Plan: `docs/superpowers/plans/2026-04-17-glossary-expansion-batch.md`.
+
 ## [0.10.0] — 2026-04-15 — Migrate Hosting from Netlify to Cloudflare Pages
 
 ### Changed

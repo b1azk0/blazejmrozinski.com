@@ -13,7 +13,7 @@ relatedTerms:
   - "cache-warming"
   - "transient-cleanup"
   - "watchdog-monitoring"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

@@ -10,7 +10,7 @@ relatedTerms:
   - "vps"
   - "cron"
   - "fail2ban"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

@@ -10,7 +10,7 @@ relatedTerms:
   - "item-response-theory"
   - "item-discrimination"
   - "classical-test-theory"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

@@ -12,7 +12,7 @@ relatedTerms:
   - "item-discrimination"
   - "psychometric-assessment"
   - "confirmatory-factor-analysis"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

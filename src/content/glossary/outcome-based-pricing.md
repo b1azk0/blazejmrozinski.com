@@ -8,7 +8,7 @@ relatedContent:
   - "blog/saas-is-dead-narrative"
 relatedTerms:
   - "switching-cost"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

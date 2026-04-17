@@ -11,7 +11,7 @@ relatedTerms:
   - "redis-object-cache"
   - "cache-warming"
   - "cron"
-status: draft
+status: published
 date: 2026-04-17
 ---
 

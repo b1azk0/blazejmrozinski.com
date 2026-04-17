@@ -12,7 +12,7 @@ relatedTerms:
   - "distractor-analysis"
   - "item-response-theory"
   - "construct-validity"
-status: draft
+status: published
 date: 2026-04-17
 ---
 
