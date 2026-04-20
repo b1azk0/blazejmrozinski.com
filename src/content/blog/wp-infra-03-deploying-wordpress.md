@@ -451,6 +451,6 @@ For a personal account of what happens when production security measures work to
 2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
 3. **Deploying WordPress the Right Way** *(you are here)*
 4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. Locking It Down *(stay tuned)*
+5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
 6. Automating the Boring Parts *(stay tuned)*
 7. Watching Over It All *(stay tuned)*

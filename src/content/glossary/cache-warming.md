@@ -5,7 +5,6 @@ description: "Cache warming pre-populates caches after a flush so the first visi
 definition: "Cache warming is the practice of pre-populating a cache with data before live traffic arrives, so the first request after a cache flush hits a warm cache rather than triggering an expensive cold rebuild."
 domain: "infrastructure"
 relatedContent:
-  - "blog/wp-infra-06-automating-the-boring-parts"
   - "blog/wp-infra-04-four-layers-of-caching"
 relatedTerms:
   - "fastcgi-cache"
@@ -54,4 +53,4 @@ Two details worth getting right. First, warm through the public URL, not localho
 
 Warming is worth the setup effort when cache flushes are frequent (regular deploys, active content editing, short TTLs) or when cold-cache response times are user-visible (high-traffic pages, paid traffic, SEO-sensitive sites where Core Web Vitals matter). On a small blog with stable content and a 24-hour TTL, the cache will warm itself organically as pages get traffic and the cost of a few slow first requests is invisible.
 
-On a WooCommerce site deploying twice a week, or a WordPress install behind a CDN that purges on every publish, skipping cache warming is visible in the P99 metrics. It's one of the cheaper wins in the automation stack — I walk through the full script and cron setup in the [WordPress infrastructure series](/blog/wp-infra-06-automating-the-boring-parts).
+On a WooCommerce site deploying twice a week, or a WordPress install behind a CDN that purges on every publish, skipping cache warming is visible in the P99 metrics. It's one of the cheaper wins in the automation stack.

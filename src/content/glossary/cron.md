@@ -4,9 +4,7 @@ seoTitle: "What Is Cron? Scheduled Jobs on Linux Explained"
 description: "Cron is the Linux scheduler for recurring jobs — backups, cache warming, healthchecks, cleanups. Learn crontab syntax, where jobs log, and why WP-Cron is different."
 definition: "Cron is the time-based job scheduler built into Unix-like operating systems, used to run scripts or commands on a recurring schedule defined in a crontab file."
 domain: "infrastructure"
-relatedContent:
-  - "blog/wp-infra-06-automating-the-boring-parts"
-  - "blog/wp-infra-07-watching-over-it-all"
+relatedContent: []
 relatedTerms:
   - "vps"
   - "lemp-stack"
@@ -89,4 +87,4 @@ A working server crontab covers a handful of recurring tasks, all driven by cron
 - **Healthchecks** via [watchdog monitoring](/glossary/watchdog-monitoring/), every 5 minutes
 - **Log rotation** via logrotate's own cron entry — usually runs daily
 
-Everything above is a one-line crontab entry calling a small shell script. Once it's in place, you stop touching the server for routine maintenance — which is exactly the point. I walk through the full automation setup on a production [LEMP stack](/glossary/lemp-stack/) in the [WordPress infrastructure series](/blog/wp-infra-06-automating-the-boring-parts).
+Everything above is a one-line crontab entry calling a small shell script. Once it's in place, you stop touching the server for routine maintenance — which is exactly the point.

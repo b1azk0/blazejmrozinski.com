@@ -4,8 +4,7 @@ seoTitle: "What Is Watchdog Monitoring? External Health Checks Explained"
 description: "Watchdog monitoring runs health checks from a separate machine, so it still works when the primary server has locked up. Learn the pattern, tradeoffs, and a minimal Telegram-alert setup."
 definition: "Watchdog monitoring is the practice of running health checks from an external machine, independent of the server being monitored, so total outages are detected even when the primary host cannot report its own state."
 domain: "infrastructure"
-relatedContent:
-  - "blog/wp-infra-07-watching-over-it-all"
+relatedContent: []
 relatedTerms:
   - "vps"
   - "cron"
@@ -52,4 +51,4 @@ A few rules that keep it boring:
 - **One thing per script.** If you're adding a second check, add a second script; don't grow one giant monitoring binary. Debugging a tiny script at 2 AM is much easier than debugging a framework.
 - **Test the alert path.** Temporarily break something every few months to confirm alerts still arrive. An untested alert channel is not an alert channel — it's a hope.
 
-The production site uses [Fail2ban](/glossary/fail2ban/) and every other on-host defense, and the watchdog does the one thing on-host defenses can't: confirm the server is still there at all. I cover the full setup — bot, scripts, thresholds — in the [WordPress infrastructure series](/blog/wp-infra-07-watching-over-it-all).
+The production site uses [Fail2ban](/glossary/fail2ban/) and every other on-host defense, and the watchdog does the one thing on-host defenses can't: confirm the server is still there at all.

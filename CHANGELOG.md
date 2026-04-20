@@ -2,6 +2,16 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.2] — 2026-04-20 — Blog: Unpublish WP Infra Parts 6 and 7, Fix Part 5 TOC
+
+### Removed
+- `src/content/blog/wp-infra-06-automating-the-boring-parts.md` and `src/content/blog/wp-infra-07-watching-over-it-all.md`. Parts 6 and 7 had been sitting in the blog repo since the initial 7-post commit (`cb96ef3`) but were never intended to be visible — they're drafts in ContentForge (`~/GitHub/contentforge/drafts/blog/`) awaiting review. Removing the files takes them out of the collection, the sitemap, and the series nav. They'll be restored from the drafts when published.
+
+### Fixed
+- Part 5 series TOC now matches the format used on Parts 1–4: the current post is bolded with `*(you are here)*`, and Parts 6 and 7 are shown as plain text with `*(stay tuned)*`. The previous commit had linked them as if they were live, which would have produced 404s. The inline `*Previous:* / *Next:*` annotations were also removed from the end of Part 5 to match the format of the other published parts.
+- Parts 1–4 series TOC entries for Part 5 flipped from `Locking It Down *(stay tuned)*` to an active link to `/blog/wp-infra-05-locking-it-down`.
+- Glossary entries `cron`, `transient-cleanup`, `cache-warming`, and `watchdog-monitoring` had `relatedContent` refs and closing-paragraph links pointing to the unpublished `wp-infra-06` and `wp-infra-07` posts. The frontmatter refs were removed (or reduced to the published Part 4 where applicable), and the trailing sentences with the broken links were trimmed to end on the last body claim instead.
+
 ## [0.11.1] — 2026-04-20 — Blog: WP Infrastructure Part 5 (WordPress Security on VPS)
 
 ### Added

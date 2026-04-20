@@ -5,7 +5,6 @@ description: "WordPress transients are short-lived cached values stored in wp_op
 definition: "Transient cleanup is the periodic removal of expired and orphaned WordPress transients — short-lived cached values stored in the wp_options table that persist past their expiry and bloat the database."
 domain: "infrastructure"
 relatedContent:
-  - "blog/wp-infra-06-automating-the-boring-parts"
   - "blog/wp-infra-04-four-layers-of-caching"
 relatedTerms:
   - "redis-object-cache"
@@ -59,4 +58,4 @@ The job goes on a [cron](/glossary/cron/) schedule, typically daily or weekly de
 
 On a Redis-backed site, DB transients still exist for anything written before Redis was enabled, but new writes bypass the database. Running the cleanup once after enabling Redis clears the historical backlog; after that, the TTL-based expiry in Redis handles everything and the DB stays clean.
 
-One caveat: `wp transient delete --expired` only sees rows that correctly match the timeout pattern. Plugins that set transients incorrectly — missing the timeout row, or using non-standard naming — won't get caught. For those, a targeted SQL `DELETE` by option name prefix is the fallback, once you've confirmed the offending plugin and checked that nothing legitimate matches. Combined with [cache warming](/glossary/cache-warming/) after cleanup, the site stays fast and the database stays lean. I walk through the full automation setup in the [WordPress infrastructure series](/blog/wp-infra-06-automating-the-boring-parts).
+One caveat: `wp transient delete --expired` only sees rows that correctly match the timeout pattern. Plugins that set transients incorrectly — missing the timeout row, or using non-standard naming — won't get caught. For those, a targeted SQL `DELETE` by option name prefix is the fallback, once you've confirmed the offending plugin and checked that nothing legitimate matches. Combined with [cache warming](/glossary/cache-warming/) after cleanup, the site stays fast and the database stays lean.

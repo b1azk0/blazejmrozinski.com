@@ -510,11 +510,6 @@ For a personal account of what happens when you get security right but lock your
 
 Full configs for everything in this post are in the [companion repository](https://github.com/b1azk0/wordpress-infrastructure) under `05-security-hardening/`.
 
-*Previous: Part 4, "Four Layers of Caching"*
-
-*Next: Part 6, "Automating the Boring Parts"*
-
-
 ---
 
 ## WordPress Infrastructure from Scratch — Full Series
@@ -523,6 +518,6 @@ Full configs for everything in this post are in the [companion repository](https
 2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
 3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
 4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)
+5. **Locking It Down** *(you are here)*
+6. Automating the Boring Parts *(stay tuned)*
+7. Watching Over It All *(stay tuned)*
