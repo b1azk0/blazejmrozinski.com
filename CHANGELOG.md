@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.3] — 2026-04-20 — Fix LinkedIn and Google Scholar URLs Site-wide
+
+### Fixed
+- LinkedIn profile URL corrected from `https://linkedin.com/in/blazejmrozinski` to `https://www.linkedin.com/in/bmrozinski/` across `src/components/Footer.astro`, `src/pages/about.astro` (Person JSON-LD `sameAs`), and `src/pages/contact.astro`.
+- Google Scholar profile URL corrected from the invalid `https://scholar.google.com/citations?user=blazejmrozinski` to the canonical `https://scholar.google.com/citations?user=RpSeDYwAAAAJ` in the same three files. The old URLs 404'd, which also degraded the Person entity's `sameAs` graph for SEO.
+
 ## [0.11.2] — 2026-04-20 — Blog: Unpublish WP Infra Parts 6 and 7, Fix Part 5 TOC
 
 ### Removed
