@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.4] — 2026-04-20 — Noindex Changelog Section
+
+### Changed
+- `/changelog` (index) and `/changelog/v*` (per-release) pages now send `<meta name="robots" content="noindex, nofollow">`. The changelog is internal dev log copy — not something that should compete for search impressions or dilute the site's topical focus.
+- Removed `sitemap-changelog.xml` from `sitemap-index.xml.ts` and deleted `src/pages/sitemap-changelog.xml.ts`. Including noindex'd URLs in a sitemap sends contradictory signals to Google; the cleaner pattern is to drop them from the sitemap entirely.
+
 ## [0.11.3] — 2026-04-20 — Fix LinkedIn and Google Scholar URLs Site-wide
 
 ### Fixed

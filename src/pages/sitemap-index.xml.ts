@@ -20,9 +20,6 @@ export const GET: APIRoute = () => {
   <sitemap>
     <loc>${site}/sitemap-glossary.xml</loc>
   </sitemap>
-  <sitemap>
-    <loc>${site}/sitemap-changelog.xml</loc>
-  </sitemap>
 </sitemapindex>`;
 
   return new Response(xml, {
