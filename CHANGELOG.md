@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.1] — 2026-04-20 — Blog: WP Infrastructure Part 5 (WordPress Security on VPS)
+
+### Added
+- New blog post: "WordPress Security on VPS: Nginx Rate Limiting, Fail2ban Jails, and SSL Hardening" — Part 5 of the WordPress Infrastructure from Scratch series. Covers the two-layer defense architecture (Nginx request filtering in front of PHP, fail2ban bans at the iptables layer), rate limiting for `wp-login.php`, scanner detection jails, SSL/TLS hardening with Let's Encrypt and Cloudflare, WordPress and WooCommerce application-level settings, and the `wp-security-check` audit script. Labelled `infrastructure`.
+- Series TOC block appended so cross-links from Parts 1–4 and 6–7 resolve through the full index.
+
 ## [0.10.1] — 2026-04-15 — Default to Light Theme
 
 ### Changed

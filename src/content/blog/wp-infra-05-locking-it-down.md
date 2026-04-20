@@ -1,11 +1,13 @@
 ---
-title: "Locking It Down: Security Hardening for WordPress on a VPS"
-date: 2026-04-27
+title: "WordPress Security on VPS: Nginx Rate Limiting, Fail2ban Jails, and SSL Hardening"
+date: 2026-04-20
+series: "WordPress Infrastructure from Scratch"
+series_part: 5
 tags: [devops-reality, wordpress, hetzner, server-backend, security, fail2ban, nginx]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-description: "Two-layer WordPress security: Nginx drops bad requests before PHP runs, fail2ban catches everything else. Rate limiting, scanner protection, SSL hardening, and WooCommerce security."
-status: draft
+description: "Two-layer WordPress VPS security: Nginx blocks wp-login brute force and scanner probes before PHP runs, fail2ban bans repeat offenders at the kernel level. Full SSL/TLS and WooCommerce hardening."
+status: published
 label: infrastructure
 safety_review: false
 ---
@@ -14,32 +16,32 @@ safety_review: false
 
 ## Table of Contents
 
-- [The Attack Surface Is Immediate](#the-attack-surface-is-immediate)
-- [The Two-Layer Defense Model](#the-two-layer-defense-model)
-- [Nginx Hardening](#nginx-hardening)
-- [Fail2ban: WordPress Login Jail](#fail2ban-wordpress-login-jail)
-- [Fail2ban: Vulnerability Scanner Jail](#fail2ban-vulnerability-scanner-jail)
-- [SSL/TLS Hardening](#ssltls-hardening)
-- [WordPress Application Security](#wordpress-application-security)
-- [WooCommerce Security](#woocommerce-security)
-- [Monitoring What Gets Blocked](#monitoring-what-gets-blocked)
+- [WordPress Attack Surface on a Public VPS](#wordpress-attack-surface-on-a-public-vps)
+- [Two-Layer WordPress Security Architecture](#two-layer-wordpress-security-architecture)
+- [Nginx Security Hardening for WordPress](#nginx-security-hardening-for-wordpress)
+- [Fail2ban WordPress Login Brute Force Jail](#fail2ban-wordpress-login-brute-force-jail)
+- [Fail2ban Vulnerability Scanner Detection Jail](#fail2ban-vulnerability-scanner-detection-jail)
+- [SSL/TLS Hardening with Let's Encrypt and Cloudflare](#ssltls-hardening-with-lets-encrypt-and-cloudflare)
+- [WordPress Application Security Settings](#wordpress-application-security-settings)
+- [WooCommerce Security: Payments, Sessions, and PCI](#woocommerce-security-payments-sessions-and-pci)
+- [Monitoring Blocked Attacks and Security Audits](#monitoring-blocked-attacks-and-security-audits)
 - [What's Next](#whats-next)
 
-## The Attack Surface Is Immediate
+## WordPress Attack Surface on a Public VPS
 
 Within minutes of a WordPress server going live, bots find it. I don't mean hours or days. Minutes. They scan for `wp-login.php`, probe `xmlrpc.php`, test for known vulnerable plugins. The first time I checked my access logs after deploying a fresh site, I found POST requests to `wp-login.php` from IP ranges I'd never seen, hitting the server faster than any human could type. My fail2ban logs started filling up on day one.
 
-This shouldn't be surprising. Automated scanners sweep entire IP ranges continuously, looking for any machine that responds on port 80 or 443 with WordPress signatures. They don't care what your site is about. They care that WordPress powers a significant percentage of the web, that a meaningful fraction of those installations have weak credentials or unpatched plugins, and that one successful compromise can be leveraged into a spam network, a cryptominer, or a botnet node.
+Automated scanners sweep entire IP ranges continuously, looking for any machine that responds on port 80 or 443 with WordPress signatures. They don't care what your site is about. They care that WordPress powers a significant percentage of the web, that a meaningful fraction of those installations have weak credentials or unpatched plugins, and that one successful compromise can be leveraged into a spam network, a cryptominer, or a botnet node.
 
-In Part 1, we covered the foundation: SSH key-only authentication, root login disabled, [UFW](/glossary/ufw/) firewall allowing only ports 22, 80, and 443, and fail2ban watching for SSH brute force. That handled the server-level attack surface. This post is about the WordPress-specific attack surface, and the layered defense that handles it automatically so you're not reading logs at 2 AM.
+In Part 1, we covered the foundation: SSH key-only authentication, root login disabled, UFW firewall allowing only ports 22, 80, and 443, and fail2ban watching for SSH brute force. That handled the server-level attack surface. This post is about the WordPress-specific attack surface, and the layered defense that handles it automatically so you're not reading logs at 2 AM.
 
-## The Two-Layer Defense Model
+## Two-Layer WordPress Security Architecture
 
-The architecture is simple and worth understanding before we dive into configuration.
+The architecture is simple and worth understanding before I walk through the configuration.
 
-**Layer 1: Nginx.** Nginx sits in front of [PHP-FPM](/glossary/php-fpm/) and inspects every incoming request before PHP sees it. For requests that match known attack patterns, Nginx drops them immediately. No PHP execution, no database queries, no WordPress code runs at all. This is the cheapest possible rejection: a web server returning a status code or silently closing the connection.
+**Layer 1: Nginx.** Nginx sits in front of PHP-FPM and inspects every incoming request before PHP sees it. For requests that match known attack patterns, Nginx drops them immediately. No PHP execution, no database queries, no WordPress code runs at all. This is the cheapest possible rejection: a web server returning a status code or silently closing the connection.
 
-**Layer 2: [Fail2ban](/glossary/fail2ban/).** Fail2ban monitors Nginx log files for patterns that indicate abuse. When an IP crosses a threshold, fail2ban adds it to an iptables rule that drops all traffic from that IP at the kernel level. Subsequent requests from that IP never reach Nginx, let alone PHP.
+**Layer 2: Fail2ban.** Fail2ban monitors Nginx log files for patterns that indicate abuse. When an IP crosses a threshold, fail2ban adds it to an iptables rule that drops all traffic from that IP at the kernel level. Subsequent requests from that IP never reach Nginx, let alone PHP.
 
 The layering is what makes this effective. Nginx handles the per-request filtering: is this specific request something we should allow? Fail2ban handles the behavioral pattern: is this IP doing something suspicious across multiple requests? Together, they mean that most attack traffic costs your server essentially zero PHP resources.
 
@@ -53,7 +55,7 @@ Request → Nginx (known bad pattern?) → drop/reject (no PHP cost)
           Next request from that IP → blocked at kernel level
 ```
 
-## Nginx Hardening
+## Nginx Security Hardening for WordPress
 
 Each of these rules goes into your vhost's `server{}` block. I keep them in the main SSL server block, after the `root` directive. Some are included as a separate snippet file for reuse across sites.
 
@@ -203,7 +205,7 @@ One important placement note: this snippet goes in the main SSL server block tha
 
 That last regex rule deserves explanation. WordPress core only uses PHP files at the root level that start with `wp-` (like `wp-cron.php`, `wp-comments-post.php`), plus `index.php` and `xmlrpc.php`. Any other PHP file at the root level, things like `radio.php`, `content.php`, `about.php`, or `new.php`, is guaranteed to be a scanner probing for a known vulnerable script. The regex matches any root-level PHP file that doesn't match WordPress core patterns and drops the connection silently. This single rule eliminates the largest category of scanner noise I see in my logs.
 
-## Fail2ban: WordPress Login Jail
+## Fail2ban WordPress Login Brute Force Jail
 
 Nginx rate limiting handles the per-request throttle. Fail2ban handles the longer pattern: an IP that keeps coming back after being rate-limited is not a user who forgot their password. It's a bot.
 
@@ -277,7 +279,7 @@ sudo systemctl restart fail2ban
 sudo fail2ban-client status wordpress-login
 ```
 
-## Fail2ban: Vulnerability Scanner Jail
+## Fail2ban Vulnerability Scanner Detection Jail
 
 This is the more sophisticated jail, and the one that made the biggest difference to my server's noise level. Automated bots don't just try to log in. They also probe for known-vulnerable PHP files: things like `radio.php`, `content.php`, `admin.php` in various directories. These scanners hit non-existent PHP files, and PHP-FPM logs "Primary script unknown" errors for each one.
 
@@ -339,7 +341,7 @@ A 403 Forbidden response tells the scanner "this path exists but you're not allo
 
 It also saves bandwidth. A 403 response includes HTTP headers, maybe a response body. Multiply that by thousands of scanner requests per day and the savings are real. A 444 sends zero bytes.
 
-## SSL/TLS Hardening
+## SSL/TLS Hardening with Let's Encrypt and Cloudflare
 
 SSL is handled at two levels in this stack: Cloudflare terminates the public-facing SSL connection, and Nginx handles the origin connection between Cloudflare and the server. Even though Cloudflare sits in front, the origin SSL configuration matters because it protects the connection between Cloudflare's edge and your server.
 
@@ -388,7 +390,7 @@ add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" alway
 
 The `server_tokens off` directive in `nginx.conf` hides the Nginx version from response headers and error pages. Combined with `fastcgi_hide_header X-Powered-By`, the server gives away minimal information about its software stack.
 
-## WordPress Application Security
+## WordPress Application Security Settings
 
 Beyond server-level protections, there are WordPress configuration settings that reduce the attack surface from within the application.
 
@@ -408,7 +410,7 @@ The security audit script checks for a user named `admin` and flags it as a warn
 
 Keep the number of administrator accounts minimal. Every admin account is a potential entry point. The audit script flags when there are more than three. For most setups, one or two is sufficient.
 
-Strong passwords should go without saying, but I'll say it anyway. A 20+ character password generated by a password manager is non-negotiable for any account with administrative access.
+Every admin account gets a 20+ character password from a password manager. No exceptions.
 
 ### Limited Revisions
 
@@ -424,7 +426,7 @@ In this setup, automatic updates for WordPress core, themes, and plugins are dis
 
 This is a tradeoff. Disabling automatic updates means you're responsible for applying security patches promptly. The monitoring and audit tools covered later in this post help catch when updates are available.
 
-## WooCommerce Security
+## WooCommerce Security: Payments, Sessions, and PCI
 
 If you're running WooCommerce, the stakes are higher because you're handling customer data and payment flows. The good news: most WooCommerce security follows from the infrastructure already in place. But there are additional considerations.
 
@@ -448,9 +450,9 @@ If you're using a hosted payment gateway like Stripe or PayPal, the payment data
 
 This significantly reduces your PCI compliance burden. You still need to maintain a secure server (which this entire post is about), use HTTPS on all pages that handle customer data, and keep your software updated. But you don't need the full PCI DSS audit that would be required if card data passed through your server.
 
-## Monitoring What Gets Blocked
+## Monitoring Blocked Attacks and Security Audits
 
-Security that you can't observe is security you can't trust. There are three ways to monitor the protections we've built.
+If fail2ban bans 200 IPs in a day and you never check, you have no idea whether those bans are working or whether something else is slipping through. There are three ways to monitor the protections I've built.
 
 ### Fail2ban Jail Status
 
