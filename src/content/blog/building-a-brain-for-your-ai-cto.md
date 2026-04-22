@@ -107,6 +107,6 @@ If you're going to build something like this, start small:
 
 Within two weeks, you'll have a knowledge base that makes every AI interaction materially better. Within a month, you'll wonder how you worked without it.
 
-Once the knowledge base exists, the next question is how to get the assistant to use it well — role definitions, safety protocols, feedback loops, and context management for AI assistants across projects. I wrote a follow-up on [configuring Claude Code subagents, skills, and safety protocols](/blog/how-i-taught-ai-to-work-like-a-colleague/) that covers exactly that process.
+Once the knowledge base exists, the next question is how to get the assistant to use it well — role definitions, safety protocols, feedback loops, and context management for AI assistants across projects. I wrote a follow-up on [configuring Claude Code subagents, skills, and safety protocols](/blog/how-i-taught-ai-to-work-like-a-colleague/) that covers exactly that process. Zooming in one level further, each new project then gets its own [design spec](/blog/design-spec-every-project/), which is the document the AI reads to know what we're actually building this time.
 
 The current discourse around AI productivity focuses almost entirely on model capabilities, on what the AI can do. The bigger leverage, in my experience, is in what the AI knows. And unlike model capabilities, that's entirely under your control.

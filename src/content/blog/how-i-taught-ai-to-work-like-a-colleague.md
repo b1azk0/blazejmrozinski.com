@@ -145,7 +145,7 @@ When I recently built a [content distillation pipeline](/projects/contentforge) 
 
 When I registered a new quantitative research project, the AI immediately understood where it fit in my portfolio, what infrastructure was available, and what level of operational caution was appropriate. Context that would have taken a full introductory session was available in seconds.
 
-[The first post in this series](/blog/building-a-brain-for-your-ai-cto) argued that what AI knows matters more than what AI can do. I'd now add a second half: how AI knows you (your working style, your boundaries, your mistakes) matters as much as what it knows about your projects.
+[The first post in this series](/blog/building-a-brain-for-your-ai-cto) argued that what AI knows matters more than what AI can do. I'd now add a second half: how AI knows you (your working style, your boundaries, your mistakes) matters as much as what it knows about your projects. The per-project layer on top of both is a [design spec](/blog/design-spec-every-project/) for each project, which turns global context into concrete scope, decisions, and a definition of done.
 
 ## What You Can Start With Tomorrow
 

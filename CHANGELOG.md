@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.6] — 2026-04-22 — Blog: Cross-link design-spec post with AI-workflow siblings
+
+### Changed
+- `design-spec-every-project` now links out to `how-i-taught-ai-to-work-like-a-colleague` (on "technical partner is an AI") and `building-a-brain-for-your-ai-cto` (on "conversation starts from zero"). These two posts form a three-layer story with the new design-spec post: session configuration → cross-project knowledge base → per-project spec. The anchor phrases sit inside existing sentences, no new prose added.
+- `how-i-taught-ai-to-work-like-a-colleague` and `building-a-brain-for-your-ai-cto` each gained a one-sentence forward reference to the new design-spec post in their respective conclusions, so the three posts now interlink in a triangle rather than the previous line (building-a-brain → how-i-taught-ai).
+
 ## [0.11.5] — 2026-04-22 — Blog: Why Every Project Gets a Design Spec
 
 ### Added
