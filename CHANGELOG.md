@@ -2,6 +2,11 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.5] — 2026-04-22 — Blog: Why Every Project Gets a Design Spec
+
+### Added
+- New blog post: "Why Every Project Gets a Design Spec: A Product Spec Template for AI-Driven Development" — cross-project synthesis on why a short written spec has become the consistent starting point across six projects in unrelated domains (personal website, contractor archive, academic template, tax software, server infrastructure, quantitative research tool). Argues that when the implementer is an AI with no accumulated shared context, the spec stops being documentation overhead and becomes the management layer itself. Covers the four-part spec format (scope and architecture, constraints and decisions, implementation plan, definition of done), three concrete case examples, the failure mode that made the pattern click, and the 30–90 minute time cost. Labelled `ai-automation`.
+
 ## [0.11.4] — 2026-04-20 — Noindex Changelog Section
 
 ### Changed
