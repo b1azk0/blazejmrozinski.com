@@ -2,6 +2,20 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.7] — 2026-04-24 — Blog: How to Measure Employee Engagement When Gallup's Numbers Don't Fit Your Org
+
+### Added
+- New blog post: "How to Measure Employee Engagement When Gallup's Numbers Don't Fit Your Org" — positioning piece anchored on the 22-vs-79 manager-engagement gap from Gallup's 2026 State of the Global Workplace report. Argues that population-level engagement statistics can describe a climate but cannot diagnose a specific organization, and that closing the gap requires custom psychometric assessment rather than another off-the-shelf survey. Walks through a four-component working definition of custom psychometric work (construct definition, instrument design, validation, feedback architecture) and presents three client engagements as receipts: LSEG (hiring at scale for the Gdynia shared service centre), EPAM (competency-mapped architecture across four talent-development programs), and gr8.tech (discriminative values measurement using combined forced-choice, ranking, and situational-judgment formats). Closes with a buyer-facing section on when to commission custom measurement and when not to. Labelled `research`.
+- Three inline charts: (1) a bar chart of the Gallup 2026 22%-vs-79% manager-engagement gap (real data); (2) a two-panel histogram comparing Likert and forced-choice response distributions on the same values item, explicitly labelled as simulated with parameters shaped to match the ceiling-effect pattern documented in Cheung & Chan (2002) and Meade (2004); (3) a comparison of Gallup's 2015 70%-of-variance claim against the typical ICC(1) range for organizational work-attitude outcomes (10–30%) from Bliese (2000) and LeBreton & Senter (2008). Each chart carries full screen-reader alt text describing axes, values, annotations, and the takeaway.
+- Three assets under `src/assets/blog/measure-employee-engagement-custom-psychometric-work/`: `gallup-manager-engagement-gap.png`, `ceiling-effects-likert-vs-forced-choice.png`, `between-team-variance-gallup-vs-literature.png`.
+- Internal links from the post: `/work/gyfted`, `/blog/psychometric-analysis-university-exams/`, `/contact/`, plus glossary entries for psychometric-assessment, classical-test-theory, confirmatory-factor-analysis, item-response-theory, construct-validity, big-five-personality.
+- Outbound links: the Gallup SOGW 2026 report hub, plus LSEG and EPAM case-study pages on gyfted.me (topical-authority signal).
+
+### SEO
+- Primary keyword: `measuring employee engagement` (Ahrefs US: 600 vol, KD 9, traffic potential 109K). Secondary: `how to measure employee engagement` (700 vol, KD 6), `psychometric assessment` (800 vol, KD 12).
+- Title leads with the primary phrase. URL slug `measure-employee-engagement-custom-psychometric-work` includes both primary keyword and positioning phrase. Meta description is 159 characters and leads on the 22-vs-79 stat.
+- Differentiates from the SERP (HR-tech vendor listicles) by leading with measurement-science perspective rather than tool listicle.
+
 ## [0.11.6] — 2026-04-22 — Blog: Cross-link design-spec post with AI-workflow siblings
 
 ### Changed
