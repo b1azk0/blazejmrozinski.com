@@ -1,0 +1,50 @@
+name: Scheduled Cloudflare Pages Rebuild
+
+# Daily rebuild so that posts with a future publish date become live when
+# their date threshold passes. The blog's /blog route filters posts with
+# `data.date <= new Date()`, so a post dated 2026-04-24 is only rendered
+# when the build runs on or after 2026-04-24 UTC.
+#
+# Setup (one-time):
+#   1. In Cloudflare Pages dashboard: Settings → Builds & deployments →
+#      Deploy hooks → Create deploy hook. Name it "scheduled-rebuild",
+#      target branch: main. Copy the URL.
+#   2. In this GitHub repo: Settings → Secrets and variables → Actions →
+#      New repository secret. Name: CLOUDFLARE_PAGES_DEPLOY_HOOK.
+#      Value: the URL from step 1.
+#
+# Notes:
+#   - GitHub Actions cron runs are best-effort, sometimes delayed 5-30
+#     minutes during peak load. Acceptable for a daily rebuild.
+#   - Scheduled workflows are automatically disabled after 60 days of
+#     repository inactivity. A ContentForge-driven blog sees commits
+#     regularly, so this shouldn't kick in.
+#   - The workflow_dispatch trigger lets you rebuild manually from the
+#     Actions tab whenever you want.
+
+on:
+  schedule:
+    # 00:05 UTC daily. Posts dated for today-UTC go live within minutes.
+    - cron: '5 0 * * *'
+  workflow_dispatch: {}
+
+jobs:
+  trigger-rebuild:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger Cloudflare Pages deploy hook
+        env:
+          HOOK_URL: ${{ secrets.CLOUDFLARE_PAGES_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK_URL" ]; then
+            echo "::error::CLOUDFLARE_PAGES_DEPLOY_HOOK secret is not set."
+            echo "Create the secret under Settings → Secrets and variables → Actions."
+            exit 1
+          fi
+          http_code=$(curl -sS -o /tmp/response.json -w "%{http_code}" -X POST "$HOOK_URL")
+          echo "HTTP $http_code"
+          cat /tmp/response.json || true
+          if [ "$http_code" != "200" ] && [ "$http_code" != "201" ]; then
+            echo "::error::Deploy hook returned non-success status."
+            exit 1
+          fi

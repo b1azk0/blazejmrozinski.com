@@ -2,6 +2,13 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.8] — 2026-04-23 — Infra: scheduled Cloudflare Pages rebuild for future-dated posts
+
+### Added
+- `.github/workflows/scheduled-rebuild.yml` — GitHub Actions workflow that triggers a Cloudflare Pages deploy hook at 00:05 UTC daily. Rationale: the blog's `/blog` index and `[...slug]` route filter posts with `data.date <= new Date()`, so posts dated for a future day are filtered out of the build until that day. Without a scheduled rebuild, future-dated posts sit as "published but not visible" until the next manual push. The daily cron picks them up automatically within minutes of the UTC date threshold passing.
+- Also exposes `workflow_dispatch` so manual rebuilds can be triggered from the Actions tab.
+- One-time setup required: create a Cloudflare Pages deploy hook (Settings → Builds & deployments → Deploy hooks), copy the URL, add it as a GitHub repository secret named `CLOUDFLARE_PAGES_DEPLOY_HOOK`. Documented in the workflow header.
+
 ## [0.11.7] — 2026-04-24 — Blog: How to Measure Employee Engagement When Gallup's Numbers Don't Fit Your Org
 
 ### Added
