@@ -2,6 +2,31 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.10] — 2026-04-27 — Blog: WordPress Server Monitoring (WP Infra Part 7)
+
+### Added
+- New blog post: "WordPress Server Monitoring: Self-Healing Healthchecks, Status Dashboards, and Telegram Alerts" — final post in the 7-part WordPress Infrastructure from Scratch series. Three-layer monitoring architecture: (1) a self-healing cron healthcheck script that checks PHP-FPM, Nginx, fail2ban, MariaDB, Redis, disk, memory, and log sizes every 5 minutes and auto-restarts anything that's died; (2) an on-demand WordPress server status dashboard with a companion diagnostic/repair tool (`wp-status-fix`) that fixes common WordPress brokenness automatically; (3) an external Telegram bot on a separate server ("Watchdog") running a restricted SSH shell that watches uptime from the outside and sends alerts only when something actually needs attention. Also covers log analysis, resource planning for Hetzner tier upgrades, security and SEO audit scripts, WordPress disaster recovery from restic backups, and scaling across multiple servers. Closes with a series summary tying all 7 posts together. Labelled `infrastructure`.
+- Scheduled for 2026-04-27 via frontmatter `date:`. The daily Cloudflare rebuild cron (v0.11.8) picks it up within minutes of the UTC threshold passing.
+- Internal links: all 6 prior posts in the series (`/blog/wp-infra-01` through `/blog/wp-infra-06`) in the "Full Series" footer block.
+- Outbound link: companion repository at `https://github.com/b1azk0/wordpress-infrastructure`.
+
+### SEO
+- Primary keyword: `server monitoring` (Ahrefs US: 1800 vol, KD 6, CPC $0.45). Biggest single-keyword opportunity in the entire WP infra series, KD 6 makes top-10 realistic.
+- Secondary: `wordpress monitoring` (100 vol, KD 1, CPC $4.00), the highest-CPC keyword in the series with buyer-intent. `healthcheck script` and `telegram bot monitoring` covered as zero-volume but distinctive angles.
+- H2 headings reworked during the 2026-04-15 Ahrefs pass to front-load keywords: "The Sleep Problem" → "Why WordPress Servers Need Monitoring", "Layer 1: Self-Healing Healthcheck" → "Self-Healing Healthcheck Script for WordPress Services", "The Diagnostic Companion" → "Automated WordPress Diagnostics and Repair Tool", "Layer 3: The Watchdog Telegram Bot" → "Telegram Bot for External WordPress Uptime Monitoring", and six more. Title rewritten from "Watching Over It All: Monitoring, Self-Healing, and Knowing When to Sleep" to the current keyword-leading form.
+
+## [0.11.9] — 2026-04-26 — Blog: WordPress Backup Automation (WP Infra Part 6)
+
+### Added
+- New blog post: "WordPress Backup Automation: Nightly Backups, Database Cleanup, Cache Warming, and Plugin Sync" — Part 6 of the WordPress Infrastructure from Scratch series. Walks through the full nightly cron chain for production WordPress servers: automated per-site backups to cloud storage (WP-CLI exports plus file rsync, compressed and uploaded nightly), a MariaDB database optimization and cleanup script that prunes transients, expired options, spam comments, and Action Scheduler garbage, a cross-server plugin distribution system (cloud storage as the plugin registry, each server pulls the zips it needs), a five-phase cache warming routine that crawls the XML sitemap to prime FastCGI and Redis caches before first-visitor TTFB, and full server snapshots to cloud storage with restic. Closes with the morning-verification routine and how the log format is designed to be scannable in 30 seconds. Labelled `infrastructure`.
+- Scheduled for 2026-04-26 via frontmatter `date:`. Visible on the live site within minutes of the 00:05 UTC rebuild cron after that date.
+- Internal links: Parts 3 (`deploying-wordpress`), 4 (`four-layers-of-caching`), 5 (`locking-it-down`) linked inline in the "What's Next" section; full series TOC at the bottom links all 7 posts.
+- Outbound link: companion repository at `https://github.com/b1azk0/wordpress-infrastructure` under the `06-automation/` directory.
+
+### SEO
+- Primary keyword: `restic backup` (Ahrefs US: 250 vol, KD 12, traffic potential 1100, CPC $3.50). The post is one of very few that combines restic with WordPress, the primary differentiator from generic WP-backup-plugin listicles.
+- Secondary keyword touches: `wordpress automated backup`, `cron job`, `WordPress automation`, `cache warming`, `sitemap crawl`, `plugin distribution`, `WordPress database optimization`, all worked into H2s during the 2026-04-15 Ahrefs validation pass. H2s rewritten from their original creative names ("wp-backup: Site-Level Backups to Cloud Storage", "wp-maintain v3: The Database Cleanup Beast", "wp-plugin-sync: Cloud Storage as Plugin Distribution") to the keyword-leading forms now in the post.
+
 ## [0.11.8] — 2026-04-23 — Infra: scheduled Cloudflare Pages rebuild for future-dated posts
 
 ### Added
