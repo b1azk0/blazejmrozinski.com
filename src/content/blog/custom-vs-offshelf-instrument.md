@@ -6,7 +6,7 @@ audience: [hr-leaders, founders, l-and-d-directors]
 format: deep-dive
 description: "When does a custom psychometric instrument earn its multi-week build cycle, and when is off-the-shelf personality assessment for hiring enough? A decision rule from two real client engagements with different right answers."
 status: published
-safety_review: true
+safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-custom-vs-offshelf-instrument-design.md
 label: research
 series: "Talent Archetypes from Custom Psychometric Work"

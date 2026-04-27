@@ -6,7 +6,7 @@ audience: [hr-leaders, founders, product-leaders]
 format: deep-dive
 description: "Two custom psychometric studies in different industries, run on different instruments, recovered the same four workplace personality types. What that convergence means for L&D budget allocation and employee development planning."
 status: published
-safety_review: true
+safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-talent-archetypes-cross-org-design.md
 label: research
 series: "Talent Archetypes from Custom Psychometric Work"

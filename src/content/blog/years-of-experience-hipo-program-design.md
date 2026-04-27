@@ -6,7 +6,7 @@ audience: [hr-leaders, founders, l-and-d-directors]
 format: deep-dive
 description: "Two structural equation models from two custom psychometric studies converged on the same finding: tenure predicts two specific traits and nothing else. What that means for high potential employee program design and HiPo development."
 status: published
-safety_review: true
+safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-experience-builds-two-traits-design.md
 label: research
 series: "Talent Archetypes from Custom Psychometric Work"
