@@ -268,7 +268,7 @@ I run these periodically, maybe weekly for security, monthly for SEO. They're no
 
 Monitoring tells you when things break. You also need a plan for when things break badly enough that monitoring is the least of your concerns.
 
-The infrastructure uses two layers of backups. The first is All-in-One WP Migration `.wpress` files, which are single-file WordPress backups containing the database, uploads, themes, and plugins. These get created nightly by `wp-backup` (Post 6) and uploaded to cloud storage. The second is restic server snapshots, which capture the entire filesystem including all server configuration, the LEMP stack setup, and the database data directory.
+The infrastructure uses two layers of backups. The first is All-in-One WP Migration `.wpress` files, which are single-file WordPress backups containing the database, uploads, themes, and plugins. These get created nightly by `wp-backup` (Post 6) and uploaded to cloud storage. The second is [restic](/glossary/restic/) server snapshots, which capture the entire filesystem including all server configuration, the LEMP stack setup, and the database data directory.
 
 Restoration from a `.wpress` backup is straightforward: install WordPress fresh, install the All-in-One WP Migration plugin, import the backup file, done. This is the faster option for single-site problems. Restoration from a restic snapshot is the nuclear option: you get back the entire server state as of the snapshot time.
 

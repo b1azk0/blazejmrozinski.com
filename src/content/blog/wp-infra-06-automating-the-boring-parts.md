@@ -186,7 +186,7 @@ The full warming cycle typically takes 2 to 5 minutes per site, depending on the
 
 The WordPress backups cover site data. But a full disaster recovery requires more than database dumps and media files. You need the Nginx configs, the PHP-FPM pools, the SSL certificates, the cron entries, the firewall rules, everything that makes a bare Debian server into a functioning WordPress host. Rebuilding all of that from scratch, even with documentation, takes hours. Having a full filesystem snapshot means you can restore to a known-good state in minutes.
 
-The server snapshot script uses restic for deduplicated, encrypted backups to cloud storage. Before running the backup, it creates a MariaDB dump of all databases using `--single-transaction` to ensure consistency without locking tables. Then it backs up the entire filesystem with targeted exclusions:
+The server snapshot script uses [restic](/glossary/restic/) for deduplicated, encrypted backups to cloud storage. Before running the backup, it creates a MariaDB dump of all databases using `--single-transaction` to ensure consistency without locking tables. Then it backs up the entire filesystem with targeted exclusions:
 
 ```bash
 # Exclusions: virtual/temp/cache filesystems

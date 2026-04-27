@@ -11,7 +11,11 @@ relatedTerms:
   - "item-response-theory"
   - "psychometric-assessment"
   - "construct-validity"
+  - "construct-definition"
+  - "discriminant-validity"
   - "confirmatory-factor-analysis"
+  - "likert-scale"
+  - "ceiling-effect"
 status: published
 date: 2026-04-09
 ---

@@ -12,6 +12,8 @@ relatedTerms:
   - "item-discrimination"
   - "psychometric-assessment"
   - "confirmatory-factor-analysis"
+  - "likert-scale"
+  - "construct-definition"
 status: published
 date: 2026-04-17
 ---

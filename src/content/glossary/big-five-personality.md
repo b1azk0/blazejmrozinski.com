@@ -9,6 +9,9 @@ relatedContent:
 relatedTerms:
   - "psychometric-assessment"
   - "construct-validity"
+  - "likert-scale"
+  - "forced-choice-assessment"
+  - "ceiling-effect"
 status: published
 date: 2026-04-09
 ---

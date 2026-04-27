@@ -11,6 +11,7 @@ relatedTerms:
   - "cache-warming"
   - "transient-cleanup"
   - "watchdog-monitoring"
+  - "restic"
 status: published
 date: 2026-04-17
 ---

@@ -2,6 +2,30 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.11] — 2026-04-27 — Glossary: 9-entry expansion sourced from recent posts
+
+### Added
+- 9 new glossary entries, all `domain: psychometrics` except restic which is `infrastructure`. Sourced from terms that appear in the newest blog posts (WP Infra 6/7 and the employee-engagement post) but were missing from the glossary, then filtered through Ahrefs keyword research:
+  - `likert-scale` — flagship pick. 41,000 monthly searches US, KD 18, TP 16,000. Traffic bet of the batch.
+  - `construct-definition` — 2,300 vol, KD 12. Central to the engagement post's argument.
+  - `discriminant-validity` — 1,800 vol, KD 4. Uncontested SERP; should rank quickly.
+  - `ceiling-effect` — 1,300 vol, KD 6. Explicit subject of the engagement post chart.
+  - `restic` — 1,300 vol, KD 33. Only infra entry; central to WP Infra 6/7 backup architecture.
+  - `gallup-q12` — 600 vol, KD 20, TP 14,000 (parent topic "q12" at vol 2,400). Highest TP-to-difficulty ratio in batch.
+  - `ipsative-measurement` — 600 vol, KD 0. Supports the forced-choice cluster.
+  - `situational-judgment-test` — 200 vol, KD 9 (parent vol 800).
+  - `forced-choice-assessment` — 40 vol, KD 0, TP 500. Anchor for the response-format trade-off cluster.
+- Combined monthly search volume across primary keywords: ~48,940. Average KD: ~12.
+
+### Updated
+- Forward links in 3 published blog posts now point to the new glossary entries: `measure-employee-engagement-custom-psychometric-work.md` (6 new internal links — Q12, construct-validity, Likert/forced-choice/situational-judgment, discriminant-validity, ceiling-effects, construct-definition), `wp-infra-06-automating-the-boring-parts.md` (1 link to restic), `wp-infra-07-watching-over-it-all.md` (1 link to restic).
+- Reverse interlinks: existing glossary entries `psychometric-assessment.md`, `construct-validity.md`, `big-five-personality.md`, `classical-test-theory.md`, `cronbach-alpha.md`, and `cron.md` had their `relatedTerms` arrays extended to surface the new entries from related glossary pages.
+- Wording fix in employee-engagement post: "discriminative validity" → "discriminant validity" (the formal psychometric term, matching the new glossary slug).
+
+### SEO
+- Research sourced from Ahrefs keywords-explorer-overview (~860 units across 20 candidate keywords). Full audit and rejected-candidate notes archived in ContentForge at `seo/glossary-audit-2026-04-27.md`.
+- Rejected candidates with rationale: `employee engagement` (KD 61, brand-dominated SERP), `mariadb` (KD 79), `wp-cli` (KD 54), `rclone` (rclone.org owns SERP), `ttfb` / `time to first byte` (KD 42-46), `oom killer` (Linux-narrow), `action scheduler` (low volume), `healthcheck` (generic intent), `psychometric validation` (would dilute focus vs construct-validity).
+
 ## [0.11.10] — 2026-04-27 — Blog: WordPress Server Monitoring (WP Infra Part 7)
 
 ### Added

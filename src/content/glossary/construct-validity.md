@@ -13,6 +13,9 @@ relatedTerms:
   - "psychometric-assessment"
   - "classical-test-theory"
   - "item-response-theory"
+  - "construct-definition"
+  - "discriminant-validity"
+  - "ceiling-effect"
 status: published
 date: 2026-04-09
 ---

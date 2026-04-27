@@ -12,7 +12,14 @@ relatedTerms:
   - "item-response-theory"
   - "classical-test-theory"
   - "construct-validity"
+  - "construct-definition"
+  - "discriminant-validity"
   - "big-five-personality"
+  - "likert-scale"
+  - "forced-choice-assessment"
+  - "situational-judgment-test"
+  - "ceiling-effect"
+  - "gallup-q12"
 status: published
 date: 2026-04-09
 ---
