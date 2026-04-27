@@ -2,6 +2,23 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.12] — 2026-04-27 — Blog: Talent Archetypes 3-post series (scheduled 2026-04-30, 2026-05-02, 2026-05-04)
+
+### Added
+- Three-part series sourced from two internal client deliverables (psychometric work for an enterprise IT services firm and a consumer-tech company), staggered across two weeks. The daily Cloudflare rebuild cron picks each post up at the UTC threshold of its frontmatter date.
+  - **2026-04-30**, lead post: "Four Workplace Personality Types Recovered Across Two Custom Psychometric Studies." Cluster analysis convergence across two completely different instruments produced the same four-archetype talent structure. The cluster-by-role distribution table is the most actionable artifact in the engagements and drives an L&D budget allocation model that's different from the standard role-by-role model. 4 charts (archetype card grid, score profiles small multiples, two cluster-by-role heatmaps).
+  - **2026-05-02**, second post: "Why HiPo Programs Should Measure More Than Tenure: Years of Experience Predicts Two Psychometric Traits." Two SEM models converged on the same finding: years of professional experience predict exactly two traits in each study (a curiosity-family trait and a self-efficacy/ownership-family trait), with the others remaining experience-independent. Implications for high-potential program design and L&D investment. 2 charts (two-panel SEM path diagram, sorted β coefficient bar chart).
+  - **2026-05-04**, third post: "Custom Psychometric Instrument or Off-the-Shelf? The Build-vs-Buy Decision." The methodology counterpart. A decision rule for when to build a custom instrument versus license an off-the-shelf one, with the two client engagements serving as worked examples. 2 charts (decision flowchart, cost-over-decision-volume curves).
+- All three posts labelled `research`. All three flagged `safety_review: true` in source until publish; clients are abstracted as Org A and Org B in the post body, with brand-specific value names from Org B translated to standard psychometric construct labels (Resilience, Growth Mindset, Bias for Action, Ownership, Trust-Building).
+- Internal cross-links: each post forward and backward references the others; all three reference the published [employee-engagement post](/blog/measure-employee-engagement-custom-psychometric-work) for methodology context.
+- Glossary cross-links to construct-definition, discriminant-validity, ceiling-effect, forced-choice-assessment, structural-equation-modeling, and psychometric-assessment.
+- Charts produced via `scripts/make-talent-archetypes-charts.py` in ContentForge using the same matplotlib pipeline as the engagement post charts.
+
+### SEO
+- Combined Ahrefs research across all three posts (1,333 units): primary keywords "personality types in the workplace" (Post 1, vol 100, KD 5, TP 450), "hipo development" (Post 2, vol 100, KD 0, TP 250) and "high potential employee program" (Post 2 secondary, vol 70, KD 3, TP 200), and "personality assessment for hiring" (Post 3, vol 80, KD 7, TP 90). Post 1 also targets "employee development plan" (vol 1,700, KD 9, TP 1,400) as a secondary head term for the L&D allocation half of the post.
+- The series occupies a niche topical space; head-term volume is small, and the high-volume adjacent keywords (e.g., "personality clusters" at 800 vol) have wrong intent (clinical psychology). Optimization is light: keyword in title and meta description, secondary terms in H2s where they fit naturally, no voice distortion.
+- Full SEO research and rejected-candidate notes archived in ContentForge at `seo/2026-04-27-talent-archetypes-series.md`.
+
 ## [0.11.11] — 2026-04-27 — Glossary: 9-entry expansion sourced from recent posts
 
 ### Added
