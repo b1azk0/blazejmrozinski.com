@@ -416,5 +416,5 @@ Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall
 3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
 4. **Four Layers of Caching** *(you are here)*
 5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. Automating the Boring Parts *(stay tuned)*
-7. Watching Over It All *(stay tuned)*
+6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
+7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

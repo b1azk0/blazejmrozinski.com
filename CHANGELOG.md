@@ -2,6 +2,12 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.11.13] — 2026-04-27 — Fix: WP Infra series footer links on Posts 1-5
+
+### Fixed
+- Series footer on Posts 1 through 5 of the "WordPress Infrastructure from Scratch" series had `*(stay tuned)*` placeholder lines for items 6 and 7. The placeholders were left in when those posts were drafted before Parts 6 and 7 existed, and never updated when those parts shipped. Replaced both placeholder lines with proper `[Title](/blog/wp-infra-0N-slug)` links on all five posts. Each post's footer now lists all seven parts with the current post bolded as `(you are here)` and the other six as live links.
+- Affected files: `wp-infra-01-why-i-ditched-managed-hosting.md`, `wp-infra-02-building-the-lemp-stack.md`, `wp-infra-03-deploying-wordpress.md`, `wp-infra-04-four-layers-of-caching.md`, `wp-infra-05-locking-it-down.md`. Posts 6 and 7 were already correct.
+
 ## [0.11.12] — 2026-04-27 — Blog: Talent Archetypes 3-post series (scheduled 2026-04-30, 2026-05-02, 2026-05-04)
 
 ### Added
