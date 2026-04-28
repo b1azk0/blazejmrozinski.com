@@ -10,12 +10,15 @@ export const GET: APIRoute = async () => {
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${posts.map((post) => `  <url>
+${posts.map((post) => {
+  const lastmod = (post.data.lastmod ?? post.data.date).toISOString().split('T')[0];
+  return `  <url>
     <loc>${site}/blog/${post.id}/</loc>
-    <lastmod>${post.data.date.toISOString().split('T')[0]}</lastmod>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
-  </url>`).join('\n')}
+  </url>`;
+}).join('\n')}
 </urlset>`;
 
   return new Response(xml, {

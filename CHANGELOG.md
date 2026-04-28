@@ -2,6 +2,25 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.12.0] — 2026-04-28 — SEO: Tier 1 entity graph (sitewide WebSite + Person, ProfilePage, dateModified, ScholarlyArticle linking)
+
+### Added
+- **`src/lib/jsonld.ts`** — canonical JSON-LD identifiers (`PERSON_ID`, `WEBSITE_ID`, `ABOUT_PAGE_ID`) and node builders (`getPersonNode`, `getWebSiteNode`, `getSiteGraph`). All cross-page schemas now reference the canonical Person and WebSite entities by `@id`, so Google merges them into a single graph instead of treating each page's Person block as a separate entity.
+- **Sitewide `@graph` from `Base.astro`** — every page now emits one `<script type="application/ld+json">` with `WebSite` + `Person` (including `worksFor` populated from the `companies` collection, `alumniOf`, `hasCredential`, `knowsAbout`, `sameAs`, `image`, `mainEntityOfPage`).
+- **`ProfilePage` schema on `/about`** — replaces the previous standalone Person. `ProfilePage` has `@id` `${SITE_URL}/about/#profile`, `mainEntity: { @id: PERSON_ID }`. Targets Google's dedicated ProfilePage SERP treatment for personal-brand sites.
+- **`lastmod` field on blog frontmatter** — optional `z.coerce.date()` in `content.config.ts`. Used in `BlogPost.astro` Article JSON-LD as `dateModified` and in `sitemap-blog.xml.ts` as `<lastmod>` (falls back to `date` when absent). Bumping `lastmod` on edits now produces a fresh-content signal without changing the published date.
+
+### Changed
+- **`BlogPost.astro` Article JSON-LD**: `author` and `publisher` are now `{ @id: PERSON_ID }` references instead of inline Person duplicates. When a post's frontmatter `author` differs from "Blazej Mrozinski", an inline `Person` is emitted as a fallback. `dateModified` now distinct from `datePublished`.
+- **`publications.astro` ScholarlyArticle JSON-LD**: consolidated the previous N standalone `ScholarlyArticle` blocks into a single `CollectionPage` with an `ItemList` of `ScholarlyArticle`/`Chapter` nodes. Mrozinski-led publications now link `author` to the canonical Person `@id`. Each entry adds DOI as `identifier` (PropertyValue), `volumeNumber`/`issueNumber` parsed from the volume string, `pageStart`/`pageEnd`/`pagination`, and `encoding` (PDF MediaObject) where available.
+- **`index.astro`**: removed local `WebSite` and `Person` JSON-LD blocks (now emitted sitewide from Base, populated with the same `companies`-derived `worksFor`).
+
+### Why
+- **Entity unification.** Previously, the homepage emitted a basic Person (with `worksFor`) and `/about` emitted a richer Person (with `alumniOf`, `hasCredential`, `knowsAbout`, `sameAs`) — both anonymous, no shared identifier. Search engines treated them as two separate entities. With a stable `@id` and a sitewide canonical Person, every page contributes signal to the same Knowledge-Graph candidate.
+- **Article author authority.** Blog post `author` blocks were inline duplicates with only `name` and `url`, missing the credentials and academic profile. Linking by `@id` lets Google associate every published article with the full Person entity (PhD, ORCID, Scholar, peer-reviewed publications) — direct E-E-A-T signal for Helpful Content rankings.
+- **Publication-record E-E-A-T moat.** The `publications.yml` record is one of the strongest authority signals on the site (15+ peer-reviewed papers across JPSP, Frontiers, etc.). Wrapping it in a single `CollectionPage` → `ItemList` of properly-typed `ScholarlyArticle` nodes (with DOI identifiers and Person `@id` linking) connects the academic record directly to the canonical Person and to the brand.
+- **Freshness signals.** Setting `dateModified == datePublished` gave every post a static signal. The new `lastmod` field lets edits bump the freshness timestamp without rewriting publish dates, matching Google's preferred pattern for evergreen content updates.
+
 ## [0.11.13] — 2026-04-27 — Fix: WP Infra series footer links on Posts 1-5
 
 ### Fixed

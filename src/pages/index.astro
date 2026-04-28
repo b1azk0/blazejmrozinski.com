@@ -4,7 +4,6 @@ import PostCard from '@/components/PostCard.astro';
 import ProjectCard from '@/components/ProjectCard.astro';
 import CompanyCard from '@/components/CompanyCard.astro';
 import ContactForm from '@/components/ContactForm.astro';
-import JsonLd from '@/components/JsonLd.astro';
 import SectionDots from '@/components/SectionDots.astro';
 import { Image } from 'astro:assets';
 import headshot from '@/assets/headshot.png';
@@ -23,26 +22,6 @@ const allProjects = await getCollection('projects');
 const caseStudies = allProjects
   .filter((p) => p.data.challenge || p.data.results)
   .sort((a, b) => a.data.order - b.data.order);
-
-const websiteJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  name: 'Blazej Mrozinski',
-  url: 'https://www.blazejmrozinski.com',
-};
-
-const personJsonLd = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Blazej Mrozinski',
-  url: 'https://www.blazejmrozinski.com',
-  jobTitle: 'Psychologist, Psychometrician, Product Leader, Data Scientist',
-  worksFor: companies.map((c) => ({
-    '@type': 'Organization',
-    name: c.data.name,
-    ...(c.data.url ? { url: c.data.url } : {}),
-  })),
-};
 
 const services = [
   {
@@ -73,8 +52,6 @@ const services = [
 ---
 
 <Base title="Psychologist, Psychometrician, Product Builder" description="Blazej Mrozinski, PhD — psychometrician and product leader. I design validated assessments, build SEO growth systems, and consult where behavioral science meets product." fullWidth>
-  <JsonLd data={websiteJsonLd} />
-  <JsonLd data={personJsonLd} />
   <SectionDots headings={[
     { depth: 2, slug: 'services', text: 'What I Can Help With' },
     { depth: 2, slug: 'case-studies', text: 'Case Studies' },

@@ -6,6 +6,7 @@ import SectionDots from '@/components/SectionDots.astro';
 import { Image } from 'astro:assets';
 import headshot from '@/assets/headshot.png';
 import { getCollection, render } from 'astro:content';
+import { ABOUT_PAGE_ID, PERSON_ID, SITE_URL } from '@/lib/jsonld';
 
 const aboutPage = (await getCollection('pages')).find((p) => p.id === 'about');
 let AboutContent: any = null;
@@ -16,37 +17,19 @@ if (aboutPage) {
   aboutHeadings = rendered.headings;
 }
 
-const personJsonLd = {
+const profilePageJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Blazej Mrozinski',
-  url: 'https://www.blazejmrozinski.com',
-  jobTitle: 'Psychologist, Psychometrician, Product Leader, Data Scientist',
-  image: 'https://www.blazejmrozinski.com/headshot.png',
-  alumniOf: [
-    { '@type': 'EducationalOrganization', name: 'SWPS University' },
-    { '@type': 'EducationalOrganization', name: 'London School of Economics' },
-  ],
-  hasCredential: {
-    '@type': 'EducationalOccupationalCredential',
-    credentialCategory: 'PhD in Psychology',
-    recognizedBy: { '@type': 'EducationalOrganization', name: 'SWPS University' },
-  },
-  knowsAbout: [
-    'Psychometrics', 'Item Response Theory', 'Cognitive Psychology',
-    'Product Management', 'SEO', 'AI Workflows', 'Statistical Modeling',
-  ],
-  sameAs: [
-    'https://www.linkedin.com/in/bmrozinski/',
-    'https://github.com/b1azk0',
-    'https://scholar.google.com/citations?user=RpSeDYwAAAAJ',
-    'https://orcid.org/0000-0002-5423-2291',
-  ],
+  '@type': 'ProfilePage',
+  '@id': ABOUT_PAGE_ID,
+  url: `${SITE_URL}/about/`,
+  name: 'About Blazej Mrozinski',
+  dateCreated: '2024-01-01',
+  mainEntity: { '@id': PERSON_ID },
 };
 ---
 
 <Base title="About: Psychologist, Product Builder & PhD" description="Blazej Mrozinski, PhD — psychologist, psychometrician, product builder, and data scientist working at the intersection of cognitive science and AI.">
-  <JsonLd data={personJsonLd} />
+  <JsonLd data={profilePageJsonLd} />
   <SectionDots headings={aboutHeadings} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">

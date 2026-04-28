@@ -5,6 +5,7 @@ import YearFilter from '@/components/YearFilter.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import { readFileSync } from 'node:fs';
 import { parse } from 'yaml';
+import { PERSON_ID, SITE_URL, authorsIncludeBlazej } from '@/lib/jsonld';
 
 const raw = readFileSync('src/content/publications.yml', 'utf-8');
 const publications: Array<{
@@ -39,21 +40,74 @@ for (const pub of publications) {
   yearCounts[pub.year] = (yearCounts[pub.year] || 0) + 1;
 }
 
-const scholarlyArticles = publications.map((pub) => ({
+function parseVolume(v: string | undefined): { volumeNumber?: string; issueNumber?: string } {
+  if (!v) return {};
+  const match = v.match(/^\s*(\d+)\s*(?:\(([^)]+)\))?/);
+  if (!match) return { volumeNumber: v };
+  return { volumeNumber: match[1], ...(match[2] ? { issueNumber: match[2] } : {}) };
+}
+
+function parsePages(p: string | undefined): { pageStart?: string; pageEnd?: string; pagination?: string } {
+  if (!p) return {};
+  const range = p.match(/^\s*(\S+?)\s*-+\s*(\S+?)\s*$/);
+  if (range) return { pageStart: range[1], pageEnd: range[2], pagination: p };
+  return { pagination: p };
+}
+
+function buildScholarlyArticle(pub: typeof publications[number]) {
+  const isBlazejLed = authorsIncludeBlazej(pub.authors);
+  const node: Record<string, unknown> = {
+    '@type': pub.type === 'chapter' ? 'Chapter' : 'ScholarlyArticle',
+    headline: pub.title,
+    name: pub.title,
+    author: isBlazejLed
+      ? [{ '@id': PERSON_ID }]
+      : [{ '@type': 'Person', name: pub.authors }],
+    datePublished: String(pub.year),
+    isPartOf: { '@type': 'Periodical', name: pub.journal },
+    inLanguage: 'en',
+    ...parseVolume(pub.volume),
+    ...parsePages(pub.pages),
+  };
+  if (pub.doi) {
+    node.url = pub.doi;
+    const doiId = pub.doi.replace(/^https?:\/\/(?:dx\.)?doi\.org\//, '');
+    node.identifier = { '@type': 'PropertyValue', propertyID: 'doi', value: doiId };
+    node.sameAs = pub.doi;
+  }
+  if (pub.pdf) {
+    node.encoding = {
+      '@type': 'MediaObject',
+      contentUrl: `${SITE_URL}${pub.pdf}`,
+      encodingFormat: 'application/pdf',
+    };
+  }
+  return node;
+}
+
+const publicationsCollectionJsonLd = {
   '@context': 'https://schema.org',
-  '@type': 'ScholarlyArticle',
-  headline: pub.title,
-  author: pub.authors,
-  datePublished: String(pub.year),
-  isPartOf: { '@type': 'Periodical', name: pub.journal },
-  ...(pub.doi ? { url: pub.doi } : {}),
-}));
+  '@type': 'CollectionPage',
+  '@id': `${SITE_URL}/publications/`,
+  url: `${SITE_URL}/publications/`,
+  name: 'Publications by Blazej Mrozinski',
+  description:
+    'Peer-reviewed journal articles and book chapters in psychology, psychometrics, and social cognition.',
+  about: { '@id': PERSON_ID },
+  mainEntity: {
+    '@type': 'ItemList',
+    numberOfItems: publications.length,
+    itemListElement: publications.map((pub, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      item: buildScholarlyArticle(pub),
+    })),
+  },
+};
 ---
 
 <Base title="Research Publications in Psychology" description="Peer-reviewed publications by Blazej Mrozinski in psychology, psychometrics, and social cognition.">
-  {scholarlyArticles.map((article) => (
-    <JsonLd data={article} />
-  ))}
+  <JsonLd data={publicationsCollectionJsonLd} />
 
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Publications</h1>
