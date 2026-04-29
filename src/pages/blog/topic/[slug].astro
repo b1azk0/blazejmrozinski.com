@@ -5,7 +5,7 @@ import PostCard from '@/components/PostCard.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import { getCollection } from 'astro:content';
 import { loadTopics, getPostsForTopic } from '@/lib/topics';
-import { SITE_URL } from '@/lib/jsonld';
+import { SITE_URL, PERSON_ID, WEBSITE_ID } from '@/lib/jsonld';
 
 export async function getStaticPaths() {
   const topics = loadTopics();
@@ -34,6 +34,8 @@ const collectionJsonLd = {
   url: canonicalUrl,
   name: topic.title,
   description: topic.description,
+  isPartOf: { '@id': WEBSITE_ID },
+  publisher: { '@id': PERSON_ID },
   mainEntity: {
     '@type': 'ItemList',
     itemListElement: posts.map((post, i) => ({

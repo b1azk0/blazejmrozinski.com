@@ -4,11 +4,18 @@ import Breadcrumb from '@/components/Breadcrumb.astro';
 import JsonLd from '@/components/JsonLd.astro';
 import { getCollection } from 'astro:content';
 import { loadSeries, getSeriesPosts } from '@/lib/series';
-import { SITE_URL } from '@/lib/jsonld';
+import { SITE_URL, PERSON_ID, WEBSITE_ID } from '@/lib/jsonld';
 
 export async function getStaticPaths() {
   const series = loadSeries();
-  return [...series.keys()].map((slug) => ({ params: { slug } }));
+  const now = new Date();
+  const allPosts = await getCollection(
+    'blog',
+    ({ data }) => data.status === 'published' && data.date <= now
+  );
+  return [...series.keys()]
+    .filter((slug) => getSeriesPosts(slug, allPosts).length > 0)
+    .map((slug) => ({ params: { slug } }));
 }
 
 const { slug } = Astro.params;
@@ -33,6 +40,9 @@ const seriesJsonLd = {
   url: canonicalUrl,
   name: config.title,
   description: config.description,
+  isPartOf: { '@id': WEBSITE_ID },
+  publisher: { '@id': PERSON_ID },
+  numberOfItems: parts.length,
   hasPart: parts.map((post) => ({
     '@type': 'BlogPosting',
     '@id': `${SITE_URL}/blog/${post.id}/`,

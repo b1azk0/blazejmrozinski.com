@@ -46,17 +46,21 @@ export const GET: APIRoute = async () => {
   });
 
   // Per-series landings — lastmod = max(post.lastmod ?? post.date) across the series' posts
+  // Skip series with zero published+past-dated posts (matches getStaticPaths in [slug].astro)
   const series = loadSeries();
-  const seriesUrls = [...series.keys()].map((slug) => {
-    const seriesParts = getSeriesPosts(slug, posts);
-    const dates = seriesParts.map((p) => p.data.lastmod ?? p.data.date);
-    const lastmod = dates.length > 0 ? maxDate(dates).toISOString().split('T')[0] : undefined;
-    return `  <url>
-    <loc>${site}/blog/series/${slug}/</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}
+  const seriesUrls = [...series.keys()]
+    .filter((slug) => getSeriesPosts(slug, posts).length > 0)
+    .map((slug) => {
+      const seriesParts = getSeriesPosts(slug, posts);
+      const dates = seriesParts.map((p) => p.data.lastmod ?? p.data.date);
+      const lastmod = maxDate(dates).toISOString().split('T')[0];
+      return `  <url>
+    <loc>${site}/blog/series/${slug}/</loc>
+    <lastmod>${lastmod}</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.7</priority>
   </url>`;
-  });
+    });
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
