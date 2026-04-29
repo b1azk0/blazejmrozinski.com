@@ -4,6 +4,7 @@ date: 2026-03-16
 tags: [personal-website, astro, structured-data, product-thinking]
 audience: [ai-practitioners, founders, general-professional]
 format: how-i-work
+topics: [personal-brand, seo]
 description: "Most personal websites are abandoned brochures. I built mine in Astro in 5 days with 70+ commits, typed content schemas, JSON-LD structured data, and an automated asset pipeline. A practitioner case study in personal website design."
 status: published
 safety_review: false

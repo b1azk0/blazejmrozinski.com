@@ -4,6 +4,9 @@ date: 2026-04-09
 tags: [object-cache-pro, wordpress-redis, wordpress-deployment, devops-reality, wordpress, hetzner, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [wordpress-infrastructure, caching]
+series: wp-infrastructure
+seriesIndex: 3
 description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis Object Cache Pro setup, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
 status: published
 label: infrastructure
@@ -443,14 +446,3 @@ Part 4 covers exactly that: the full caching strategy, from why OPcache's JIT co
 
 For a personal account of what happens when production security measures work too well, including against you, I wrote about that separately.
 
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. **Deploying WordPress the Right Way** *(you are here)*
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

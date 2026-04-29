@@ -4,6 +4,7 @@ date: 2026-04-22
 tags: [ai-workflow, operator-lessons, product-spec-template, design-spec]
 audience: [ai-practitioners, product-leaders, founders]
 format: cross-project-synthesis
+topics: [ai-workflows]
 description: "Design specs aren't documentation overhead. When your CTO is an AI, the spec is your management layer. Here's why the same pattern works across six projects in wildly different domains."
 status: published
 safety_review: false

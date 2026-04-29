@@ -4,6 +4,7 @@ date: 2026-03-25
 tags: [seo-architecture, seo-for-new-website, technical-seo, structured-data, growth-engineering]
 audience: [founders, general-professional, ai-practitioners]
 format: how-i-work
+topics: [seo, personal-brand]
 description: "Most founders optimize SEO after launching. I built IndexNow, multi-sitemaps, JSON-LD structured data, and consent-aware analytics into a new website before its first visitor. A technical SEO architecture guide for a site that doesn't exist yet."
 status: published
 safety_review: false

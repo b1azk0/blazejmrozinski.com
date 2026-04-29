@@ -3,7 +3,38 @@
 # Validator (src/integrations/validate-taxonomy.ts) enforces: every topic value in any
 # post must exist here, and every topic here must have ≥1 published post.
 
-# Stub — finalized list lands in Commit 2 (post backfill).
 wordpress-infrastructure:
   title: WordPress Infrastructure
   description: Self-hosted WordPress on Hetzner VPS — LEMP stack, deploys, caching, security, automation, monitoring.
+
+caching:
+  title: Caching
+  description: Layered caching strategies for high-traffic WordPress and WooCommerce sites — page, object, opcode, and CDN.
+
+devops:
+  title: DevOps
+  description: Server provisioning, hardening, monitoring, and automation for self-hosted infrastructure.
+
+psychometrics:
+  title: Psychometrics
+  description: Item response theory, classical test theory, and custom assessment design for talent and L&D.
+
+talent-development:
+  title: Talent Development
+  description: HiPo programs, cluster-based L&D budgeting, and the build-versus-buy decision for psychometric instruments.
+
+ai-workflows:
+  title: AI Workflows
+  description: Building durable knowledge bases and agentic workflows for software work — Claude Code, design specs, AI-as-CTO.
+
+product-strategy:
+  title: Product Strategy
+  description: Narratives, business models, and product-market positioning for builder-led companies.
+
+seo:
+  title: SEO
+  description: Technical SEO, structured data, and content architecture for personal brands and small sites.
+
+personal-brand:
+  title: Personal Brand
+  description: Personal sites as products — design, copy, structured data, and growth engineering for an indie consulting brand.

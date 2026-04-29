@@ -4,6 +4,7 @@ date: 2026-04-15
 tags: [psychometric-analysis, item-response-theory, classical-test-theory, item-analysis, assessment, data-science]
 audience: [academics, data-scientists, assessment-professionals]
 format: deep-dive
+topics: [psychometrics]
 description: "A psychometric analysis of university exams using classical test theory and item response theory. Real findings on item discrimination, distractor analysis, dead options, the Wright map, the test information function, and how SEM decides pass/fail at the margin."
 status: published
 safety_review: false

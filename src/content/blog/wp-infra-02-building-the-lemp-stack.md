@@ -4,6 +4,9 @@ date: 2026-04-06
 tags: [devops-reality, wordpress, hetzner, server-backend, nginx, mariadb, php]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [wordpress-infrastructure, devops]
+series: wp-infrastructure
+seriesIndex: 2
 description: "Step-by-step LEMP stack setup for WordPress on a Hetzner VPS. Nginx tuning, MariaDB 11.8 InnoDB configuration, PHP 8.4 FPM static pools, OPcache JIT, and kernel optimization. A practical WordPress performance optimization guide."
 status: published
 label: infrastructure
@@ -626,14 +629,3 @@ The stack is running. Nginx is configured for WordPress workloads with proper bu
 
 In Part 3, we deploy WordPress itself: `wp-config.php` configuration, database creation, the Nginx vhost with FastCGI cache wiring, SSL certificates via Certbot, and the essential plugin stack including Object Cache Pro and Nginx Helper.
 
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. **Building the LEMP Stack** *(you are here)*
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

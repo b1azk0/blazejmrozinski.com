@@ -55,54 +55,45 @@ function validate(): string[] {
     }
   }
 
-  // 2 + 3 (and the inline series-without-seriesIndex check inside this branch).
-  // Gates: series existence (check 2), seriesIndex uniqueness/contiguity (check 3),
-  // and the rule "Posts with `series` set must also have `seriesIndex` set" (the
-  // `series && !seriesIndex` push below) — all are gated together by this env var
-  // until backfill in Commit 2. Pre-existing free-form `series:` strings in 6 posts
-  // will be rewritten to controlled slugs during backfill; until then, skip these
-  // checks so the baseline build stays green. Commit 2 (Task 2.5) removes this gate
-  // alongside the orphan-topic gate.
-  if (process.env.VALIDATE_TAXONOMY_REQUIRE_SERIES_INTEGRITY === 'true') {
-    // 2. Every `series` value must exist in series.yml
-    for (const post of posts) {
-      if (post.data.series && !series.has(post.data.series)) {
-        errors.push(
-          `[validate-taxonomy] Post '${post.slug}' references series '${post.data.series}' which is not defined in ${SERIES_PATH}`
-        );
-      }
-    }
-
-    // 3. seriesIndex values within a series must be unique and contiguous 1..N
-    const bySeries: Map<string, number[]> = new Map();
-    for (const post of posts) {
-      if (post.data.series && post.data.seriesIndex != null) {
-        const arr = bySeries.get(post.data.series) ?? [];
-        arr.push(post.data.seriesIndex);
-        bySeries.set(post.data.series, arr);
-      } else if (post.data.series && post.data.seriesIndex == null) {
-        errors.push(
-          `[validate-taxonomy] Post '${post.slug}' has series='${post.data.series}' but no seriesIndex`
-        );
-      }
-    }
-    for (const [slug, indices] of bySeries) {
-      const sorted = [...indices].sort((a, b) => a - b);
-      const expected = Array.from({ length: sorted.length }, (_, i) => i + 1);
-      if (sorted.length !== new Set(sorted).size) {
-        errors.push(
-          `[validate-taxonomy] Series '${slug}' has duplicate seriesIndex values: ${sorted.join(',')}`
-        );
-      } else if (sorted.join(',') !== expected.join(',')) {
-        errors.push(
-          `[validate-taxonomy] Series '${slug}' has gap or non-1-based seriesIndex (parts: ${sorted.join(',')})`
-        );
-      }
+  // 2. Every `series` value must exist in series.yml
+  for (const post of posts) {
+    if (post.data.series && !series.has(post.data.series)) {
+      errors.push(
+        `[validate-taxonomy] Post '${post.slug}' references series '${post.data.series}' which is not defined in ${SERIES_PATH}`
+      );
     }
   }
 
-  // 4. Every topic in topics.yml must have ≥1 published post (gated by env var until backfill)
-  if (process.env.VALIDATE_TAXONOMY_REQUIRE_TOPIC_POSTS === 'true') {
+  // 3. seriesIndex values within a series must be unique and contiguous 1..N;
+  // and posts with `series` set must also have `seriesIndex` set.
+  const bySeries: Map<string, number[]> = new Map();
+  for (const post of posts) {
+    if (post.data.series && post.data.seriesIndex != null) {
+      const arr = bySeries.get(post.data.series) ?? [];
+      arr.push(post.data.seriesIndex);
+      bySeries.set(post.data.series, arr);
+    } else if (post.data.series && post.data.seriesIndex == null) {
+      errors.push(
+        `[validate-taxonomy] Post '${post.slug}' has series='${post.data.series}' but no seriesIndex`
+      );
+    }
+  }
+  for (const [slug, indices] of bySeries) {
+    const sorted = [...indices].sort((a, b) => a - b);
+    const expected = Array.from({ length: sorted.length }, (_, i) => i + 1);
+    if (sorted.length !== new Set(sorted).size) {
+      errors.push(
+        `[validate-taxonomy] Series '${slug}' has duplicate seriesIndex values: ${sorted.join(',')}`
+      );
+    } else if (sorted.join(',') !== expected.join(',')) {
+      errors.push(
+        `[validate-taxonomy] Series '${slug}' has gap or non-1-based seriesIndex (parts: ${sorted.join(',')})`
+      );
+    }
+  }
+
+  // 4. Every topic in topics.yml must have ≥1 published post.
+  {
     const usedTopics = new Set<string>();
     for (const post of published) {
       for (const t of post.data.topics ?? []) usedTopics.add(t);

@@ -4,6 +4,7 @@ date: 2026-04-24
 tags: [psychometrics-meets-tech, operator-lessons]
 audience: [product-leaders, founders, general-professional]
 format: deep-dive
+topics: [psychometrics, talent-development]
 description: "Gallup's 2026 report shows 22% of managers engaged globally, 79% in best-practice orgs. Here's what measuring employee engagement takes to diagnose your own."
 status: published
 safety_review: false

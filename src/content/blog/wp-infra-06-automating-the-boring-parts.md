@@ -1,11 +1,12 @@
 ---
 title: "WordPress Backup Automation: Nightly Backups, Database Cleanup, Cache Warming, and Plugin Sync"
 date: 2026-04-26
-series: "WordPress Infrastructure from Scratch"
-series_part: 6
 tags: [devops-reality, wordpress, hetzner, server-backend, automation, backups, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [wordpress-infrastructure, devops]
+series: wp-infrastructure
+seriesIndex: 6
 description: "Automated WordPress server maintenance with cron: nightly cloud backups, MariaDB database optimization, 5-phase cache warming, plugin distribution across servers, and restic snapshots."
 status: published
 label: infrastructure
@@ -234,14 +235,3 @@ All of these scripts connect back to the infrastructure covered in earlier posts
 
 What this chain doesn't handle is detection. If the server goes down at 3 AM, if Nginx stops responding, if a site starts returning 500 errors, if SSL certificates are about to expire, nothing in this automation chain will notice. The nightly chain assumes the server is healthy and keeps it clean. Knowing when the server stops being healthy is a different problem, and it's the subject of the final post.
 
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. **Automating the Boring Parts** *(you are here)*
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

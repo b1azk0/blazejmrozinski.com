@@ -4,6 +4,9 @@ date: 2026-04-01
 tags: [wordpress-vps, wordpress-hetzner, managed-wordpress-hosting, devops-reality, hetzner, server-backend]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [wordpress-infrastructure, devops]
+series: wp-infrastructure
+seriesIndex: 1
 description: "I moved my WordPress and WooCommerce sites from managed hosting to a Hetzner VPS. Full walkthrough of server provisioning, SSH hardening, and firewall setup on Debian 13."
 status: published
 label: infrastructure
@@ -308,14 +311,3 @@ You now have a secured Debian server on Hetzner, hardened against the most commo
 
 The server tuning is where things get interesting. Managed hosting hides these decisions from you, and that's exactly the problem. The difference between a WordPress server that handles 50 concurrent users and one that handles 500 lives in configuration details like PHP-FPM worker counts, MariaDB buffer pool sizes, and OPcache settings. Knowing what those are and why they matter is worth more than any hosting dashboard.
 
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. **Why I Ditched Managed Hosting** *(you are here)*
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)
