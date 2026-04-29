@@ -28,7 +28,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 
 | Collection | Path | Description |
 |------------|------|-------------|
-| `blog` | `src/content/blog/` | Blog posts (populated by ContentForge) |
+| `blog` | `src/content/blog/` | Blog posts (populated by ContentForge). Frontmatter supports controlled `topics: [slug, ...]` (validated against `src/data/topics.yml`) and `series` + `seriesIndex` for multi-part bodies of work (validated against `src/data/series.yml`). |
 | `companies` | `src/content/companies/` | Company profiles (Gyfted, Nerds.family, Digital Savages, Distillery) |
 | `projects` | `src/content/projects/` | Project writeups (7 projects across companies) |
 | `pages` | `src/content/pages/` | Static pages (about, work, CV) |
@@ -40,8 +40,11 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | Route | Source | Description |
 |-------|--------|-------------|
 | `/` | `src/pages/index.astro` | Homepage with newspaper grid layout, profile, companies, recent posts, CTA |
-| `/blog` | `src/pages/blog/index.astro` | Blog listing with client-side tag filtering |
-| `/blog/:slug` | `src/pages/blog/[...slug].astro` | Individual blog post pages |
+| `/blog` | `src/pages/blog/index.astro` | Blog listing with client-side label filtering. `?tag=<topic>` redirects to the matching topic hub; non-topic `?tag=` values are stripped. |
+| `/blog/:slug` | `src/pages/blog/[...slug].astro` | Individual blog post pages. Series posts get a `SeriesNav` banner + prev/next + TOC; non-series posts get a `RelatedPosts` block. |
+| `/blog/topic/` | `src/pages/blog/topic/index.astro` | Topic hubs index — lists every topic with non-zero post count. |
+| `/blog/topic/:slug` | `src/pages/blog/topic/[slug].astro` | Per-topic hub page. `CollectionPage` + `ItemList` JSON-LD. |
+| `/blog/series/:slug` | `src/pages/blog/series/[slug].astro` | Series landing page with parts in order. `CreativeWorkSeries` + `hasPart` JSON-LD. |
 | `/work` | `src/pages/work/index.astro` | Work overview with rendered page content and company listing |
 | `/work/:slug` | `src/pages/work/[...slug].astro` | Company landing pages with related projects |
 | `/projects` | `src/pages/projects/index.astro` | Projects listing with ProjectCard grid |
@@ -58,7 +61,9 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 
 | Component | Description |
 |-----------|-------------|
-| `PostCard` | Blog post card with title, description, date, tag pills |
+| `PostCard` | Blog post card with title, description, date, tag pills (chips link to topic hubs when the tag is a topic slug) |
+| `SeriesNav` | Series banner ("Part N of M") + bottom prev/next + collapsed all-parts TOC. Auto-rendered on posts with a `series` frontmatter field |
+| `RelatedPosts` | "Related reading" 3-card block on every non-series post. Topic-overlap → same-label tiebreak → date desc |
 | `CompanyCard` | Company card with name, domain, role |
 | `ContactForm` | Inline Web3Forms contact form |
 | `TagFilter` | Tag filter pills with client-side show/hide |
