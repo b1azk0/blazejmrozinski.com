@@ -30,3 +30,6 @@ public/covers/
 
 # Superpowers brainstorming sessions
 .superpowers/
+
+# git worktrees
+.worktrees/

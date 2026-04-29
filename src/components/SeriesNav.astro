@@ -1,0 +1,75 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  currentId: string;
+  currentIndex: number;
+  seriesTitle: string;
+  seriesSlug: string;
+  parts: CollectionEntry<'blog'>[]; // sorted by seriesIndex asc
+  position: 'header' | 'footer';
+}
+
+const { currentId, currentIndex, seriesTitle, seriesSlug, parts, position } = Astro.props;
+const total = parts.length;
+const prev = parts.find((p) => (p.data.seriesIndex ?? 0) === currentIndex - 1);
+const next = parts.find((p) => (p.data.seriesIndex ?? 0) === currentIndex + 1);
+---
+
+{position === 'header' && (
+  <div class="not-prose mb-8 rounded-md border bg-secondary/50 px-4 py-3 text-sm">
+    <a href={`/blog/series/${seriesSlug}/`} class="hover:text-foreground transition-colors">
+      <strong>Part {currentIndex} of {total}</strong> — {seriesTitle} series →
+    </a>
+  </div>
+)}
+
+{position === 'footer' && (
+  <nav class="not-prose mt-12 border-t pt-6" aria-label="Series navigation">
+    <div class="flex justify-between gap-4 mb-4">
+      {prev ? (
+        <a
+          href={`/blog/${prev.id}/`}
+          class="text-sm text-muted-foreground hover:text-foreground transition-colors max-w-[45%]"
+        >
+          <span class="block text-xs uppercase tracking-wider mb-1">← Previous</span>
+          <span class="block">{prev.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+      {next ? (
+        <a
+          href={`/blog/${next.id}/`}
+          class="text-sm text-muted-foreground hover:text-foreground transition-colors max-w-[45%] text-right"
+        >
+          <span class="block text-xs uppercase tracking-wider mb-1">Next →</span>
+          <span class="block">{next.data.title}</span>
+        </a>
+      ) : (
+        <span></span>
+      )}
+    </div>
+    <details class="text-sm">
+      <summary class="cursor-pointer text-muted-foreground hover:text-foreground transition-colors">
+        All {total} parts in {seriesTitle}
+      </summary>
+      <ol class="mt-3 space-y-1 list-decimal list-inside">
+        {parts.map((p) => {
+          const isCurrent = p.id === currentId;
+          return (
+            <li class={isCurrent ? 'font-medium' : ''}>
+              {isCurrent ? (
+                <span>{p.data.title} (you are here)</span>
+              ) : (
+                <a href={`/blog/${p.id}/`} class="hover:text-foreground transition-colors">
+                  {p.data.title}
+                </a>
+              )}
+            </li>
+          );
+        })}
+      </ol>
+    </details>
+  </nav>
+)}

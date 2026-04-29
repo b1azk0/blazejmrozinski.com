@@ -1,5 +1,6 @@
 ---
 import { labels, type LabelSlug } from '@/lib/labels';
+import { isTopic } from '@/lib/topics';
 
 interface Props {
   title: string;
@@ -9,9 +10,10 @@ interface Props {
   slug: string;
   featured?: boolean;
   label?: string;
+  showTags?: boolean;
 }
 
-const { title, description, date, tags, slug, featured = false, label } = Astro.props;
+const { title, description, date, tags, slug, featured = false, label, showTags = true } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -50,13 +52,22 @@ const labelConfig = label && label in labels ? labels[label as LabelSlug] : null
         {labelConfig.name}
       </a>
     )}
-    {tags.length > 0 && (
+    {showTags && tags.length > 0 && (
       <div class="flex gap-1.5 flex-wrap">
-        {tags.map((tag) => (
-          <a href={`/blog?tag=${encodeURIComponent(tag)}`} class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors">
-            {tag}
-          </a>
-        ))}
+        {tags.map((tag) =>
+          isTopic(tag) ? (
+            <a
+              href={`/blog/topic/${tag}/`}
+              class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors"
+            >
+              {tag}
+            </a>
+          ) : (
+            <span class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full">
+              {tag}
+            </span>
+          )
+        )}
       </div>
     )}
   </div>

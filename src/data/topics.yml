@@ -1,0 +1,37 @@
+# Controlled topic vocabulary. Each slug becomes a hub page at /blog/topic/<slug>/.
+# Posts opt in via the `topics: [slug]` frontmatter field. Free-form `tags` are unaffected.
+# Validator (src/integrations/validate-taxonomy.ts) enforces: every topic value in any
+# post must exist here, and every topic here must have ≥1 published post.
+# Convention: posts with multiple topics list them alphabetically by slug.
+
+wordpress-infrastructure:
+  title: WordPress Infrastructure
+  description: Self-hosted WordPress on Hetzner VPS — LEMP stack, deploys, caching, security, automation, monitoring.
+
+caching:
+  title: Caching
+  description: Layered caching strategies for high-traffic WordPress and WooCommerce sites — page, object, opcode, and CDN.
+
+devops:
+  title: DevOps
+  description: Server provisioning, hardening, monitoring, and automation for self-hosted infrastructure.
+
+psychometrics:
+  title: Psychometrics
+  description: Item response theory, classical test theory, and custom assessment design for talent and L&D.
+
+talent-development:
+  title: Talent Development
+  description: L&D program design, talent assessment, and the build-versus-buy decisions behind psychometric tooling.
+
+ai-workflows:
+  title: AI Workflows
+  description: Building durable knowledge bases and agentic workflows for software work — Claude Code, design specs, AI-as-CTO.
+
+seo:
+  title: SEO
+  description: Technical SEO, structured data, and content architecture for personal brands and small sites.
+
+personal-brand:
+  title: Personal Brand
+  description: Personal sites as products — design, copy, structured data, and growth engineering for an indie consulting brand.

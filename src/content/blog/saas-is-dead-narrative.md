@@ -4,6 +4,7 @@ date: 2026-04-13
 tags: [saas-is-dead, saas-business-model, operator-lessons, ai-as-cto]
 audience: [founders, product-leaders, general-professional]
 format: what-changed-my-mind
+topics: [ai-workflows]
 description: "The 'SaaS is dead' narrative gets the diagnosis right and the prognosis wrong. AI makes code cheap. It barely touches trust, switching costs, and domain expertise — the parts that actually make a SaaS business model defensible."
 status: published
 safety_review: false

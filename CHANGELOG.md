@@ -2,6 +2,33 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.13.0] — 2026-04-29 — SEO Tier 2: content architecture (topic hubs, series nav, related posts)
+
+### Added
+- **Controlled topic vocabulary** at `src/data/topics.yml` — slugs map to title + description; drives hub pages and JSON-LD.
+- **Topic hub pages** at `/blog/topic/` (index) and `/blog/topic/[slug]/` (per-topic), each with `CollectionPage` JSON-LD and an `ItemList` of member posts. Replaces the previous client-side `?tag=` filter on `/blog`.
+- **Series taxonomy** — frontmatter `series: <slug>` + `seriesIndex: <int>` (1-based, contiguous within a series). Series metadata at `src/data/series.yml`.
+- **Series landing pages** at `/blog/series/[slug]/` with `CreativeWorkSeries` + `hasPart` JSON-LD listing parts in order.
+- **`SeriesNav` component** — renders a "Part N of M" banner at the top of every series post and a prev/next + collapsed all-parts TOC at the bottom. Replaces the hand-maintained "Full Series" footer block on WP Infra posts.
+- **`RelatedPosts` component** — 3-card "Related reading" block at the bottom of every non-series post. Algorithm: topic-overlap → same-label tiebreak → date desc, with same-label fallback when topic-overlap is zero.
+- **"Filed under" line** near the byline of every post that has at least one topic, linking each topic to its hub.
+- **Build-time taxonomy validator** (`src/integrations/validate-taxonomy.ts`) — fails the build if any post references an undefined topic/series, if `seriesIndex` values are duplicated or non-contiguous within a series, or if `topics.yml` contains an orphan slug with zero published posts.
+- **Sitemap entries** for `/blog/topic/` index, every topic hub, every series landing.
+- **Article JSON-LD additions:** `about` array (one `Thing` per topic) and `isPartOf` (`CreativeWorkSeries`) when applicable.
+
+### Changed
+- **`PostCard` tag chips** now render as plain `<span>` unless the tag value matches a topic slug, in which case they link to the topic hub. Style unchanged.
+- **`/blog`** drops the client-side `?tag=` filter behavior. A new client-side handler maps `?tag=foo` → `/blog/topic/foo/` if the tag is a topic, otherwise strips the param. The `?label=` filter is unchanged.
+- **`BlogPost.astro` header** no longer renders the tag chips row — tags live on `/blog` cards only.
+
+### Removed
+- **WP Infra "Full Series" footer link block** on Posts 1–7. SeriesNav is now the source of truth.
+
+### Why
+- **Crawlable pillar pages.** Free-form `?tag=` filters were unreliable for crawlers and accumulated no link equity. Static topic hubs become real URLs that compound authority for the topical clusters this site is trying to rank on (WordPress infrastructure, psychometrics, AI workflows, SEO).
+- **Explicit series signals.** WP Infra and Talent Archetypes are the two multi-part bodies of work on this site. Hand-maintained TOC blocks were fragile (already burned us once at v0.11.13). Auto-rendered SeriesNav pulls from frontmatter — single source of truth, validates at build time, never drifts.
+- **Deeper internal linking.** RelatedPosts on every non-series post deepens crawl, lifts dwell time, and reduces orphan posts. Topic-overlap algorithm uses the controlled axis we just defined; no risk of clustering on noisy free-form tags.
+
 ## [0.12.0] — 2026-04-28 — SEO: Tier 1 entity graph (sitewide WebSite + Person, ProfilePage, dateModified, ScholarlyArticle linking)
 
 ### Added

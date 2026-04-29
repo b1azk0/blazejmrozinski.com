@@ -1,11 +1,12 @@
 ---
 title: "WordPress Security on VPS: Nginx Rate Limiting, Fail2ban Jails, and SSL Hardening"
 date: 2026-04-20
-series: "WordPress Infrastructure from Scratch"
-series_part: 5
 tags: [devops-reality, wordpress, hetzner, server-backend, security, fail2ban, nginx]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [devops, wordpress-infrastructure]
+series: wp-infrastructure
+seriesIndex: 5
 description: "Two-layer WordPress VPS security: Nginx blocks wp-login brute force and scanner probes before PHP runs, fail2ban bans repeat offenders at the kernel level. Full SSL/TLS and WooCommerce hardening."
 status: published
 label: infrastructure
@@ -509,15 +510,3 @@ The defense is layered and largely automatic. Nginx drops known-bad requests bef
 For a personal account of what happens when you get security right but lock yourself out in the process, I wrote about that separately. TOTP two-factor authentication is excellent security practice until you lose access to your authenticator app while sitting at a terminal with no backup codes.
 
 Full configs for everything in this post are in the [companion repository](https://github.com/b1azk0/wordpress-infrastructure) under `05-security-hardening/`.
-
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. [Four Layers of Caching](/blog/wp-infra-04-four-layers-of-caching)
-5. **Locking It Down** *(you are here)*
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

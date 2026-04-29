@@ -49,13 +49,12 @@ const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSl
   function filterPosts() {
     const params = new URLSearchParams(window.location.search);
     const activeLabel = params.get('label');
-    const activeTag = params.get('tag');
     const articles = document.querySelectorAll<HTMLElement>('[data-post-label]');
     const filterLinks = document.querySelectorAll<HTMLAnchorElement>('#label-filter a');
 
     filterLinks.forEach((link) => {
       const label = link.dataset.label;
-      const isActive = !activeLabel && !activeTag && label === 'all' || activeLabel === label;
+      const isActive = (!activeLabel && label === 'all') || activeLabel === label;
       link.classList.toggle('bg-primary', isActive);
       link.classList.toggle('text-primary-foreground', isActive);
       link.classList.toggle('bg-secondary', !isActive);
@@ -63,16 +62,11 @@ const labelEntries = Object.entries(labels) as [LabelSlug, typeof labels[LabelSl
     });
 
     articles.forEach((article) => {
-      if (!activeLabel && !activeTag) {
+      if (!activeLabel) {
         article.style.display = '';
         return;
       }
-      if (activeLabel) {
-        article.style.display = article.dataset.postLabel === activeLabel ? '' : 'none';
-      } else if (activeTag) {
-        const tags = (article.dataset.postTags || '').split(',');
-        article.style.display = tags.includes(activeTag) ? '' : 'none';
-      }
+      article.style.display = article.dataset.postLabel === activeLabel ? '' : 'none';
     });
   }
 

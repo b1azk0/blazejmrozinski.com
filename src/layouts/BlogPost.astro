@@ -3,8 +3,14 @@ import Base from "./Base.astro";
 import JsonLd from "@/components/JsonLd.astro";
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import BlogSidebar from '@/components/BlogSidebar.astro';
+import SeriesNav from '@/components/SeriesNav.astro';
+import RelatedPosts from '@/components/RelatedPosts.astro';
 import { labels, type LabelSlug } from '@/lib/labels';
-import { PERSON_ID } from '@/lib/jsonld';
+import { PERSON_ID, SITE_URL } from '@/lib/jsonld';
+import { getTopic } from '@/lib/topics';
+import { loadSeries, getSeriesPosts } from '@/lib/series';
+import { pickRelated } from '@/lib/related-posts';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   title: string;
@@ -15,11 +21,15 @@ interface Props {
   audience: string[];
   author?: string;
   label?: string;
+  topics?: string[];
+  series?: string;
+  seriesIndex?: number;
+  allPosts: CollectionEntry<'blog'>[];
   crumbs: { label: string; href?: string }[];
   headings: { depth: number; slug: string; text: string }[];
 }
 
-const { title, description, date, lastmod, tags, audience, author, label, crumbs, headings } = Astro.props;
+const { title, description, date, lastmod, tags, audience, author, label, topics = [], series, seriesIndex, allPosts, crumbs, headings } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -40,6 +50,24 @@ const authorNode = authorIsBlazej
   ? { '@id': PERSON_ID }
   : { '@type': 'Person', name: author };
 
+const topicEntries = topics.map((slug) => ({ slug, config: getTopic(slug) })).filter((t) => t.config);
+
+let seriesParts: CollectionEntry<'blog'>[] = [];
+let seriesTitle: string | undefined;
+if (series) {
+  seriesParts = getSeriesPosts(series, allPosts);
+  seriesTitle = loadSeries().get(series)?.title;
+}
+
+let relatedPosts: CollectionEntry<'blog'>[] = [];
+if (!series) {
+  const currentSlug = Astro.params.slug!;
+  const current = allPosts.find((p) => p.id === currentSlug);
+  if (current) {
+    relatedPosts = pickRelated(current, allPosts, 4);
+  }
+}
+
 const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
@@ -54,7 +82,25 @@ const articleJsonLd = {
   author: authorNode,
   publisher: { '@id': PERSON_ID },
   keywords: tags.join(', '),
-  ...(coverUrl ? { image: `https://www.blazejmrozinski.com${coverUrl}` } : {}),
+  ...(coverUrl ? { image: `${SITE_URL}${coverUrl}` } : {}),
+  ...(topicEntries.length > 0
+    ? {
+        about: topicEntries.map((t) => ({
+          '@type': 'Thing',
+          name: t.config!.title,
+          url: `${SITE_URL}/blog/topic/${t.slug}/`,
+        })),
+      }
+    : {}),
+  ...(series && seriesTitle
+    ? {
+        isPartOf: {
+          '@type': 'CreativeWorkSeries',
+          url: `${SITE_URL}/blog/series/${series}/`,
+          name: seriesTitle,
+        },
+      }
+    : {}),
 };
 ---
 
@@ -68,7 +114,7 @@ const articleJsonLd = {
       <article class="max-w-3xl min-w-0">
         <header class="mb-8">
           <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
-          <div class="flex items-center gap-4 text-muted-foreground text-sm">
+          <div class="flex items-center gap-4 text-muted-foreground text-sm flex-wrap">
             <a href="/about" class="hover:text-foreground transition-colors">Blazej Mrozinski</a>
             <span>&middot;</span>
             <time datetime={date.toISOString()}>{formattedDate}</time>
@@ -86,14 +132,16 @@ const articleJsonLd = {
               </>
             )}
           </div>
-          {tags.length > 0 && (
-            <div class="flex gap-2 mt-4 flex-wrap">
-              {tags.map((tag) => (
-                <a href={`/blog?tag=${encodeURIComponent(tag)}`} class="text-xs bg-secondary text-secondary-foreground px-2.5 py-1 rounded-full hover:bg-accent transition-colors">
-                  {tag}
-                </a>
+          {topicEntries.length > 0 && (
+            <p class="text-sm text-muted-foreground mt-3">
+              <span>Filed under: </span>
+              {topicEntries.map((t, i) => (
+                <>
+                  <a href={`/blog/topic/${t.slug}/`} class="hover:text-foreground transition-colors">{t.config!.title}</a>
+                  {i < topicEntries.length - 1 && <span> · </span>}
+                </>
               ))}
-            </div>
+            </p>
           )}
         </header>
 
@@ -110,9 +158,35 @@ const articleJsonLd = {
           </div>
         )}
 
+        {series && seriesTitle && (
+          <SeriesNav
+            currentId={Astro.params.slug!}
+            currentIndex={seriesIndex!}
+            seriesTitle={seriesTitle}
+            seriesSlug={series}
+            parts={seriesParts}
+            position="header"
+          />
+        )}
+
         <div class="prose prose-neutral dark:prose-invert max-w-none">
           <slot />
         </div>
+
+        {series && seriesTitle && (
+          <SeriesNav
+            currentId={Astro.params.slug!}
+            currentIndex={seriesIndex!}
+            seriesTitle={seriesTitle}
+            seriesSlug={series}
+            parts={seriesParts}
+            position="footer"
+          />
+        )}
+
+        {!series && relatedPosts.length > 0 && (
+          <RelatedPosts posts={relatedPosts} />
+        )}
       </article>
     </div>
   </div>

@@ -4,6 +4,7 @@ date: 2026-04-07
 tags: [claude-code, claude-code-subagents, ai-coding-assistant, ai-as-cto, knowledge-systems]
 audience: [ai-practitioners, product-leaders, founders]
 format: how-i-work
+topics: [ai-workflows]
 description: "A hands-on guide to configuring Claude Code with subagents, skills, role definitions, safety protocols, and feedback loops. How I turned a capable AI coding assistant into a personalized technical partner over weeks of real work."
 status: published
 safety_review: false

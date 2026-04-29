@@ -4,6 +4,7 @@ date: 2026-04-04
 tags: [ai-knowledge-base, ai-coding-assistant, ai-as-cto, knowledge-systems]
 audience: [ai-practitioners, product-leaders, founders]
 format: how-i-work
+topics: [ai-workflows]
 description: "AI coding assistants work well in a single repo. They fall apart across multiple projects and companies. I built a 30-document knowledge base that gives AI full context in 30 seconds instead of 15 minutes."
 status: published
 safety_review: false

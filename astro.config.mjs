@@ -1,10 +1,11 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from '@tailwindcss/vite';
+import validateTaxonomy from './src/integrations/validate-taxonomy.ts';
 
 export default defineConfig({
   site: 'https://www.blazejmrozinski.com',
-  integrations: [],
+  integrations: [validateTaxonomy()],
   vite: {
     plugins: [tailwindcss()],
   },

@@ -1,0 +1,22 @@
+---
+interface Props {
+  slug: string;
+  title: string;
+  description: string;
+  count: number;
+}
+const { slug, title, description, count } = Astro.props;
+---
+
+<a
+  href={`/blog/topic/${slug}/`}
+  class="group block rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+>
+  <h3 class="text-lg font-bold tracking-tight group-hover:text-primary/80 transition-colors">
+    {title}
+  </h3>
+  <p class="text-sm text-muted-foreground mt-2 leading-relaxed">{description}</p>
+  <p class="text-xs text-muted-foreground mt-4">
+    {count} {count === 1 ? 'post' : 'posts'}
+  </p>
+</a>

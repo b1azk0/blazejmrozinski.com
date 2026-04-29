@@ -4,6 +4,9 @@ date: 2026-04-12
 tags: [wordpress-performance-optimization, wordpress-caching, object-cache-pro, devops-reality, wordpress, hetzner, redis, nginx, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
+topics: [caching, wordpress-infrastructure]
+series: wp-infrastructure
+seriesIndex: 4
 description: "Four-layer WordPress caching stack for performance optimization: Cloudflare CDN, Nginx FastCGI page cache, Redis Object Cache Pro, and PHP OPcache with JIT. Sub-50ms TTFB with WooCommerce bypass rules."
 status: published
 safety_review: false
@@ -406,15 +409,3 @@ The configurations for the FastCGI cache zone and OPcache were first placed duri
 Caching is great until the cache is stale. A plugin update, a PHP-FPM restart, or a server reboot clears the cache, and the next few hundred visitors all hit uncached pages. In Post 6, we build automated maintenance that includes [cache warming](/glossary/cache-warming/), running through the sitemap after every maintenance window so that visitors never see a cold cache.
 
 Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall rules, and the principle that performance means nothing if the server is compromised.
-
----
-
-## WordPress Infrastructure from Scratch — Full Series
-
-1. [Why I Ditched Managed Hosting](/blog/wp-infra-01-why-i-ditched-managed-hosting)
-2. [Building the LEMP Stack](/blog/wp-infra-02-building-the-lemp-stack)
-3. [Deploying WordPress the Right Way](/blog/wp-infra-03-deploying-wordpress)
-4. **Four Layers of Caching** *(you are here)*
-5. [Locking It Down](/blog/wp-infra-05-locking-it-down)
-6. [Automating the Boring Parts](/blog/wp-infra-06-automating-the-boring-parts)
-7. [Watching Over It All](/blog/wp-infra-07-watching-over-it-all)

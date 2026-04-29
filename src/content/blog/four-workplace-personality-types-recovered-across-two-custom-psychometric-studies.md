@@ -4,13 +4,14 @@ date: 2026-04-30
 tags: [psychometrics-meets-tech, operator-lessons, hipo, l-and-d]
 audience: [hr-leaders, founders, product-leaders]
 format: deep-dive
+topics: [psychometrics, talent-development]
+series: talent-archetypes
+seriesIndex: 1
 description: "Two custom psychometric studies in different industries, run on different instruments, recovered the same four workplace personality types. What that convergence means for L&D budget allocation and employee development planning."
 status: published
 safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-talent-archetypes-cross-org-design.md
 label: research
-series: "Talent Archetypes from Custom Psychometric Work"
-series_part: 1
 ---
 
 Two enterprise clients commissioned custom psychometric work in the same eighteen-month window. Different instruments, different industries, different countries. One organization is a Fortune 1000 employer with several thousand professionals in scope. The other is a fast-growing consumer-tech company with a global candidate pipeline. The first study used a Big Five-derived strengths model. The second used a custom five-value instrument designed against the company's own operating language. Roughly 500 employees in the first sample. Roughly 330 candidates in the second.
