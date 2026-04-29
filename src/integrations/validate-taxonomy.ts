@@ -22,7 +22,7 @@ function loadYamlMap(file: string): Map<string, unknown> {
 
 function readFrontmatter(file: string): PostFrontmatter {
   const raw = fs.readFileSync(file, 'utf8');
-  const match = raw.match(/^---\n([\s\S]*?)\n---/);
+  const match = raw.match(/^﻿?---\r?\n([\s\S]*?)\r?\n---/);
   if (!match) return {};
   return (parse(match[1]) as PostFrontmatter) ?? {};
 }
@@ -55,10 +55,14 @@ function validate(): string[] {
     }
   }
 
-  // 2 + 3. Series existence and seriesIndex contiguity (gated by env var until backfill in
-  // Commit 2). Pre-existing free-form `series:` strings in 6 posts will be rewritten to
-  // controlled slugs during backfill; until then, skip these checks so the baseline build
-  // stays green. Commit 2 (Task 2.5) removes this gate alongside the orphan-topic gate.
+  // 2 + 3 (and the inline series-without-seriesIndex check inside this branch).
+  // Gates: series existence (check 2), seriesIndex uniqueness/contiguity (check 3),
+  // and the rule "Posts with `series` set must also have `seriesIndex` set" (the
+  // `series && !seriesIndex` push below) — all are gated together by this env var
+  // until backfill in Commit 2. Pre-existing free-form `series:` strings in 6 posts
+  // will be rewritten to controlled slugs during backfill; until then, skip these
+  // checks so the baseline build stays green. Commit 2 (Task 2.5) removes this gate
+  // alongside the orphan-topic gate.
   if (process.env.VALIDATE_TAXONOMY_REQUIRE_SERIES_INTEGRITY === 'true') {
     // 2. Every `series` value must exist in series.yml
     for (const post of posts) {
