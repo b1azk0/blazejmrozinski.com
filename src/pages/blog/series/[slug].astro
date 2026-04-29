@@ -1,0 +1,87 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import { getCollection } from 'astro:content';
+import { loadSeries, getSeriesPosts } from '@/lib/series';
+import { SITE_URL } from '@/lib/jsonld';
+
+export async function getStaticPaths() {
+  const series = loadSeries();
+  return [...series.keys()].map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const series = loadSeries();
+const config = series.get(slug!);
+if (!config) {
+  throw new Error(`Series not found: ${slug}`);
+}
+
+const now = new Date();
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => data.status === 'published' && data.date <= now
+);
+const parts = getSeriesPosts(slug!, allPosts);
+
+const canonicalUrl = `${SITE_URL}/blog/series/${slug}/`;
+const seriesJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CreativeWorkSeries',
+  '@id': canonicalUrl,
+  url: canonicalUrl,
+  name: config.title,
+  description: config.description,
+  hasPart: parts.map((post) => ({
+    '@type': 'BlogPosting',
+    '@id': `${SITE_URL}/blog/${post.id}/`,
+    url: `${SITE_URL}/blog/${post.id}/`,
+    name: post.data.title,
+    position: post.data.seriesIndex,
+  })),
+};
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: config.title },
+];
+
+const formatDate = (d: Date) =>
+  d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+---
+
+<Base title={`${config.title} — Series`} description={config.description}>
+  <JsonLd data={seriesJsonLd} />
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={crumbs} />
+    <h1 class="text-4xl font-bold tracking-tight mb-4" data-animate>{config.title}</h1>
+    <p class="text-muted-foreground mb-10 max-w-2xl" data-animate>{config.description}</p>
+    <ol class="space-y-6">
+      {parts.map((post, i) => (
+        <li data-animate data-delay={String(Math.min(i + 1, 5))}>
+          <article class="border-l-2 border-border pl-6">
+            <p class="text-xs uppercase tracking-wider text-muted-foreground mb-1">
+              Part {post.data.seriesIndex}
+            </p>
+            <h2 class="text-xl font-bold tracking-tight">
+              <a
+                href={`/blog/${post.id}/`}
+                class="hover:text-primary/80 transition-colors"
+              >
+                {post.data.title}
+              </a>
+            </h2>
+            <p class="text-sm text-muted-foreground mt-2 leading-relaxed">
+              {post.data.description}
+            </p>
+            <time class="text-xs text-muted-foreground mt-2 block" datetime={post.data.date.toISOString()}>
+              {formatDate(post.data.date)}
+            </time>
+          </article>
+        </li>
+      ))}
+    </ol>
+  </div>
+</Base>

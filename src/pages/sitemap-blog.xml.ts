@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { getCollection } from 'astro:content';
 import { loadTopics, getPostsForTopic } from '@/lib/topics';
+import { loadSeries, getSeriesPosts } from '@/lib/series';
 
 const site = 'https://www.blazejmrozinski.com';
 
@@ -44,9 +45,22 @@ export const GET: APIRoute = async () => {
   </url>`;
   });
 
+  // Per-series landings — lastmod = max(post.lastmod ?? post.date) across the series' posts
+  const series = loadSeries();
+  const seriesUrls = [...series.keys()].map((slug) => {
+    const seriesParts = getSeriesPosts(slug, posts);
+    const dates = seriesParts.map((p) => p.data.lastmod ?? p.data.date);
+    const lastmod = dates.length > 0 ? maxDate(dates).toISOString().split('T')[0] : undefined;
+    return `  <url>
+    <loc>${site}/blog/series/${slug}/</loc>${lastmod ? `\n    <lastmod>${lastmod}</lastmod>` : ''}
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>`;
+  });
+
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${[...postUrls, topicIndexUrl, ...topicUrls].join('\n')}
+${[...postUrls, topicIndexUrl, ...topicUrls, ...seriesUrls].join('\n')}
 </urlset>`;
 
   return new Response(xml, { headers: { 'Content-Type': 'application/xml' } });
