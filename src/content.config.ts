@@ -23,6 +23,9 @@ const blog = defineCollection({
       'operator-notes',
       'academic-work',
     ]).optional(),
+    topics: z.array(z.string()).default([]),
+    series: z.string().optional(),
+    seriesIndex: z.number().int().positive().optional(),
   }),
 });
 

@@ -1,0 +1,9 @@
+# Controlled topic vocabulary. Each slug becomes a hub page at /blog/topic/<slug>/.
+# Posts opt in via the `topics: [slug]` frontmatter field. Free-form `tags` are unaffected.
+# Validator (src/integrations/validate-taxonomy.ts) enforces: every topic value in any
+# post must exist here, and every topic here must have ≥1 published post.
+
+# Stub — finalized list lands in Commit 2 (post backfill).
+wordpress-infrastructure:
+  title: WordPress Infrastructure
+  description: Self-hosted WordPress on Hetzner VPS — LEMP stack, deploys, caching, security, automation, monitoring.
