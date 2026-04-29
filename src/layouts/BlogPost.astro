@@ -64,7 +64,7 @@ if (!series) {
   const currentSlug = Astro.params.slug!;
   const current = allPosts.find((p) => p.id === currentSlug);
   if (current) {
-    relatedPosts = pickRelated(current, allPosts, 3);
+    relatedPosts = pickRelated(current, allPosts, 4);
   }
 }
 
