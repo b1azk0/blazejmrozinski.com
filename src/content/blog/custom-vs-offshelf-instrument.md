@@ -5,13 +5,13 @@ tags: [psychometrics-meets-tech, operator-lessons]
 audience: [hr-leaders, founders, l-and-d-directors]
 format: deep-dive
 topics: [psychometrics, talent-development]
+series: talent-archetypes
+seriesIndex: 3
 description: "When does a custom psychometric instrument earn its multi-week build cycle, and when is off-the-shelf personality assessment for hiring enough? A decision rule from two real client engagements with different right answers."
 status: published
 safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-custom-vs-offshelf-instrument-design.md
 label: research
-series: talent-archetypes
-seriesIndex: 3
 ---
 
 The most common question I get from HR and L&D leaders evaluating psychometric assessment is whether to use Big Five or commission something custom. The framing of the question is usually wrong. Big Five and custom instruments do not compete on the same axis. They answer different questions, and the right choice falls out of which question the buyer actually has.

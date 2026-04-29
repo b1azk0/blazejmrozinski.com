@@ -4,7 +4,7 @@ date: 2026-04-20
 tags: [devops-reality, wordpress, hetzner, server-backend, security, fail2ban, nginx]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, devops]
+topics: [devops, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 5
 description: "Two-layer WordPress VPS security: Nginx blocks wp-login brute force and scanner probes before PHP runs, fail2ban bans repeat offenders at the kernel level. Full SSL/TLS and WooCommerce hardening."
@@ -510,4 +510,3 @@ The defense is layered and largely automatic. Nginx drops known-bad requests bef
 For a personal account of what happens when you get security right but lock yourself out in the process, I wrote about that separately. TOTP two-factor authentication is excellent security practice until you lose access to your authenticator app while sitting at a terminal with no backup codes.
 
 Full configs for everything in this post are in the [companion repository](https://github.com/b1azk0/wordpress-infrastructure) under `05-security-hardening/`.
-

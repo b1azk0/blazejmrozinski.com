@@ -5,13 +5,13 @@ tags: [psychometrics-meets-tech, hipo, l-and-d, operator-lessons]
 audience: [hr-leaders, founders, l-and-d-directors]
 format: deep-dive
 topics: [psychometrics, talent-development]
+series: talent-archetypes
+seriesIndex: 2
 description: "Two structural equation models from two custom psychometric studies converged on the same finding: tenure predicts two specific traits and nothing else. What that means for high potential employee program design and HiPo development."
 status: published
 safety_review: false
 source_spec: docs/superpowers/specs/2026-04-27-experience-builds-two-traits-design.md
 label: research
-series: talent-archetypes
-seriesIndex: 2
 ---
 
 Years of professional experience is the most common high-potential filter in enterprise talent programs and the most common gate on L&D budget allocation. The implicit assumption behind tenure-based filters is that more years of work proxy for some bundle of leadership-relevant traits, and that filtering on tenure raises the average of those traits in the candidate pool.

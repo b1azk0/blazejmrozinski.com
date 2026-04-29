@@ -2,6 +2,7 @@
 # Posts opt in via the `topics: [slug]` frontmatter field. Free-form `tags` are unaffected.
 # Validator (src/integrations/validate-taxonomy.ts) enforces: every topic value in any
 # post must exist here, and every topic here must have ≥1 published post.
+# Convention: posts with multiple topics list them alphabetically by slug.
 
 wordpress-infrastructure:
   title: WordPress Infrastructure
@@ -21,15 +22,11 @@ psychometrics:
 
 talent-development:
   title: Talent Development
-  description: HiPo programs, cluster-based L&D budgeting, and the build-versus-buy decision for psychometric instruments.
+  description: L&D program design, talent assessment, and the build-versus-buy decisions behind psychometric tooling.
 
 ai-workflows:
   title: AI Workflows
   description: Building durable knowledge bases and agentic workflows for software work — Claude Code, design specs, AI-as-CTO.
-
-product-strategy:
-  title: Product Strategy
-  description: Narratives, business models, and product-market positioning for builder-led companies.
 
 seo:
   title: SEO

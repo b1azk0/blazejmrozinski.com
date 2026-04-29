@@ -4,7 +4,7 @@ date: 2026-04-26
 tags: [devops-reality, wordpress, hetzner, server-backend, automation, backups, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, devops]
+topics: [devops, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 6
 description: "Automated WordPress server maintenance with cron: nightly cloud backups, MariaDB database optimization, 5-phase cache warming, plugin distribution across servers, and restic snapshots."
@@ -234,4 +234,3 @@ The automation chain described here handles the routine. Backups protect against
 All of these scripts connect back to the infrastructure covered in earlier posts. The plugins being synced are the ones configured in [Part 3](/blog/wp-infra-03-deploying-wordpress). The caches being warmed are the FastCGI and Redis layers from [Part 4](/blog/wp-infra-04-four-layers-of-caching). The security hardening from [Part 5](/blog/wp-infra-05-locking-it-down) protects the server that all of this runs on.
 
 What this chain doesn't handle is detection. If the server goes down at 3 AM, if Nginx stops responding, if a site starts returning 500 errors, if SSL certificates are about to expire, nothing in this automation chain will notice. The nightly chain assumes the server is healthy and keeps it clean. Knowing when the server stops being healthy is a different problem, and it's the subject of the final post.
-

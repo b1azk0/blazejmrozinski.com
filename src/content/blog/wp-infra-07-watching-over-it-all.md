@@ -4,7 +4,7 @@ date: 2026-04-27
 tags: [devops-reality, wordpress, hetzner, server-backend, monitoring, automation, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, devops]
+topics: [devops, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 7
 description: "Three-layer WordPress server monitoring: a self-healing cron healthcheck that auto-restarts services, a diagnostic status dashboard, and an external Telegram bot for downtime alerts and disaster recovery."
@@ -318,4 +318,3 @@ The gap I crossed was from "I can follow instructions" to "I understand my infra
 The companion repository has everything: the monitoring scripts, the Watchdog configuration templates, the server tier reference, the full set of maintenance automation from Posts 6 and 7. If you're running WordPress on your own servers, or thinking about it, the repository is the practical starting point. The blog series is the reasoning behind the choices.
 
 *This is the final post in the "WordPress Infrastructure from Scratch" series. The complete code is in the [companion repository](https://github.com/b1azk0/wordpress-infrastructure).*
-

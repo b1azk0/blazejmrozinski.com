@@ -4,7 +4,7 @@ date: 2026-04-12
 tags: [wordpress-performance-optimization, wordpress-caching, object-cache-pro, devops-reality, wordpress, hetzner, redis, nginx, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, caching]
+topics: [caching, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 4
 description: "Four-layer WordPress caching stack for performance optimization: Cloudflare CDN, Nginx FastCGI page cache, Redis Object Cache Pro, and PHP OPcache with JIT. Sub-50ms TTFB with WooCommerce bypass rules."
@@ -409,4 +409,3 @@ The configurations for the FastCGI cache zone and OPcache were first placed duri
 Caching is great until the cache is stale. A plugin update, a PHP-FPM restart, or a server reboot clears the cache, and the next few hundred visitors all hit uncached pages. In Post 6, we build automated maintenance that includes [cache warming](/glossary/cache-warming/), running through the sitemap after every maintenance window so that visitors never see a cold cache.
 
 Before that, Post 5 covers security hardening: rate limiting, fail2ban, firewall rules, and the principle that performance means nothing if the server is compromised.
-

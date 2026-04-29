@@ -4,7 +4,7 @@ date: 2026-04-09
 tags: [object-cache-pro, wordpress-redis, wordpress-deployment, devops-reality, wordpress, hetzner, woocommerce]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, caching]
+topics: [caching, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 3
 description: "Production WordPress deployment on a VPS: wp-config.php constants, Redis Object Cache Pro setup, Nginx vhosts, SSL via Cloudflare, and the wp-config ordering bug nobody warns you about."
@@ -445,4 +445,3 @@ WordPress is running. SSL is active. Redis is caching database queries. The plug
 Part 4 covers exactly that: the full caching strategy, from why OPcache's JIT compiler matters for WordPress to how a cache warming script pre-generates pages before real visitors arrive.
 
 For a personal account of what happens when production security measures work too well, including against you, I wrote about that separately.
-

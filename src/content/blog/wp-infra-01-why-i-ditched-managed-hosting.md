@@ -4,7 +4,7 @@ date: 2026-04-01
 tags: [wordpress-vps, wordpress-hetzner, managed-wordpress-hosting, devops-reality, hetzner, server-backend]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, devops]
+topics: [devops, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 1
 description: "I moved my WordPress and WooCommerce sites from managed hosting to a Hetzner VPS. Full walkthrough of server provisioning, SSH hardening, and firewall setup on Debian 13."
@@ -310,4 +310,3 @@ Full configs for everything in this post are in the [companion repository](https
 You now have a secured Debian server on Hetzner, hardened against the most common attack vectors, running on better hardware than your managed hosting plan provided, for a fraction of the cost. It does absolutely nothing useful yet. That changes in the next post, where we install and configure the full LEMP stack: Nginx, MariaDB, PHP-FPM, and Redis.
 
 The server tuning is where things get interesting. Managed hosting hides these decisions from you, and that's exactly the problem. The difference between a WordPress server that handles 50 concurrent users and one that handles 500 lives in configuration details like PHP-FPM worker counts, MariaDB buffer pool sizes, and OPcache settings. Knowing what those are and why they matter is worth more than any hosting dashboard.
-

@@ -4,7 +4,7 @@ date: 2026-04-06
 tags: [devops-reality, wordpress, hetzner, server-backend, nginx, mariadb, php]
 audience: [founders-operators, ai-practitioners]
 format: deep-dive
-topics: [wordpress-infrastructure, devops]
+topics: [caching, wordpress-infrastructure]
 series: wp-infrastructure
 seriesIndex: 2
 description: "Step-by-step LEMP stack setup for WordPress on a Hetzner VPS. Nginx tuning, MariaDB 11.8 InnoDB configuration, PHP 8.4 FPM static pools, OPcache JIT, and kernel optimization. A practical WordPress performance optimization guide."
@@ -628,4 +628,3 @@ Delete any test scripts when you're done.
 The stack is running. Nginx is configured for WordPress workloads with proper buffering, caching zones, and compression. MariaDB has InnoDB tuned for your tier with the 11.8-specific settings that older guides get wrong. PHP 8.4 FPM is running in static mode with OPcache and JIT compiled. The kernel is tuned for high-connection web serving. Redis is standing by for object caching.
 
 In Part 3, we deploy WordPress itself: `wp-config.php` configuration, database creation, the Nginx vhost with FastCGI cache wiring, SSL certificates via Certbot, and the essential plugin stack including Object Cache Pro and Nginx Helper.
-
