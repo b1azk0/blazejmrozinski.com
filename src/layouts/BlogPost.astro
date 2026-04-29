@@ -4,11 +4,13 @@ import JsonLd from "@/components/JsonLd.astro";
 import Breadcrumb from '@/components/Breadcrumb.astro';
 import BlogSidebar from '@/components/BlogSidebar.astro';
 import SeriesNav from '@/components/SeriesNav.astro';
+import RelatedPosts from '@/components/RelatedPosts.astro';
 import { labels, type LabelSlug } from '@/lib/labels';
 import { PERSON_ID, SITE_URL } from '@/lib/jsonld';
 import { getTopic } from '@/lib/topics';
 import { loadSeries, getSeriesPosts } from '@/lib/series';
-import { getCollection } from 'astro:content';
+import { pickRelated } from '@/lib/related-posts';
+import type { CollectionEntry } from 'astro:content';
 
 interface Props {
   title: string;
@@ -22,11 +24,12 @@ interface Props {
   topics?: string[];
   series?: string;
   seriesIndex?: number;
+  allPosts: CollectionEntry<'blog'>[];
   crumbs: { label: string; href?: string }[];
   headings: { depth: number; slug: string; text: string }[];
 }
 
-const { title, description, date, lastmod, tags, audience, author, label, topics = [], series, seriesIndex, crumbs, headings } = Astro.props;
+const { title, description, date, lastmod, tags, audience, author, label, topics = [], series, seriesIndex, allPosts, crumbs, headings } = Astro.props;
 
 const formattedDate = date.toLocaleDateString('en-US', {
   month: 'short',
@@ -49,18 +52,23 @@ const authorNode = authorIsBlazej
 
 const topicEntries = topics.map((slug) => ({ slug, config: getTopic(slug) })).filter((t) => t.config);
 
-let seriesParts: Awaited<ReturnType<typeof getCollection>> = [];
+let seriesParts: CollectionEntry<'blog'>[] = [];
 let seriesTitle: string | undefined;
 if (series) {
-  const allPosts = await getCollection(
-    'blog',
-    ({ data }) => data.status === 'published' && data.date <= new Date()
-  );
   seriesParts = getSeriesPosts(series, allPosts);
   seriesTitle = loadSeries().get(series)?.title;
 }
 
-const articleJsonLd: Record<string, unknown> = {
+let relatedPosts: CollectionEntry<'blog'>[] = [];
+if (!series) {
+  const currentSlug = Astro.params.slug!;
+  const current = allPosts.find((p) => p.id === currentSlug);
+  if (current) {
+    relatedPosts = pickRelated(current, allPosts, 3);
+  }
+}
+
+const articleJsonLd = {
   '@context': 'https://schema.org',
   '@type': 'Article',
   headline: title,
@@ -75,23 +83,25 @@ const articleJsonLd: Record<string, unknown> = {
   publisher: { '@id': PERSON_ID },
   keywords: tags.join(', '),
   ...(coverUrl ? { image: `${SITE_URL}${coverUrl}` } : {}),
+  ...(topicEntries.length > 0
+    ? {
+        about: topicEntries.map((t) => ({
+          '@type': 'Thing',
+          name: t.config!.title,
+          url: `${SITE_URL}/blog/topic/${t.slug}/`,
+        })),
+      }
+    : {}),
+  ...(series && seriesTitle
+    ? {
+        isPartOf: {
+          '@type': 'CreativeWorkSeries',
+          url: `${SITE_URL}/blog/series/${series}/`,
+          name: seriesTitle,
+        },
+      }
+    : {}),
 };
-
-if (topicEntries.length > 0) {
-  articleJsonLd.about = topicEntries.map((t) => ({
-    '@type': 'Thing',
-    name: t.config!.title,
-    url: `${SITE_URL}/blog/topic/${t.slug}/`,
-  }));
-}
-
-if (series && seriesTitle) {
-  articleJsonLd.isPartOf = {
-    '@type': 'CreativeWorkSeries',
-    url: `${SITE_URL}/blog/series/${series}/`,
-    name: seriesTitle,
-  };
-}
 ---
 
 <Base title={title} description={description} ogType="article" ogImage={coverUrl} author={author} keywords={tags.length > 0 ? tags.join(', ') : undefined}>
@@ -172,6 +182,10 @@ if (series && seriesTitle) {
             parts={seriesParts}
             position="footer"
           />
+        )}
+
+        {!series && relatedPosts.length > 0 && (
+          <RelatedPosts posts={relatedPosts} />
         )}
       </article>
     </div>

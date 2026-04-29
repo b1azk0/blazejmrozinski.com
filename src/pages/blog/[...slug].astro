@@ -13,6 +13,12 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 const { Content, headings } = await render(entry);
+
+const now = new Date();
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => data.status === 'published' && data.date <= now
+);
 ---
 
 <BlogPost
@@ -27,6 +33,7 @@ const { Content, headings } = await render(entry);
   topics={entry.data.topics}
   series={entry.data.series}
   seriesIndex={entry.data.seriesIndex}
+  allPosts={allPosts}
   crumbs={[
     { label: 'Home', href: '/' },
     { label: 'Blog', href: '/blog' },
