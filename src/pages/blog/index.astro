@@ -3,6 +3,7 @@ import Base from '@/layouts/Base.astro';
 import PostCard from '@/components/PostCard.astro';
 import LabelFilter from '@/components/LabelFilter.astro';
 import { getCollection } from 'astro:content';
+import { getTopicSlugs } from '@/lib/topics';
 
 const now = new Date();
 const allPosts = await getCollection('blog', ({ data }) => data.status === 'published' && data.date <= now);
@@ -15,9 +16,26 @@ for (const post of posts) {
     labelCounts[post.data.label] = (labelCounts[post.data.label] || 0) + 1;
   }
 }
+
+const topicSlugs = getTopicSlugs();
 ---
 
 <Base title="Blog: Psychometrics, SEO & Product Building" description="Writing on psychometrics, product building, growth engineering, and technology.">
+  <script is:inline define:vars={{ topicSlugs }}>
+    (function () {
+      const params = new URLSearchParams(window.location.search);
+      const tag = params.get('tag');
+      if (!tag) return;
+      if (topicSlugs.includes(tag)) {
+        window.location.replace('/blog/topic/' + encodeURIComponent(tag) + '/');
+      } else {
+        // strip the param without reload
+        params.delete('tag');
+        const qs = params.toString();
+        window.history.replaceState(null, '', '/blog' + (qs ? '?' + qs : ''));
+      }
+    })();
+  </script>
   <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <h1 class="text-4xl font-bold tracking-tight mb-8" data-animate>Blog</h1>
 

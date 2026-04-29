@@ -1,0 +1,49 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import TopicCard from '@/components/TopicCard.astro';
+import { getCollection } from 'astro:content';
+import { loadTopics, getPostsForTopic } from '@/lib/topics';
+
+const now = new Date();
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => data.status === 'published' && data.date <= now
+);
+const topics = loadTopics();
+
+const entries = [...topics.entries()]
+  .map(([slug, config]) => ({
+    slug,
+    title: config.title,
+    description: config.description,
+    count: getPostsForTopic(slug, allPosts).length,
+  }))
+  .sort((a, b) => b.count - a.count || a.title.localeCompare(b.title));
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Topics' },
+];
+---
+
+<Base
+  title="Blog topics"
+  description="Browse blog posts by topic — WordPress infrastructure, psychometrics, AI workflows, SEO, and more."
+>
+  <div class="container max-w-5xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={crumbs} />
+    <h1 class="text-4xl font-bold tracking-tight mb-4" data-animate>Topics</h1>
+    <p class="text-muted-foreground mb-8 max-w-2xl" data-animate>
+      Browse posts by subject area. Each topic links to a curated hub of posts on that theme.
+    </p>
+    <div class="grid gap-4 sm:grid-cols-2">
+      {entries.map((e, i) => (
+        <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+          <TopicCard slug={e.slug} title={e.title} description={e.description} count={e.count} />
+        </div>
+      ))}
+    </div>
+  </div>
+</Base>

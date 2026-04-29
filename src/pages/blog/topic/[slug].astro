@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro';
+import Breadcrumb from '@/components/Breadcrumb.astro';
+import PostCard from '@/components/PostCard.astro';
+import JsonLd from '@/components/JsonLd.astro';
+import { getCollection } from 'astro:content';
+import { loadTopics, getPostsForTopic } from '@/lib/topics';
+import { SITE_URL } from '@/lib/jsonld';
+
+export async function getStaticPaths() {
+  const topics = loadTopics();
+  return [...topics.keys()].map((slug) => ({ params: { slug } }));
+}
+
+const { slug } = Astro.params;
+const topics = loadTopics();
+const topic = topics.get(slug!);
+if (!topic) {
+  throw new Error(`Topic not found: ${slug}`);
+}
+
+const now = new Date();
+const allPosts = await getCollection(
+  'blog',
+  ({ data }) => data.status === 'published' && data.date <= now
+);
+const posts = getPostsForTopic(slug!, allPosts);
+
+const canonicalUrl = `${SITE_URL}/blog/topic/${slug}/`;
+const collectionJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'CollectionPage',
+  '@id': canonicalUrl,
+  url: canonicalUrl,
+  name: topic.title,
+  description: topic.description,
+  mainEntity: {
+    '@type': 'ItemList',
+    itemListElement: posts.map((post, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      url: `${SITE_URL}/blog/${post.id}/`,
+      name: post.data.title,
+    })),
+  },
+};
+
+const crumbs = [
+  { label: 'Home', href: '/' },
+  { label: 'Blog', href: '/blog' },
+  { label: 'Topics', href: '/blog/topic/' },
+  { label: topic.title },
+];
+---
+
+<Base title={`${topic.title} — Blog`} description={topic.description}>
+  <JsonLd data={collectionJsonLd} />
+  <div class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <Breadcrumb crumbs={crumbs} />
+    <h1 class="text-4xl font-bold tracking-tight mb-4" data-animate>{topic.title}</h1>
+    <p class="text-muted-foreground mb-8" data-animate>{topic.description}</p>
+    {posts.length > 0 ? (
+      <div class="grid gap-4">
+        {posts.map((post, i) => (
+          <div data-animate data-delay={String(Math.min(i + 1, 5))}>
+            <PostCard
+              title={post.data.title}
+              description={post.data.description}
+              date={post.data.date}
+              tags={post.data.tags}
+              slug={post.id}
+              label={post.data.label}
+            />
+          </div>
+        ))}
+      </div>
+    ) : (
+      <p class="text-muted-foreground">No posts on this topic yet.</p>
+    )}
+  </div>
+</Base>
