@@ -54,6 +54,7 @@ Defined in `src/content.config.ts` using Astro 6 Content Layer API with `glob` l
 | `/about` | `src/pages/about.astro` | About page with Person JSON-LD, "Beyond Work" hobbies section |
 | `/publications` | `src/pages/publications.astro` | Publications grouped by year with ScholarlyArticle JSON-LD |
 | `/cv` | `src/pages/cv.astro` | CV page with PDF download button |
+| `/search` | `src/pages/search.astro` | **Search** at [/search/](https://www.blazejmrozinski.com/search/) — Pagefind static search across the blog, glossary, work, projects, publications, about, and cv pages. |
 | `/contact` | `src/pages/contact.astro` | Full contact form (Web3Forms) with social links |
 | `/rss.xml` | `src/pages/rss.xml.js` | RSS 2.0 feed of published blog posts |
 

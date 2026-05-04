@@ -2,6 +2,32 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.14.0] — 2026-05-04 — Pagefind static search + sitewide SearchAction
+
+### Added
+- **`/search` route** powered by Pagefind v1.x default UI, themed via CSS variables to match the site's palette and font stack. Reads `?q=` query param so deep-linking to a search query works. View-transitions-aware (mounts via `astro:page-load`); `noindex, nofollow`.
+- **Sitewide `SearchAction`** in the WebSite JSON-LD (`getWebSiteNode()` → `potentialAction`). Required for Google to consider showing a sitelinks search box on brand SERP. URL template: `https://www.blazejmrozinski.com/search?q={search_term_string}`.
+- **`data-pagefind-body` opt-in** on content layouts: BlogPost, glossary terms, companies, projects, publications, about, cv. Each result carries `data-pagefind-meta` `kind:<type>` and (on blog posts) `date:<iso>` for future relevance/sort use. 76 documents indexed at this site size.
+- **`data-pagefind-ignore`** on Header, Footer, Breadcrumb, YearFilter, SeriesNav, RelatedPosts, the BlogPost "Filed under" line, the CV "Download PDF" anchor, and the work-page relatedProjects section so search snippets aren't polluted with chrome.
+- **Footer "Search" link** between Glossary and About in the pages nav.
+- **Build-artifact verification harness** (`scripts/pagefind-check.test.mjs`, `npm run pagefind:check`): 13 assertions covering bundle ship, sitewide SearchAction, opt-in coverage, listing exclusion, chrome ignore markers, `/search` well-formedness, robots disallow, sitemap exclusion, and footer link presence.
+
+### Changed
+- **`postbuild` script** now runs `pagefind --site dist` before the existing IndexNow ping. CF Pages publishes `dist/pagefind/` alongside the site; no CDN change needed.
+- **`robots.txt`** adds `Disallow: /pagefind/` so the Pagefind bundle assets aren't crawled as if they were content. `/search` itself is allowed to be crawled but is `noindex` at the page level.
+
+### Why
+- The Tier 1 entity graph (v0.12.0) declared `WebSite` sitewide but had no `potentialAction` — Google can't surface a sitelinks search box without a real, working search URL. Pagefind is the smallest path to a legitimate `/search?q=` that lets the action count.
+- Listing pages (`/blog`, topic hubs, series landings, work index, projects index) and the photography gallery are deliberately not indexed: they're navigation, not search destinations. A reader searching "wordpress" should land on a post, not on a hub. PL routes excluded for now and will get a separate per-locale index when i18n unpauses.
+- Bundle scope: Pagefind UI loads only on `/search`. Sitewide JS would add ~120 KB to every page on a site whose Lighthouse audit (2026-05-04, see `docs/backlog.md`) just put LCP into the "Needs Improvement" band. Keeping the bundle off long-form pages preserves headroom for the perf fixes coming next.
+
+### Lighthouse (mobile, simulated 4G + 4× CPU)
+
+| Page | Perf | A11y | BP | SEO | LCP |
+|------|------|------|----|----|-----|
+| `/` | 100 | 96 | 96 | 100 | 1653ms |
+| `/search` | 99 | 96 | 96 | 69 | 1953ms |
+
 ## [0.13.0] — 2026-04-29 — SEO Tier 2: content architecture (topic hubs, series nav, related posts)
 
 ### Added
