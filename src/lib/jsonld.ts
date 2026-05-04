@@ -75,6 +75,14 @@ export function getWebSiteNode() {
       'Personal site of Blazej Mrozinski, PhD — psychologist, psychometrician, product leader.',
     inLanguage: 'en-US',
     publisher: { '@id': PERSON_ID },
+    potentialAction: {
+      '@type': 'SearchAction',
+      target: {
+        '@type': 'EntryPoint',
+        urlTemplate: `${SITE_URL}/search?q={search_term_string}`,
+      },
+      'query-input': 'required name=search_term_string',
+    },
   };
 }
 
