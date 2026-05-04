@@ -43,7 +43,7 @@ const labelConfig = label && label in labels ? labels[label as LabelSlug] : null
       {formattedDate}
     </time>
     {labelConfig && label && (
-      <a href={`/blog?label=${label}`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5">
+      <a href={`/blog/?label=${label}`} class="text-xs text-muted-foreground hover:text-foreground transition-colors inline-flex items-center gap-1.5">
         <span
           class="w-1.5 h-1.5 rounded-full shrink-0"
           style={`background-color: ${labelConfig.accent};`}

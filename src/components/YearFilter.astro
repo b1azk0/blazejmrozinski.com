@@ -21,7 +21,7 @@ const years = Object.keys(counts).map(Number).sort((a, b) => b - a);
   </a>
   {years.map((year) => (
     <a
-      href={`/publications?year=${year}`}
+      href={`/publications/?year=${year}`}
       class:list={[
         'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
         'bg-secondary text-secondary-foreground hover:bg-accent',
