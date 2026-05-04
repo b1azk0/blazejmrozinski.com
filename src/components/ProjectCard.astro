@@ -9,7 +9,7 @@ interface Props {
 
 const { name, description, domain, slug, isCaseStudy = false } = Astro.props;
 ---
-<a href={`/projects/${slug}`} class="group block rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+<a href={`/projects/${slug}/`} class="group block rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
   <div class="flex items-start justify-between gap-4">
     <p class="font-semibold group-hover:text-primary/80 transition-colors">{name}</p>
     <div class="flex gap-2 shrink-0">

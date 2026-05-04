@@ -8,7 +8,7 @@ const { tags, activeTag } = Astro.props;
 ---
 <div class="flex gap-2 flex-wrap mb-6" id="tag-filter">
   <a
-    href="/blog"
+    href="/blog/"
     class:list={[
       'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
       !activeTag
@@ -21,7 +21,7 @@ const { tags, activeTag } = Astro.props;
   </a>
   {tags.map((tag) => (
     <a
-      href={`/blog?tag=${encodeURIComponent(tag)}`}
+      href={`/blog/?tag=${encodeURIComponent(tag)}`}
       class:list={[
         'text-xs px-3 py-1.5 rounded-full transition-colors font-medium',
         activeTag === tag

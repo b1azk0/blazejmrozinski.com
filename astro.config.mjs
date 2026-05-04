@@ -5,6 +5,7 @@ import validateTaxonomy from './src/integrations/validate-taxonomy.ts';
 
 export default defineConfig({
   site: 'https://www.blazejmrozinski.com',
+  trailingSlash: 'always',
   integrations: [validateTaxonomy()],
   vite: {
     plugins: [tailwindcss()],

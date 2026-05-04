@@ -43,7 +43,7 @@ const creativeWorkJsonLd = {
   <div data-pagefind-body data-pagefind-meta="kind:project" class="container max-w-3xl mx-auto px-4 sm:px-6 py-12">
     <Breadcrumb crumbs={[
       { label: 'Home', href: '/' },
-      { label: 'Case Studies', href: '/projects' },
+      { label: 'Case Studies', href: '/projects/' },
       { label: entry.data.name },
     ]} />
 
@@ -55,7 +55,7 @@ const creativeWorkJsonLd = {
           <span class="text-xs bg-primary text-primary-foreground px-2.5 py-1 rounded-full">Case Study</span>
         )}
         {relatedCompany && (
-          <a href={`/work/${relatedCompany.id}`} class="text-sm text-muted-foreground hover:text-foreground transition-colors">
+          <a href={`/work/${relatedCompany.id}/`} class="text-sm text-muted-foreground hover:text-foreground transition-colors">
             {relatedCompany.data.name}
           </a>
         )}

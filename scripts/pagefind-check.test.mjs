@@ -31,7 +31,7 @@ test('Pagefind bundle assets shipped to dist/pagefind/', async () => {
 test('homepage emits SearchAction in WebSite JSON-LD', async () => {
   const html = await readDist('index.html');
   assert.match(html, /"@type":\s*"SearchAction"/);
-  assert.match(html, /"urlTemplate":\s*"[^"]*\/search\?q=\{search_term_string\}"/);
+  assert.match(html, /"urlTemplate":\s*"[^"]*\/search\/\?q=\{search_term_string\}"/);
   assert.match(html, /"query-input":\s*"required name=search_term_string"/);
 });
 
@@ -106,5 +106,5 @@ test('/search NOT in sitemap-pages.xml', async () => {
 
 test('footer "Search" nav link rendered on homepage', async () => {
   const html = await readDist('index.html');
-  assert.match(html, /href="\/search"/);
+  assert.match(html, /href="\/search\/"/);
 });
