@@ -55,7 +55,9 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 - Tier 2 #5 (Pagefind) shipped 2026-05-04 as **v0.14.0** (`/search` route + sitewide `SearchAction` JSON-LD).
 - Tier 2 #4 (image sitemap) is the only remaining open Tier 2 item.
 - Tier 3 #11 (Lighthouse audit) **DONE 2026-05-04** — findings below.
-- Tier 3 #13–17 (audit-derived perf + a11y fixes) shipped 2026-05-04 as **v0.14.1**. Post-deploy Lighthouse re-run **DONE 2026-05-04** — A11y closed at 96 sitewide; LCP improved ~250ms on average but did not move into the "Good" band because the LCP bottleneck shifted from the logo to the headshot (item #22) and to long-form `<h1>` font-render-delay (item #23). Both new items logged below.
+- Tier 3 #13–17 (audit-derived perf + a11y fixes) shipped 2026-05-04 as **v0.14.1**.
+- Tier 3 #22 (headshot eager-load) shipped 2026-05-04 as commit `28b1f87` direct to main. Post-deploy `/about/` is **Perf 100, LCP 1239ms** (from Perf 84/LCP 4093ms baseline — full "Good" band). Post-deploy `/` lands at Perf 86, LCP 3830ms — only ~280ms total improvement vs. baseline, because the LCP bottleneck shifted again to a sitewide ~2s render-delay (item #23) that affects rich pages but not simple ones.
+- Tier 3 #23 (rich-page render-delay) re-scoped after the #22 audit: it's not just long-form `<h1>`s — it's any LCP element on a script/DOM-heavy page. Real-browser DevTools trace is the right next move before committing to a fix.
 
 **Goal:** Continue compounding the SEO work — Tier 2 is the routing/content-architecture layer (real pages where filters used to be, deeper interlinking, a search box). Tier 3 is targeted enrichment.
 **Source of recommendations:** Audit done 2026-04-28 against current Astro setup (CF Pages static, custom multi-sitemap, IndexNow postbuild, Satori OG covers, glossary, RSS).
@@ -138,14 +140,16 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 
 Re-ran Lighthouse against production after v0.14.1 shipped. Same 6 URLs, same throttle profile (mobile, simulated 4G + 4× CPU). URLs were the slashed canonical forms (post-fix internal links emit them, and CF Pages now serves them directly).
 
-| Page | Perf (before → after) | A11y (before → after) | LCP ms (before → after) | Δ LCP |
-|------|----------------------|----------------------|-------------------------|-------|
-| `/` | 86 → **87** | 96 → 96 | 4113 → 4011 | -102 |
-| `/blog/` | 85 → **87** | 94 → **96** | 4122 → 3897 | -225 |
-| `/about/` | 84 → **89** | 96 → 96 | 4093 → 3753 | -340 |
-| `/blog/wp-infra-04-...` | 82 → 82 | 96 → 96 | 4698 → 4426 | -272 |
-| `/blog/topic/wordpress-infrastructure/` | 86 → 86 | 94 → **96** | 4121 → 3960 | -161 |
-| `/blog/series/wp-infrastructure/` | 84 → **86** | 96 → 96 | 4146 → 3799 | -347 |
+| Page | Perf (baseline → v0.14.1 → +#22) | A11y | LCP ms (baseline → v0.14.1 → +#22) |
+|------|----------------------------------|------|------------------------------------|
+| `/` | 86 → 87 → **86** | 96 | 4113 → 4011 → **3830** |
+| `/blog/` | 85 → **87** | 94 → **96** | 4122 → **3897** |
+| `/about/` | 84 → 89 → **100** | 96 | 4093 → 3753 → **1239** |
+| `/blog/wp-infra-04-...` | 82 → 82 | 96 | 4698 → **4426** |
+| `/blog/topic/wordpress-infrastructure/` | 86 → 86 | 94 → **96** | 4121 → **3960** |
+| `/blog/series/wp-infrastructure/` | 84 → **86** | 96 | 4146 → **3799** |
+
+The third column on `/` and `/about/` reflects commit `28b1f87` (item #22, headshot eager-load). The other rows show only the v0.14.1 number — `/about/` confirms the LCP element on the audit URLs has now stabilized on the *logo*, which on simple pages renders in ~76ms total. The lingering ~2s render delay on `/`, `/blog/wp-infra-04`, and the listing landings is item #23 (sitewide rich-page render delay).
 
 **What landed cleanly:**
 - A11y: 94 → 96 on `/blog/` and `/blog/topic/...` (heading-order + footer contrast fixes confirmed). 96 sitewide.
@@ -200,18 +204,22 @@ Lighthouse JSONs preserved at `/tmp/lh-prod/*-mobile.json` until next reboot.
 
 ### New items from the post-fix re-audit (2026-05-04)
 
-22. **Eager-load the headshot images** — same pattern as the v0.14.1 logo fix, applied to the next-largest above-the-fold image. Surfaced once the logo stopped being the LCP element. Add `loading="eager"` and `fetchpriority="high"` to:
-    - `src/pages/index.astro` — homepage hero `<Image>` (80×80, rounded).
-    - `src/pages/about.astro` — about-page bio `<Image>` (160×160, rounded).
-    
-    Estimated impact (per the post-fix audit): `/` LCP from ~4011ms → ~3000ms; `/about/` LCP from ~3753ms → ~2700ms (probably crosses into the "Good" band on `/about/`).
+22. ~~**Eager-load the headshot images**~~ — **SHIPPED 2026-05-04** (commit `28b1f87` direct to main). Both `index.astro` (80×80) and `about.astro` (160×160) `<Image>` got `loading="eager"` and `fetchpriority="high"`. Post-deploy Lighthouse on `/about/`: **Perf 100, LCP 1239ms** (was Perf 89, LCP 3753ms — a 2.5s LCP win, full "Good" band). Post-deploy Lighthouse on `/`: Perf 86, LCP 3830ms (was Perf 87, LCP 4011ms) — only ~180ms improvement, because the LCP bottleneck shifted again (see #23 below).
 
-23. **`<h1>` element-render-delay on long-form pages.** wp-infra-04 (article H1), topic hub, and series landing all show ~2000ms of "Element render delay" on their LCP elements despite Geist being preloaded with `font-display: swap`. Three hypotheses to validate before fixing:
-    - **Lighthouse simulator artifact:** simulated 4G + 4× CPU may apply throttle to the preloaded font fetch beyond what real browsers do. Compare with Chrome DevTools "applied throttle" → if real-browser LCP is sub-2s, this is mostly a measurement quirk.
-    - **CSS load order:** the `@font-face` declaration in `global.css` may not be parsed before the H1 paints. Inline-critical the `@font-face` block in `<head>` to short-circuit the CSS round-trip.
-    - **Web font swap timing:** `font-display: swap` should paint fallback text immediately; if Lighthouse picks the post-swap H1 as LCP (largest at full font size), the wait time IS the font load time. Fix would be `font-display: optional` (smaller swap window) or a pre-rendered SVG H1 — both invasive.
+23. **Sitewide ~2000ms element-render-delay on rich pages.** Originally scoped to long-form `<h1>`s; the post-#22 audit revealed this is broader: whichever element wins LCP on a "rich" page (lots of DOM / scripts / animations) has ~2000ms of "Element render delay" regardless of resource load timing. Currently observed on:
+    - `/` — logo as LCP, 2016ms render delay (despite 13ms resource load delay).
+    - `/blog/wp-infra-04-...` — article H1 as LCP, 2049ms render delay (no resource load).
+    - `/blog/topic/wordpress-infrastructure/` — logo as LCP, 1985ms render delay.
+    - `/blog/series/wp-infrastructure/` — logo as LCP, 1989ms render delay.
     
-    Investigate before committing to a fix. Files (likely): `src/styles/global.css`, `src/layouts/Base.astro`, possibly the BlogPost layout if special-casing is needed.
+    By contrast, `/about/` (simple page) has 37ms render delay on the same logo — proving the issue is NOT the logo or the font, it's something about the rich-page render path.
+    
+    Three updated hypotheses (the H1-only ones from the prior version are dropped):
+    - **Render-blocking JS/CSS in `<head>`:** Tailwind v4 CSS is large and parsed inline; `Base.astro` JSON-LD is large; theme/animation scripts could be blocking paint. Identify whether any `<script>` or `<style>` in `<head>` runs synchronously and parses heavy work.
+    - **`AnimationObserver` / `data-animate` initial paint:** rich pages have many `data-animate` blocks; if the observer's setup or the initial-state CSS keeps elements `opacity: 0` until JS attaches the observer, LCP measures the first viable paint, which is post-observer-setup. Check `src/components/AnimationObserver.astro`.
+    - **Lighthouse simulator artifact for CPU-heavy first paint:** the simulator's 4× CPU multiplier can blow up first-paint costs on script-heavy `<head>`. Compare with a real-browser DevTools trace (Performance tab → record `/` cold-load with mobile throttle); if real-browser LCP on `/` is sub-2s, this is largely a measurement quirk.
+    
+    Investigate before fixing. Real-browser DevTools trace on `/` is the right next move — cheap, reveals actual paint timing, distinguishes sim artifact from real bottleneck.
 
 ### Why not now
 
@@ -223,6 +231,5 @@ Tier 3 #18–21 are byproducts of v0.14.1; #19 and #21 are small enough to bundl
 
 ### Next step on resume
 
-1. **Ship #22 (headshot eager-load)** as a small `fix(perf):` commit straight to main — same pattern as the v0.14.1 logo fix; no PR needed for a 3-line change. After CF Pages deploys, re-run Lighthouse on `/` and `/about/` to confirm LCP crosses into the "Good" band on `/about/` and approaches it on `/`.
-2. **Investigate #23 (H1 render delay)** before committing to a fix — three hypotheses listed in the item; the right next step is a real-browser DevTools trace on `/blog/wp-infra-04-...` to see whether the 2s render delay reproduces outside Lighthouse's simulator.
-3. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable, plus the v0.14.1 byproducts #18–21) as priorities dictate.
+1. **Investigate #23 (rich-page render-delay)** — the only meaningful perf gap left. Real-browser DevTools trace on `/` is the right next move: open Chrome DevTools → Performance tab → mobile throttle → record a cold-load → identify what's keeping the LCP element from painting for ~2s. If real-browser LCP is sub-2s, this is a Lighthouse simulator artifact and we accept the score. If it's a real bottleneck, the trace will name the offending script or style. Don't ship a fix without that trace.
+2. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable, plus the v0.14.1 byproducts #18–21) as priorities dictate.
