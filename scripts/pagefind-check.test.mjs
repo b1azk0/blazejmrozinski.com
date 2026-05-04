@@ -106,5 +106,5 @@ test('/search NOT in sitemap-pages.xml', async () => {
 
 test('footer "Search" nav link rendered on homepage', async () => {
   const html = await readDist('index.html');
-  assert.match(html, /href="\/search"/);
+  assert.match(html, /href="\/search\/"/);
 });

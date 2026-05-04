@@ -42,6 +42,8 @@ const topicSlugs = getTopicSlugs();
     {hasLabels && <LabelFilter counts={labelCounts} />}
 
     {posts.length > 0 ? (
+      <>
+      <h2 class="sr-only">Posts</h2>
       <div class="grid gap-4">
         {posts.map((post, i) => (
           <div data-animate data-delay={String(Math.min(i + 1, 5))} data-post-label={post.data.label || ''} data-post-tags={post.data.tags.join(',')}>
@@ -57,6 +59,7 @@ const topicSlugs = getTopicSlugs();
           </div>
         ))}
       </div>
+      </>
     ) : (
       <div class="text-center py-8" data-animate>
         <p class="text-muted-foreground mb-4">No posts yet. Check back soon.</p>

@@ -16,7 +16,7 @@ const { title, location, date, photoCount, hero, slug, loading = 'lazy' } = Astr
 const formattedDate = date.toLocaleDateString('en-US', { month: 'short', year: 'numeric' });
 ---
 
-<a href={`/photography/${slug}`} class="group block rounded-lg overflow-hidden border bg-card text-card-foreground hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
+<a href={`/photography/${slug}/`} class="group block rounded-lg overflow-hidden border bg-card text-card-foreground hover:shadow-md transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background">
   <div class="aspect-[3/2] overflow-hidden">
     <Image
       src={hero}

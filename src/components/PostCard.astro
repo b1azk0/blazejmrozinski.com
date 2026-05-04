@@ -27,7 +27,7 @@ const labelConfig = label && label in labels ? labels[label as LabelSlug] : null
   class="group rounded-lg border bg-card text-card-foreground p-6 hover:shadow-md transition-all"
   data-tags={tags.join(',')}
 >
-  <a href={`/blog/${slug}`} class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
+  <a href={`/blog/${slug}/`} class="block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring rounded-sm">
     <h3 class:list={[
       'font-bold tracking-tight group-hover:text-primary/80 transition-colors',
       featured ? 'text-2xl' : 'text-lg',

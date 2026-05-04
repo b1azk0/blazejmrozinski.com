@@ -191,7 +191,7 @@ const companyData = allCompanies.map((c) => ({
           data-label={post.label}
           style={post.labelColor ? `border-left: 3px solid ${post.labelColor};` : ''}
         >
-          <a href={`/blog/${post.slug}`} class="block">
+          <a href={`/blog/${post.slug}/`} class="block">
             <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
               {post.title}
             </h3>
@@ -230,7 +230,7 @@ const companyData = allCompanies.map((c) => ({
           data-related-posts={p.relatedPosts.join(',')}
           data-page-type="project"
         >
-          <a href={`/work/${p.slug}`} class="block">
+          <a href={`/work/${p.slug}/`} class="block">
             <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
               {p.name}
             </h3>
@@ -252,7 +252,7 @@ const companyData = allCompanies.map((c) => ({
           data-related-projects={c.relatedProjects.join(',')}
           data-page-type="company"
         >
-          <a href={`/work/${c.slug}`} class="block">
+          <a href={`/work/${c.slug}/`} class="block">
             <h3 class="font-bold text-lg tracking-tight hover:text-primary/80 transition-colors">
               {c.name}
             </h3>

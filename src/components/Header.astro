@@ -5,13 +5,13 @@ import logoLight from '@/assets/logo-light.png';
 import logoDark from '@/assets/logo-dark.png';
 
 const navItems = [
-  { href: '/work', label: 'Work' },
-  { href: '/projects', label: 'Case Studies' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/publications', label: 'Publications' },
-  { href: '/about', label: 'About' },
-  { href: '/cv', label: 'CV' },
-  { href: '/contact', label: 'Contact' },
+  { href: '/work/', label: 'Work' },
+  { href: '/projects/', label: 'Case Studies' },
+  { href: '/blog/', label: 'Blog' },
+  { href: '/publications/', label: 'Publications' },
+  { href: '/about/', label: 'About' },
+  { href: '/cv/', label: 'CV' },
+  { href: '/contact/', label: 'Contact' },
 ];
 
 const currentPath = Astro.url.pathname;
@@ -30,6 +30,8 @@ const currentPath = Astro.url.pathname;
         height={40}
         width={Math.round(logoLight.width * (40 / logoLight.height))}
         class="block dark:hidden"
+        loading="eager"
+        fetchpriority="high"
       />
       <Image
         src={logoDark}
@@ -37,6 +39,8 @@ const currentPath = Astro.url.pathname;
         height={40}
         width={Math.round(logoDark.width * (40 / logoDark.height))}
         class="hidden dark:block"
+        loading="eager"
+        fetchpriority="high"
       />
     </a>
 
