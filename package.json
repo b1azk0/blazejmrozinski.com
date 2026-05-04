@@ -10,7 +10,7 @@
     "generate-covers": "node --import tsx scripts/generate-covers.ts",
     "prebuild": "npm run generate-covers",
     "build": "astro build",
-    "postbuild": "node --import tsx scripts/indexnow.ts",
+    "postbuild": "pagefind --site dist && node --import tsx scripts/indexnow.ts",
     "preview": "astro preview",
     "astro": "astro"
   },
@@ -26,6 +26,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.8",
+    "pagefind": "^1.5.2",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   }
