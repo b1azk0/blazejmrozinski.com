@@ -55,7 +55,7 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 - Tier 2 #5 (Pagefind) shipped 2026-05-04 as **v0.14.0** (`/search` route + sitewide `SearchAction` JSON-LD).
 - Tier 2 #4 (image sitemap) is the only remaining open Tier 2 item.
 - Tier 3 #11 (Lighthouse audit) **DONE 2026-05-04** — findings below.
-- Tier 3 #13–17 (audit-derived perf + a11y fixes) shipped 2026-05-04 as **v0.14.1** (`feat/seo-tier3-perf-a11y-polish`). Production Lighthouse re-run pending deploy.
+- Tier 3 #13–17 (audit-derived perf + a11y fixes) shipped 2026-05-04 as **v0.14.1**. Post-deploy Lighthouse re-run **DONE 2026-05-04** — A11y closed at 96 sitewide; LCP improved ~250ms on average but did not move into the "Good" band because the LCP bottleneck shifted from the logo to the headshot (item #22) and to long-form `<h1>` font-render-delay (item #23). Both new items logged below.
 
 **Goal:** Continue compounding the SEO work — Tier 2 is the routing/content-architecture layer (real pages where filters used to be, deeper interlinking, a search box). Tier 3 is targeted enrichment.
 **Source of recommendations:** Audit done 2026-04-28 against current Astro setup (CF Pages static, custom multi-sitemap, IndexNow postbuild, Satori OG covers, glossary, RSS).
@@ -134,6 +134,44 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 
 **If items 1–3 + 5–6 get fixed:** estimated LCP from ~4.2s → ~1.5–1.8s (Good band), Performance score from 84-86 → 95+, Accessibility 100. Lighthouse JSONs preserved at `/tmp/lh-audit/*-mobile.json` until next reboot.
 
+### Post-fix audit — 2026-05-04 (after v0.14.1 deploy)
+
+Re-ran Lighthouse against production after v0.14.1 shipped. Same 6 URLs, same throttle profile (mobile, simulated 4G + 4× CPU). URLs were the slashed canonical forms (post-fix internal links emit them, and CF Pages now serves them directly).
+
+| Page | Perf (before → after) | A11y (before → after) | LCP ms (before → after) | Δ LCP |
+|------|----------------------|----------------------|-------------------------|-------|
+| `/` | 86 → **87** | 96 → 96 | 4113 → 4011 | -102 |
+| `/blog/` | 85 → **87** | 94 → **96** | 4122 → 3897 | -225 |
+| `/about/` | 84 → **89** | 96 → 96 | 4093 → 3753 | -340 |
+| `/blog/wp-infra-04-...` | 82 → 82 | 96 → 96 | 4698 → 4426 | -272 |
+| `/blog/topic/wordpress-infrastructure/` | 86 → 86 | 94 → **96** | 4121 → 3960 | -161 |
+| `/blog/series/wp-infrastructure/` | 84 → **86** | 96 → 96 | 4146 → 3799 | -347 |
+
+**What landed cleanly:**
+- A11y: 94 → 96 on `/blog/` and `/blog/topic/...` (heading-order + footer contrast fixes confirmed). 96 sitewide.
+- Trailing-slash: 800ms 301 redirect penalty gone (~200ms component of the LCP improvement).
+- SEO: 100 sitewide (no regression).
+- Logo eager: confirmed in production HTML on every page (`<img ... loading="eager" fetchpriority="high">`); resource-load-delay on the logo dropped from ~1050ms → 5–9ms.
+- Font preload: confirmed in production `<head>` (`<link rel="preload" href="/fonts/Geist-Variable.woff2">`).
+
+**What didn't land — bottleneck shifted, not eliminated:**
+
+The expected ~2.5s LCP win didn't materialize because two new findings only become visible once the logo isn't the LCP element anymore:
+
+1. **Headshot images are now the LCP element on `/` and `/about/`** — both `<img ... loading="lazy">`. Selectors:
+   - Homepage: `main#main-content > section.py-20 > div.container > img.rounded-full` (80×80)
+   - About: `main#main-content > div.container > div.flex > img.rounded-full` (160×160)
+   
+   Both show ~1040ms "Resource load delay" — same root cause as the logo had. Fix is the same pattern.
+   
+   Logged as item **#22** below.
+
+2. **`<h1>` element-render-delay on long-form articles** (`/blog/wp-infra-04-...`, `/blog/topic/...`, `/blog/series/...`) sits at ~2000ms despite font preload + `font-display: swap` being in place. Could be a Lighthouse simulated-throttling artifact (the simulator may not honor preload at the font-fetch granularity needed) or a genuine font-load timing issue. Logged as item **#23** below for separate investigation.
+
+The honest read: v0.14.1 was a partial win. A11y finished (now 96 sitewide); LCP improved on average ~250ms but didn't move from "Needs Improvement" into "Good." Closing the LCP work needs items #22 and #23.
+
+Lighthouse JSONs preserved at `/tmp/lh-prod/*-mobile.json` until next reboot.
+
 ### New Tier 3 items derived from audit
 
 13. ~~**Eager-load the header logo**~~ — **SHIPPED v0.14.1** (`feat/seo-tier3-perf-a11y-polish`). Both `<Image>` variants in `Header.astro` got `loading="eager"` and `fetchpriority="high"`.
@@ -160,6 +198,21 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 21. **`indexnow.ts` runs on every local build via `postbuild`.** Local `npm run build` pings IndexNow ("Submitted successfully"). Ideally gated on a CI/CF Pages env var so personal-machine builds don't ping every time.
     - Files: `scripts/indexnow.ts`.
 
+### New items from the post-fix re-audit (2026-05-04)
+
+22. **Eager-load the headshot images** — same pattern as the v0.14.1 logo fix, applied to the next-largest above-the-fold image. Surfaced once the logo stopped being the LCP element. Add `loading="eager"` and `fetchpriority="high"` to:
+    - `src/pages/index.astro` — homepage hero `<Image>` (80×80, rounded).
+    - `src/pages/about.astro` — about-page bio `<Image>` (160×160, rounded).
+    
+    Estimated impact (per the post-fix audit): `/` LCP from ~4011ms → ~3000ms; `/about/` LCP from ~3753ms → ~2700ms (probably crosses into the "Good" band on `/about/`).
+
+23. **`<h1>` element-render-delay on long-form pages.** wp-infra-04 (article H1), topic hub, and series landing all show ~2000ms of "Element render delay" on their LCP elements despite Geist being preloaded with `font-display: swap`. Three hypotheses to validate before fixing:
+    - **Lighthouse simulator artifact:** simulated 4G + 4× CPU may apply throttle to the preloaded font fetch beyond what real browsers do. Compare with Chrome DevTools "applied throttle" → if real-browser LCP is sub-2s, this is mostly a measurement quirk.
+    - **CSS load order:** the `@font-face` declaration in `global.css` may not be parsed before the H1 paints. Inline-critical the `@font-face` block in `<head>` to short-circuit the CSS round-trip.
+    - **Web font swap timing:** `font-display: swap` should paint fallback text immediately; if Lighthouse picks the post-swap H1 as LCP (largest at full font size), the wait time IS the font load time. Fix would be `font-display: optional` (smaller swap window) or a pre-rendered SVG H1 — both invasive.
+    
+    Investigate before committing to a fix. Files (likely): `src/styles/global.css`, `src/layouts/Base.astro`, possibly the BlogPost layout if special-casing is needed.
+
 ### Why not now
 
 Tier 2 #4 (image sitemap) is opportunistic — fold it into the next time `sitemap-blog.xml.ts` is open.
@@ -170,6 +223,6 @@ Tier 3 #18–21 are byproducts of v0.14.1; #19 and #21 are small enough to bundl
 
 ### Next step on resume
 
-1. **Re-run Lighthouse against production** once v0.14.1 deploys to CF Pages — update the audit table at the top of this section with the post-fix numbers and confirm the LCP regression is closed.
-2. Then either tackle Tier 2 #4 (image sitemap) or pick from the remaining Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable, or the new #18–21 byproducts).
-3. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable) as priorities dictate.
+1. **Ship #22 (headshot eager-load)** as a small `fix(perf):` commit straight to main — same pattern as the v0.14.1 logo fix; no PR needed for a 3-line change. After CF Pages deploys, re-run Lighthouse on `/` and `/about/` to confirm LCP crosses into the "Good" band on `/about/` and approaches it on `/`.
+2. **Investigate #23 (H1 render delay)** before committing to a fix — three hypotheses listed in the item; the right next step is a real-browser DevTools trace on `/blog/wp-infra-04-...` to see whether the 2s render delay reproduces outside Lighthouse's simulator.
+3. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable, plus the v0.14.1 byproducts #18–21) as priorities dictate.
