@@ -2,6 +2,21 @@
 
 All notable changes to blazejmrozinski.com are documented here.
 
+## [0.14.1] — 2026-05-04 — Perf + a11y polish from the 2026-05-04 Lighthouse audit
+
+### Fixed
+- **Header logo eager-loaded.** Removed `loading="lazy"` (Astro `<Image>` default); added `loading="eager"` and `fetchpriority="high"` on both light and dark `<Image>` variants in `Header.astro`. The audit found the logo was the LCP element on 5 of 6 pages with ~1050ms of "Resource load delay" — single biggest LCP win on the site.
+- **Trailing-slash internal routing.** `astro.config.mjs` now sets `trailingSlash: 'always'`. Audited and fixed every internal `<a href>` form that emitted un-slashed routes — main nav, footer nav, post cards, company/project cards, label/tag/year filter chips, breadcrumb arrays on every dynamic page (blog post, work, project, glossary, changelog version), and one stray markdown link in `cv.md`. Internal navigation no longer triggers Cloudflare Pages' ~800ms 301 redirect from un-slashed → slashed form. Also flips `BreadcrumbList` JSON-LD `item` URLs to the canonical slashed form on every dynamic page.
+- **Font preload.** `Base.astro` (via existing `FontPreload.astro`) now ships `<link rel="preload" href="/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin>`. Geist was already `font-display: swap` in `global.css`, but the browser discovered the URL too late from CSS, costing ~2s of "Element render delay" on long-form article H1s where the H1 was the LCP element. `GeistMono-Variable.woff2` is intentionally not preloaded — used only in code blocks; preloading would waste bytes on every page.
+- **Footer changelog version-badge contrast.** `text-muted-foreground/40` → `text-muted-foreground/70`. The `/40` opacity made the link fail WCAG AA color-contrast on every page (single-offender pattern across the audit).
+- **Heading order on `/blog` and `/blog/topic/[slug]/`.** Added a visually-hidden `<h2 class="sr-only">` above the post-card grid so `PostCard <h3>` titles no longer jump directly from the page `<h1>`. Closes the Lighthouse `heading-order` a11y fail.
+
+### Changed
+- **`SearchAction` JSON-LD `urlTemplate`** flipped from `${SITE_URL}/search?q=…` to `${SITE_URL}/search/?q=…` for consistency with the new sitewide trailing-slash policy. Verification harnesses (`scripts/jsonld.test.mjs`, `scripts/pagefind-check.test.mjs`) updated to assert the slashed form.
+
+### Why
+- The 2026-05-04 Lighthouse audit (logged in `docs/backlog.md`) found mobile LCP at 4.0–4.7s sitewide despite TBT/FCP/TTFB all green and CLS=0 — Performance scoring 82–86, Accessibility 94–96. Every fix in this release targets one of the audit's root causes; combined estimated impact is LCP ~4.2s → ~1.5–1.8s on production, Performance from 84–86 → 95+, Accessibility 94–96 → 100. Production confirmation pending the post-deploy Lighthouse re-run.
+
 ## [0.14.0] — 2026-05-04 — Pagefind static search + sitewide SearchAction
 
 ### Added

@@ -54,7 +54,8 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 - Tier 2 #1–3 shipped 2026-04-29 as **v0.13.0** (topic hubs, series nav, related posts).
 - Tier 2 #5 (Pagefind) shipped 2026-05-04 as **v0.14.0** (`/search` route + sitewide `SearchAction` JSON-LD).
 - Tier 2 #4 (image sitemap) is the only remaining open Tier 2 item.
-- Tier 3 #11 (Lighthouse audit) **DONE 2026-05-04** — findings below; items #13–17 are the actionable follow-ups.
+- Tier 3 #11 (Lighthouse audit) **DONE 2026-05-04** — findings below.
+- Tier 3 #13–17 (audit-derived perf + a11y fixes) shipped 2026-05-04 as **v0.14.1** (`feat/seo-tier3-perf-a11y-polish`). Production Lighthouse re-run pending deploy.
 
 **Goal:** Continue compounding the SEO work — Tier 2 is the routing/content-architecture layer (real pages where filters used to be, deeper interlinking, a search box). Tier 3 is targeted enrichment.
 **Source of recommendations:** Audit done 2026-04-28 against current Astro setup (CF Pages static, custom multi-sitemap, IndexNow postbuild, Satori OG covers, glossary, RSS).
@@ -135,20 +136,29 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 
 ### New Tier 3 items derived from audit
 
-13. **Eager-load the header logo** (audit #1). Remove `loading="lazy"` (and ideally `decoding="async"`) from the `<img>` in the sticky header; add `fetchpriority="high"`. Optionally provide a 2× source for retina mobiles. Single biggest LCP win across the site.
-    - Files: `src/components/Header.astro` (or wherever the logo `<img>` lives — both `logo-light` and `logo-dark` variants).
+13. ~~**Eager-load the header logo**~~ — **SHIPPED v0.14.1** (`feat/seo-tier3-perf-a11y-polish`). Both `<Image>` variants in `Header.astro` got `loading="eager"` and `fetchpriority="high"`.
 
-14. **Trailing-slash internal links** (audit #2). Audit internal links for the un-slashed form. Either rewrite call sites or set Astro's `trailingSlash: 'always'` and confirm CF Pages doesn't double-redirect. Spot check: `Header.astro` nav, `Footer.astro` nav, in-content links from blog posts.
-    - Files: `astro.config.mjs`, `src/components/Header.astro`, `src/components/Footer.astro`, plus a grep across `src/`.
+14. ~~**Trailing-slash internal links**~~ — **SHIPPED v0.14.1**. `astro.config.mjs` now sets `trailingSlash: 'always'`; ~30 internal hrefs across components, layouts, page-level breadcrumb arrays, the `SearchAction` `urlTemplate` in `jsonld.ts`, and one stray markdown link in `cv.md` flipped to slashed form.
 
-15. **Web-font preload + `font-display: swap` for headings** (audit #3). Ensure the H1/heading font family has `font-display: swap` declared and is preloaded with `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `Base.astro`. Only matters on pages where the LCP is text rather than the logo (long-form articles).
-    - Files: `src/layouts/Base.astro`, font CSS source.
+15. ~~**Web-font preload**~~ — **SHIPPED v0.14.1**. `FontPreload.astro` now ships only `Geist-Variable.woff2` (mono dropped); `<link rel="preload" as="font" type="font/woff2" crossorigin>` lands in `<head>` via `Base.astro`. `font-display: swap` was already declared in `global.css`.
 
-16. **Footer changelog badge contrast** (audit #5). Bump the link in `src/components/Footer.astro` from `text-muted-foreground/40` to a value that clears WCAG AA against the dark footer background. Fastest fix: drop the opacity modifier and let `text-muted-foreground` speak for itself, or use `/70`.
-    - Files: `src/components/Footer.astro`.
+16. ~~**Footer changelog badge contrast**~~ — **SHIPPED v0.14.1**. `text-muted-foreground/40` → `/70`.
 
-17. **Heading order on blog index and topic hubs** (audit #6). Add a `<h2 class="sr-only">Posts</h2>` (or visible) above the grid in `src/pages/blog/index.astro` and `src/pages/blog/topic/[slug].astro` so cards' `<h3>` titles don't jump from the page H1.
-    - Files: `src/pages/blog/index.astro`, `src/pages/blog/topic/[slug].astro`.
+17. ~~**Heading order on blog index and topic hubs**~~ — **SHIPPED v0.14.1**. `<h2 class="sr-only">` added above the post grid on both `/blog/index.astro` and `/blog/topic/[slug].astro`.
+
+### New deferred items surfaced during the polish PR
+
+18. **Markdown body links lacking trailing slash.** With `trailingSlash: 'always'` now in effect, any author-written link in `src/content/**/*.md` of the form `[label](/blog/some-post)` (no slash, no extension) triggers a CF Pages 301 on click. The polish PR fixed one stray case (`cv.md`); a one-time grep + sweep across all markdown collections (blog posts, glossary terms, pages) would close the remaining surface.
+    - Files: `src/content/blog/*.md`, `src/content/glossary/*.md`, `src/content/pages/*.md`. Could be a script.
+
+19. **Automated link-form regression test.** The polish PR's review caught the markdown leak only because of a manual dist-wide grep. A test along the lines of "scan every `dist/**/*.html` for `href="/[a-z-]+"` (no trailing slash, no extension, no `?` or `#`) and fail the build if any survive" would prevent the next regression. Could live alongside `pagefind-check.test.mjs`.
+    - Files: new `scripts/internal-links-check.test.mjs`, `npm run links:check` script.
+
+20. **Astro dev-server vs `trailingSlash: 'always'` UX.** With the new setting, `npm run dev` returns 404 for un-slashed URLs (e.g. typing `localhost:4321/blog` in the address bar). Production CF Pages handles redirects, so the experience differs by environment. Worth one line in the README's "running locally" section so future contributors aren't confused.
+    - Files: `README.md` (development section).
+
+21. **`indexnow.ts` runs on every local build via `postbuild`.** Local `npm run build` pings IndexNow ("Submitted successfully"). Ideally gated on a CI/CF Pages env var so personal-machine builds don't ping every time.
+    - Files: `scripts/indexnow.ts`.
 
 ### Why not now
 
@@ -156,10 +166,10 @@ Tier 2 #4 (image sitemap) is opportunistic — fold it into the next time `sitem
 
 Tier 3 #6, #7, #9, #10, #12 are opportunistic — bolt onto adjacent work.
 
-Tier 3 #13–17 are quick wins from the audit. They should ship as a one-shot "perf + a11y polish" PR — the next item on deck after v0.14.0. The logo fix alone is the highest-impact, lowest-effort change on the site right now.
+Tier 3 #18–21 are byproducts of v0.14.1; #19 and #21 are small enough to bundle into a future maintenance commit. #18 is a one-time content sweep. #20 is a README one-liner.
 
 ### Next step on resume
 
-1. Ship audit fixes #13–17 as a single "perf + a11y polish" PR — they share `Header.astro` / `Footer.astro` / `Base.astro` and are mostly one-line diffs. The logo fix (#13) alone is the highest-impact change; combined with #14 (trailing-slash links) and #15 (font preload) it should take LCP from ~4s to ~1.5–1.8s on production.
-2. Re-run Lighthouse against production once the polish PR deploys; update this doc with the post-fix numbers and confirm the open LCP work documented at the top of the audit table is closed.
+1. **Re-run Lighthouse against production** once v0.14.1 deploys to CF Pages — update the audit table at the top of this section with the post-fix numbers and confirm the LCP regression is closed.
+2. Then either tackle Tier 2 #4 (image sitemap) or pick from the remaining Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable, or the new #18–21 byproducts).
 3. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable) as priorities dictate.
