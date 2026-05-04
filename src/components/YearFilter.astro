@@ -8,7 +8,7 @@ const totalCount = Object.values(counts).reduce((sum, n) => sum + n, 0);
 const years = Object.keys(counts).map(Number).sort((a, b) => b - a);
 ---
 
-<div class="flex gap-2 flex-wrap mb-8" id="year-filter">
+<div class="flex gap-2 flex-wrap mb-8" id="year-filter" data-pagefind-ignore>
   <a
     href="/publications"
     class:list={[

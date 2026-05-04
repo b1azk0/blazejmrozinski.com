@@ -1,0 +1,81 @@
+---
+import Base from '@/layouts/Base.astro';
+
+const title = 'Search';
+const description = 'Search across the blog, glossary, work, and writing.';
+---
+
+<Base title={title} description={description} robots="noindex, nofollow">
+  <Fragment slot="head">
+    <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+    <style is:global>
+      /*
+       * Theme Pagefind UI to the site palette.
+       * The site uses oklch() values via Tailwind v4 @theme CSS variables —
+       * map Pagefind's own CSS vars to those tokens so light/dark mode
+       * follows automatically. The --color-* tokens already swap under
+       * .dark (see global.css), so no .dark override is needed here.
+       */
+      :root {
+        --pagefind-ui-primary: var(--color-primary);
+        --pagefind-ui-text: var(--color-foreground);
+        --pagefind-ui-background: var(--color-background);
+        --pagefind-ui-border: var(--color-border);
+        --pagefind-ui-tag: var(--color-muted);
+        --pagefind-ui-border-width: 1px;
+        --pagefind-ui-border-radius: 0.5rem;
+        --pagefind-ui-font: var(--font-sans);
+      }
+    </style>
+    <script src="/pagefind/pagefind-ui.js" is:inline defer></script>
+  </Fragment>
+
+  <div class="max-w-3xl mx-auto px-4 sm:px-6 py-12">
+    <header class="mb-8">
+      <h1 class="text-4xl font-bold tracking-tight mb-2">Search</h1>
+      <p class="text-muted-foreground">{description}</p>
+    </header>
+
+    <div id="search"></div>
+  </div>
+
+  <script is:inline>
+    function init() {
+      // Don't double-mount.
+      if (window.__pagefindMounted) return;
+      window.__pagefindMounted = true;
+
+      var ui = new PagefindUI({
+        element: '#search',
+        showImages: false,
+        showSubResults: true,
+        resetStyles: false,
+        processResult: function (result) {
+          // Prepend a "kind" label derived from the data-pagefind-meta="kind:…"
+          // attribute we set in each content layout (Task 3).
+          // Guard against double-prefix if the result is processed more than once.
+          var kind = result.meta && result.meta.kind;
+          if (kind && result.meta && !result.meta.title?.startsWith('[' + kind + ']')) {
+            result.meta.title = ('[' + kind + '] ' + (result.meta.title || '')).trim();
+          }
+          return result;
+        },
+      });
+
+      // Seed the search input from ?q= so the SearchAction JSON-LD URL works.
+      var initial = new URLSearchParams(window.location.search).get('q');
+      if (initial) ui.triggerSearch(initial);
+    }
+
+    // astro:page-load fires on initial load and after every view-transition swap.
+    // Guard the listener registration so re-entries to /search don't stack listeners.
+    if (!window.__pagefindListenerAttached) {
+      window.__pagefindListenerAttached = true;
+      document.addEventListener('astro:page-load', function () {
+        // DOM is fresh after each navigation arrival; reset the mount guard and re-init.
+        window.__pagefindMounted = false;
+        init();
+      });
+    }
+  </script>
+</Base>

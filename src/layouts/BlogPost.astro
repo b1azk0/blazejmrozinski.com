@@ -111,7 +111,12 @@ const articleJsonLd = {
     <Breadcrumb crumbs={crumbs} />
     <div class:list={[showSidebar && "md:flex md:gap-8"]}>
       {showSidebar && <BlogSidebar headings={headings} />}
-      <article class="max-w-3xl min-w-0">
+      <article
+        data-pagefind-body
+        data-pagefind-meta="kind:blog"
+        data-pagefind-meta:date={date.toISOString()}
+        class="max-w-3xl min-w-0"
+      >
         <header class="mb-8">
           <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
           <div class="flex items-center gap-4 text-muted-foreground text-sm flex-wrap">
@@ -133,7 +138,7 @@ const articleJsonLd = {
             )}
           </div>
           {topicEntries.length > 0 && (
-            <p class="text-sm text-muted-foreground mt-3">
+            <p class="text-sm text-muted-foreground mt-3" data-pagefind-ignore>
               <span>Filed under: </span>
               {topicEntries.map((t, i) => (
                 <>
@@ -159,14 +164,16 @@ const articleJsonLd = {
         )}
 
         {series && seriesTitle && (
-          <SeriesNav
-            currentId={Astro.params.slug!}
-            currentIndex={seriesIndex!}
-            seriesTitle={seriesTitle}
-            seriesSlug={series}
-            parts={seriesParts}
-            position="header"
-          />
+          <div data-pagefind-ignore>
+            <SeriesNav
+              currentId={Astro.params.slug!}
+              currentIndex={seriesIndex!}
+              seriesTitle={seriesTitle}
+              seriesSlug={series}
+              parts={seriesParts}
+              position="header"
+            />
+          </div>
         )}
 
         <div class="prose prose-neutral dark:prose-invert max-w-none">
@@ -174,18 +181,22 @@ const articleJsonLd = {
         </div>
 
         {series && seriesTitle && (
-          <SeriesNav
-            currentId={Astro.params.slug!}
-            currentIndex={seriesIndex!}
-            seriesTitle={seriesTitle}
-            seriesSlug={series}
-            parts={seriesParts}
-            position="footer"
-          />
+          <div data-pagefind-ignore>
+            <SeriesNav
+              currentId={Astro.params.slug!}
+              currentIndex={seriesIndex!}
+              seriesTitle={seriesTitle}
+              seriesSlug={series}
+              parts={seriesParts}
+              position="footer"
+            />
+          </div>
         )}
 
         {!series && relatedPosts.length > 0 && (
-          <RelatedPosts posts={relatedPosts} />
+          <div data-pagefind-ignore>
+            <RelatedPosts posts={relatedPosts} />
+          </div>
         )}
       </article>
     </div>

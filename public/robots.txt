@@ -1,4 +1,5 @@
 User-agent: *
 Allow: /
+Disallow: /pagefind/
 
 Sitemap: https://www.blazejmrozinski.com/sitemap-index.xml
