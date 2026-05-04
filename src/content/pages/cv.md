@@ -141,4 +141,4 @@ Selected journals: *Journal of Personality and Social Psychology*, *Self and Ide
 
 **Book chapters** (7) — Topics include pandemic stress responses, self-representation in social judgment, and repeated-measures methodology.
 
-See the [Publications](/publications) page for the full list.
+See the [Publications](/publications/) page for the full list.

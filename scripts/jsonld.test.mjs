@@ -12,7 +12,7 @@ test('getWebSiteNode includes a SearchAction potentialAction', () => {
   assert.equal(target['@type'], 'EntryPoint');
   assert.equal(
     target.urlTemplate,
-    `${SITE_URL}/search?q={search_term_string}`,
+    `${SITE_URL}/search/?q={search_term_string}`,
   );
 
   assert.equal(
