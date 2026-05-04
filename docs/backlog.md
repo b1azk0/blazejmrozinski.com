@@ -49,37 +49,31 @@ Answer question 1 (homepage replace/coexist/merge), then proceed through questio
 
 ## SEO improvements — Tier 2 & Tier 3
 
-**Status:** Tier 1 shipped 2026-04-28 as v0.12.0 (sitewide entity graph, ProfilePage, dateModified, ScholarlyArticle linking). Tier 2 and Tier 3 deferred.
+**Status:**
+- Tier 1 shipped 2026-04-28 as **v0.12.0** (sitewide entity graph, ProfilePage, dateModified, ScholarlyArticle linking).
+- Tier 2 #1–3 shipped 2026-04-29 as **v0.13.0** (topic hubs, series nav, related posts).
+- Tier 2 #5 (Pagefind) shipped 2026-05-04 as **v0.14.0** (`/search` route + sitewide `SearchAction` JSON-LD).
+- Tier 2 #4 (image sitemap) is the only remaining open Tier 2 item.
+- Tier 3 #11 (Lighthouse audit) **DONE 2026-05-04** — findings below; items #13–17 are the actionable follow-ups.
+
 **Goal:** Continue compounding the SEO work — Tier 2 is the routing/content-architecture layer (real pages where filters used to be, deeper interlinking, a search box). Tier 3 is targeted enrichment.
 **Source of recommendations:** Audit done 2026-04-28 against current Astro setup (CF Pages static, custom multi-sitemap, IndexNow postbuild, Satori OG covers, glossary, RSS).
 
 ### Tier 2 — meaningful effort, real ranking impact
 
-Each item is independently shippable but they touch routing/build, so likely best grouped into one branch with proper testing.
+1. ~~**Static topic hub pages**~~ — **SHIPPED v0.13.0** (`src/pages/blog/topic/[slug].astro`, `src/data/topics.yml`).
 
-1. **Static topic hub pages** — replace `/blog?tag=...` query-string filters with crawlable `/blog/topic/[tag]/` static pages. Each gets a `CollectionPage` JSON-LD, an H1 keyed off the tag, the post list, and a short tag description (sourced from a new `src/data/tags.yml` or similar). Filters are unreliable for crawlers and don't accumulate links; static hubs become pillar pages. Same for `/blog/audience/[audience]/` if worth doing.
-   - Files: new `src/pages/blog/topic/[tag].astro` with `getStaticPaths`, update `PostCard`/`Header` links, retire (or 301-redirect) the `?tag=` query path.
-   - Add `sitemap-blog.xml.ts` entries for hubs.
-   - Decision needed: tag taxonomy is currently free-form per-post — should we lock it down to a controlled vocabulary first? Probably yes; otherwise we generate tag pages with one post on them.
+2. ~~**Series navigation in frontmatter**~~ — **SHIPPED v0.13.0** (`series` + `seriesIndex` schema, `SeriesNav` component, `/blog/series/[slug]/` landing pages).
 
-2. **Series navigation in frontmatter** — add `series: <slug>` and `seriesIndex: <int>` to the blog content schema. Render explicit prev/next links at the top and bottom of each post in `BlogPost.astro`. Emit `isPartOf` JSON-LD pointing at a (new) `/blog/series/[slug]/` landing page. Big topical-clustering signal for the WP Infra series (7 parts) and Talent Archetypes (3 parts), and currently both rely on hand-maintained footer links — fragile (we just shipped a fix for missing WP Infra footer links in v0.11.13).
-   - Files: `src/content.config.ts`, `src/layouts/BlogPost.astro`, new `src/pages/blog/series/[slug].astro`, new `src/data/series.yml` for series titles/descriptions.
-   - Migration: backfill `series` field on existing WP Infra and Talent Archetypes posts.
-
-3. **Related posts module** at the bottom of `BlogPost.astro` — 3 cards, tag-or-label-match. Reduces orphan posts, deepens crawl, lifts dwell time. Already have all the data via `getCollection('blog')`. Decision: tag overlap (Jaccard) vs same-label vs author-curated `related: [slugs]` field. Probably tag-overlap with label tiebreak is enough; revisit if results look weird.
-   - Files: `src/layouts/BlogPost.astro`, possibly a new `src/components/RelatedPosts.astro`.
+3. ~~**Related posts module**~~ — **SHIPPED v0.13.0** (`RelatedPosts.astro`, topic-overlap → label-tiebreak → date desc).
 
 4. **Image sitemap** — emit `<image:image>` entries inside `sitemap-blog.xml.ts` for cover (`/covers/<slug>.png`) and inline body images. Inline images need parsing the rendered MDX/Markdown for `<img>` srcs. Currently the `/covers/*.png` files don't surface meaningfully in Google Images at scale.
    - Files: `src/pages/sitemap-blog.xml.ts`, possibly a new `src/lib/extract-post-images.ts` that walks rendered post HTML or the markdown source.
    - Add `xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"` namespace.
 
-5. **Pagefind static search** — zero infra (builds at `astro build`), ~100 KB JS on the search route. Two payoffs: (a) on-site search makes the existing `WebSite` JSON-LD `potentialAction` → `SearchAction` legit, unlocking the SERP sitelinks search box; (b) actually useful for visitors landing on a deep glossary or blog post.
-   - Files: add `pagefind` as a dev dep, hook into `postbuild` in `package.json` (after IndexNow), new `src/pages/search.astro`, update `getWebSiteNode()` in `src/lib/jsonld.ts` to include the SearchAction.
-   - Tradeoff: another postbuild step; bundle weight only loads on the search page if implemented carefully.
+5. ~~**Pagefind static search**~~ — **SHIPPED v0.14.0** (PR #3, 2026-05-04). `/search` route powered by Pagefind UI; sitewide `SearchAction` in `getWebSiteNode()`; opt-in indexing on 7 content layouts (76 documents). Spec: `docs/superpowers/specs/2026-05-04-pagefind-static-search-design.md`. Plan: `docs/superpowers/plans/2026-05-04-pagefind-static-search.md`.
 
 ### Tier 3 — situational
-
-These are small, opt-in, or dependent on other work landing first.
 
 6. **`FAQPage` schema for posts that have Q&A structure.** Auto-detect from H2/H3 patterns ("How does…?", "Why do…?", "What is…?") or opt-in via a `faq` frontmatter array. Tutorial posts (WP Infra series) and explainer posts are good fits. Don't over-apply — invalid FAQ markup gets penalized.
    - Files: `src/content.config.ts`, `src/layouts/BlogPost.astro`.
@@ -96,19 +90,76 @@ These are small, opt-in, or dependent on other work landing first.
 10. **Custom 404 page** with cross-section navigation (Latest 3 posts, top glossary entries, contact link). Currently no `src/pages/404.astro` — Cloudflare Pages serves a generic one. A linked 404 reduces wasted crawl budget on dead URLs and keeps users in-funnel.
     - File: new `src/pages/404.astro`.
 
-11. **Lighthouse / Core Web Vitals audit** on the live CF Pages site. Can't tell from code alone whether LCP/CLS/INP are fine — most likely they are (static + Tailwind + lazy-loaded images), but worth confirming. If anything, the `ClientRouter` (Astro view transitions) could create an INP regression on slow devices.
-    - Action: run Lighthouse on `/`, `/blog`, a long blog post, `/about`. Document findings here.
+11. ~~**Lighthouse / Core Web Vitals audit**~~ — **DONE 2026-05-04**. Findings below seed items 13–17.
 
 12. **`SpeakableSpecification`** for voice search (read-aloud-friendly summaries on blog posts and the about page). Niche, but cheap if added alongside any other Article schema work.
 
+### Lighthouse audit — 2026-05-04
+
+**Tooling:** local Lighthouse v12 via `npx lighthouse`, mobile form factor, simulated 4G + 4× CPU throttling. PageSpeed Insights API was first-choice but Google has set the unauthenticated daily quota to 0; would need a free API key for repeat runs.
+
+**Routes audited (6):** `/`, `/blog`, `/about`, `/blog/wp-infra-04-four-layers-of-caching`, `/blog/topic/wordpress-infrastructure/`, `/blog/series/wp-infrastructure/`.
+
+| Page | Perf | A11y | BP | SEO | LCP (ms) |
+|------|------|------|----|----|----------|
+| `/` | 86 | 96 | 96 | 100 | 4113 |
+| `/blog` | 85 | 94 | 96 | 100 | 4122 |
+| `/about` | 84 | 96 | 96 | 100 | 4093 |
+| `/blog/wp-infra-04-...` | 82 | 96 | 96 | 100 | 4698 |
+| `/blog/topic/wordpress-infrastructure/` | 86 | 94 | 96 | 100 | 4121 |
+| `/blog/series/wp-infrastructure/` | 84 | 96 | 96 | 100 | 4146 |
+
+**What's good:** CLS=0 sitewide, TBT 7-30ms, FCP <1.1s, TTFB 44-180ms, **SEO 100 across the board** (Tier 1+2 doing their job). View Transitions / `ClientRouter` did not produce an INP regression — TBT is fine.
+
+**What's dragging Performance down — all 4 issues are LCP-related:**
+
+1. **Header logo is `loading="lazy"` and is the LCP element on 5 of 6 pages.** Lazy-loading defers the fetch by ~1050ms ("Resource load delay"). Logo selector: `header.sticky > div.container > a > img.block`, source `/_astro/logo-light.B1uqV4iN_1tQFix.webp` (82×40). Fix is one attribute (`loading="eager"`, optionally `fetchpriority="high"`). Estimated saving: ~1000ms LCP on every page.
+
+2. **Trailing-slash redirect adds 800ms** on `/blog`, `/about`, `/blog/wp-infra-04-...`. Cloudflare Pages 301-redirects `/blog` → `/blog/`, but Lighthouse hits the un-slashed form. Fix: ensure all internal links emit the trailing-slash form (or add a `trailingSlash: 'always'` Astro config check). Estimated saving: 800ms LCP+FCP on affected pages.
+
+3. **WP Infra Part 4 has font-block-on-render delay.** Different from #1 — that page's LCP is the article `<h1>` with 2047ms of pure "Element render delay" and zero resource-load time. Means the H1 paints invisible until the web font loads. Likely no `font-display: swap` and/or no `<link rel="preload">` on the heading font. Estimated saving: ~1500ms LCP on long article pages.
+
+4. **`unused-javascript` 500ms saving** on every page — the only flagged source is GA4's `gtag.js` (160KB, 42% unused). Vendor code; not actionable without dropping analytics or moving to a partytown-style worker. Park.
+
+**Accessibility (96/94 → 100):**
+
+5. **`color-contrast` fails on every page** — single offender: footer changelog version badge. Selector: `<a href="/changelog" class="text-muted-foreground/40">`. The `/40` opacity drops contrast below WCAG AA. One Tailwind class change fixes all 6 pages.
+
+6. **`heading-order` fails on `/blog` and `/blog/topic/wordpress-infrastructure/`** — `PostCard` `<h3>` follows page `<h1>` directly with no `<h2>` between. Add a (visually-hidden, optional) `<h2>` above the post grid.
+
+**Other diagnostics, lower priority:**
+- `image-size-responsive`: header logo source is exactly 82×40 — DPR>1 mobiles want a 2× source. Bundles into fix #1.
+- `cache-insight`: only flags Cloudflare's own beacon JS — third-party, not actionable.
+
+**If items 1–3 + 5–6 get fixed:** estimated LCP from ~4.2s → ~1.5–1.8s (Good band), Performance score from 84-86 → 95+, Accessibility 100. Lighthouse JSONs preserved at `/tmp/lh-audit/*-mobile.json` until next reboot.
+
+### New Tier 3 items derived from audit
+
+13. **Eager-load the header logo** (audit #1). Remove `loading="lazy"` (and ideally `decoding="async"`) from the `<img>` in the sticky header; add `fetchpriority="high"`. Optionally provide a 2× source for retina mobiles. Single biggest LCP win across the site.
+    - Files: `src/components/Header.astro` (or wherever the logo `<img>` lives — both `logo-light` and `logo-dark` variants).
+
+14. **Trailing-slash internal links** (audit #2). Audit internal links for the un-slashed form. Either rewrite call sites or set Astro's `trailingSlash: 'always'` and confirm CF Pages doesn't double-redirect. Spot check: `Header.astro` nav, `Footer.astro` nav, in-content links from blog posts.
+    - Files: `astro.config.mjs`, `src/components/Header.astro`, `src/components/Footer.astro`, plus a grep across `src/`.
+
+15. **Web-font preload + `font-display: swap` for headings** (audit #3). Ensure the H1/heading font family has `font-display: swap` declared and is preloaded with `<link rel="preload" as="font" type="font/woff2" crossorigin>` in `Base.astro`. Only matters on pages where the LCP is text rather than the logo (long-form articles).
+    - Files: `src/layouts/Base.astro`, font CSS source.
+
+16. **Footer changelog badge contrast** (audit #5). Bump the link in `src/components/Footer.astro` from `text-muted-foreground/40` to a value that clears WCAG AA against the dark footer background. Fastest fix: drop the opacity modifier and let `text-muted-foreground` speak for itself, or use `/70`.
+    - Files: `src/components/Footer.astro`.
+
+17. **Heading order on blog index and topic hubs** (audit #6). Add a `<h2 class="sr-only">Posts</h2>` (or visible) above the grid in `src/pages/blog/index.astro` and `src/pages/blog/topic/[slug].astro` so cards' `<h3>` titles don't jump from the page H1.
+    - Files: `src/pages/blog/index.astro`, `src/pages/blog/topic/[slug].astro`.
+
 ### Why not now
 
-Tier 2 is mostly routing/build changes — they want a single, well-tested branch (or a few), not piecemeal commits. Worth doing when there's a clear free week to focus, ideally before publishing the next big content cluster so newly published posts get the structural lift from day one.
+Tier 2 #4 (image sitemap) is opportunistic — fold it into the next time `sitemap-blog.xml.ts` is open.
 
-Tier 3 is opportunistic — bolt onto adjacent work (e.g. add `FAQPage` schema next time editing `BlogPost.astro`; add custom 404 next time touching pages; address Twitter handles next time SEO.astro is open).
+Tier 3 #6, #7, #9, #10, #12 are opportunistic — bolt onto adjacent work.
+
+Tier 3 #13–17 are quick wins from the audit. They should ship as a one-shot "perf + a11y polish" PR — the next item on deck after v0.14.0. The logo fix alone is the highest-impact, lowest-effort change on the site right now.
 
 ### Next step on resume
 
-1. Pick Tier 2 group #1–3 (topic hubs, series nav, related posts) for the first PR — they share `BlogPost.astro` edits and a content-schema migration, so bundling makes sense.
-2. Write a design doc at `docs/superpowers/specs/YYYY-MM-DD-seo-tier2-content-architecture.md` covering: tag taxonomy decision, redirect strategy for old `?tag=` URLs, series/related-posts data flow.
-3. After merge, schedule a Lighthouse audit (Tier 3 #11) before deciding whether to ship Pagefind (Tier 2 #5).
+1. Ship audit fixes #13–17 as a single "perf + a11y polish" PR — they share `Header.astro` / `Footer.astro` / `Base.astro` and are mostly one-line diffs. The logo fix (#13) alone is the highest-impact change; combined with #14 (trailing-slash links) and #15 (font preload) it should take LCP from ~4s to ~1.5–1.8s on production.
+2. Re-run Lighthouse against production once the polish PR deploys; update this doc with the post-fix numbers and confirm the open LCP work documented at the top of the audit table is closed.
+3. Then return to Tier 2 #4 (image sitemap) or Tier 3 backlog (#6 FAQ, #7 HowTo, #9 Twitter handles, #10 custom 404, #12 Speakable) as priorities dictate.
