@@ -28,6 +28,10 @@ All notable changes to blazejmrozinski.com are documented here.
 | `/` | 100 | 96 | 96 | 100 | 1653ms |
 | `/search` | 99 | 96 | 96 | 69 | 1953ms |
 
+Numbers were captured against `npm run preview` on localhost — directional, not production-accurate. CDN, edge cache, real network latency, and the apex→www redirect are not exercised. The 2026-05-04 production audit baseline (see `docs/backlog.md`) recorded `/` mobile at Perf 86 / LCP 4113ms; the open LCP work there is **not** addressed by this release. The takeaway from the local run is that loading Pagefind UI on `/search` (~120 KB JS, deferred) does not regress that route below the rest of the site, and that the new sitewide `SearchAction` JSON-LD adds no measurable cost on `/`.
+
+`/search` SEO 69 reflects the route's `noindex, nofollow` meta — Lighthouse penalizes the directive. Intentional; search routes aren't useful organic landings.
+
 ## [0.13.0] — 2026-04-29 — SEO Tier 2: content architecture (topic hubs, series nav, related posts)
 
 ### Added
