@@ -111,7 +111,12 @@ const articleJsonLd = {
     <Breadcrumb crumbs={crumbs} />
     <div class:list={[showSidebar && "md:flex md:gap-8"]}>
       {showSidebar && <BlogSidebar headings={headings} />}
-      <article class="max-w-3xl min-w-0">
+      <article
+        data-pagefind-body
+        data-pagefind-meta="kind:blog"
+        data-pagefind-meta:date={date.toISOString()}
+        class="max-w-3xl min-w-0"
+      >
         <header class="mb-8">
           <h1 class="text-4xl font-bold tracking-tight mb-4">{title}</h1>
           <div class="flex items-center gap-4 text-muted-foreground text-sm flex-wrap">
